@@ -1,4 +1,4 @@
 gethisto.C -> Get data from ROOT files from ditigitizer (macro modified to solve errors)
 gaussian_fit.C -> Perform gaussian fit (macro modified to solve errors)
-analysis.C -> No idea for what this is 
+analysis.C -> No idea for what this is + Solved errors
 peaksearch.C, subtract_bg.C, calibrate.C -> Solved errors
