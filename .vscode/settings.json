@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "peaksearch.C": "cpp",
+        "multifit.C": "cpp",
+        "linear_fit.C": "cpp",
+        "gethisto.C": "cpp",
+        "gaussian_fit.C": "cpp",
+        "calibrate.C": "cpp",
+        "analysis.C": "cpp"
+    }
+}

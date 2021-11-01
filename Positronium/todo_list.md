@@ -14,6 +14,6 @@
 * Acquire $^{22}$Na spectrum: verify that 511 keV peak lies around channel number 7500
 * For D4 for the calibration first use the minimum threshold, so as to have both peaks, then set the thr value at the correct value to cut the lower energy peak. For D1/D2/D3 repeat all the procedure and finally acquire the spectrum. 
 * Fit the two peaks with a Gaussian retrieving centroids and sigmas: 
-  - NB: if we observe a variable background it's better to add a linear background to the fit function, i.e. $f(x) = a + bx + \text{N} e^{-\frac{(x-\mu)^2}{2\sigma^2}}$. 
-* Calibrate the spectrum: $ \text{E}_{\gamma} = a + b \cdot ch $ where the number of channel is equal to the centroid of the gaussians. 
-* Calculate the energy resolution $R = \frac{\text{FWHM}_{\text{E}}}{\mu_{\text{E}}}$ of the detector.
+  - NB: if we observe a variable background it's better to add a linear background to the fit function.
+* Calibrate the spectrum.
+* Calculate the energy resolution.
