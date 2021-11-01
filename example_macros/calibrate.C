@@ -1,5 +1,8 @@
 #include "gethisto.C"
-
+//
+//IMPORTANT:
+//Only use axis rescaling if you have the histogram but not the data to generate it!!
+//
 void CalibrateHisto(TH1F *h_uncal, float m, float q) { //Re-scaling of axis, as in the slides
 
 	int max_bin = h_uncal->GetNbinsX(); // This method returns the number of bins in x of the histogram

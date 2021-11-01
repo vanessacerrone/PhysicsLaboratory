@@ -13,8 +13,8 @@ void analysis(char *name_file) {
 	// variables
 	slimport_data_t indata;
 	TFile *infile = new TFile(name_file);
-	TTree *intree = (TTree*)infile->Get("datatree");
-	TBranch *inbranch = intree->GetBranch("ACQ_ch0");
+	TTree *intree = (TTree*)infile->Get("datatree");  //Change to the correct name!
+	TBranch *inbranch = intree->GetBranch("ACQ_ch0");  //Change to the correct name!
 	inbranch->SetAddress(&indata.timestamp);
 	TH2F *histo2D = new TH2F("hs_2D","PSD plot",256,0,12288,64,0,0.4);
 	float ratio;
