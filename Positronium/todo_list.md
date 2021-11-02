@@ -11,9 +11,10 @@
   - anode signal from the FAN-IN-FAN-OUT -> ch1 of DAQ
   - delayed output to TRG IN of the digitizer
   - CFTD prompt output to CAEN scaler 
-* Acquire $^{22}$Na spectrum: verify that 511 keV peak lies around channel number 7500
+* Acquire 22Na spectrum: verify that 511 keV peak lies around channel number 7500
 * For D4 for the calibration first use the minimum threshold, so as to have both peaks, then set the thr value at the correct value to cut the lower energy peak. For D1/D2/D3 repeat all the procedure and finally acquire the spectrum. 
 * Fit the two peaks with a Gaussian retrieving centroids and sigmas: 
   - NB: if we observe a variable background it's better to add a linear background to the fit function.
 * Calibrate the spectrum.
 * Calculate the energy resolution.
+* Digitizer dead time: measure the rate of different signals with both the digitizer and the CAEN scaler module. Connect a free output of the CFTD to the scaler and check this data during the acquisitions. 
