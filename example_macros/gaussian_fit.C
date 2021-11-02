@@ -45,10 +45,25 @@ void gaussian_fit(const string file_na) {
 	//	const = fit->GetParameter(0);
 		mean = fit->GetParameter(1);
 		sigma = fit->GetParameter(2);
+        
 		// Results
 		cout << "Fit the peak n." << p << ": with TSpectrum x = " << xPeaks[p] << endl;
 		cout << "                    with the fit    x = " << mean << " and sigma = " << sigma << endl;
+    
+        
+        // save data in txt file
+            
+          ofstream f;
+          f.open ("fitresults.txt", std::ofstream::out | std::ofstream::app);
+
+
+            f << mean << "\t" << sigma << '\n';
+
+            f.close();
+        
+        
 		fit->Delete();
+        
 	}
 
 	// http://root.cern.ch/viewvc/trunk/tutorials/fit/multifit.C?view=markup
