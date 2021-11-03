@@ -13,10 +13,11 @@ void gaussian_fit(const string file_na) {
 	h_na->Draw();
 	
 	// Get the two peaks of Na
-	TSpectrum *s = new TSpectrum(30);
+	TSpectrum *s = new TSpectrum(30); // parameter i  maximum number of peaks
 	int nPeaks;
 	double *xPeaks;
-	nPeaks = s->Search(h_na,1,"goff",0.12);
+    nPeaks = s->Search(h_na,1,"goff",0.12); // (histo, sigma, option, threshold)
+    // peaks with amplitude less than threshold*highest_peak are discarded
 	xPeaks = s->GetPositionX();
 
 	// I fit the two peaks with a Gaussian to get better values of centroids and sigmas
@@ -24,8 +25,9 @@ void gaussian_fit(const string file_na) {
 	int npoints;
 	TH1F *h_fitted[2];
 	float left_mk, right_mk, x_fit_min, x_fit_max, chisqr, mean, sigma;
-	double apertura_sx = 250; // arbitrary values. Per un calcolo raffinato si può fare un secondo
-	double apertura_dx = 450; // fit dove questi valori corrispondono alle sigma del primo fit...
+	double apertura_sx = 250; // arbitrary values. Per un calcolo raffinato si può fare un secondo fit dove questi valori corrispondono alle sigma del primo fit...
+	double apertura_dx = 450;
+    
 	for (int p=0; p<2; p++) {
 		c[p+1]->cd(); // change canvas
 		h_fitted[p] = (TH1F*)h_na->Clone(); // Clone on a new TH1F to show separately the fits
