@@ -6,6 +6,12 @@
         "gethisto.C": "cpp",
         "gaussian_fit.C": "cpp",
         "calibrate.C": "cpp",
-        "analysis.C": "cpp"
+        "analysis.C": "cpp",
+        "fix_coinc.C": "cpp",
+        "three_gaussians.C": "cpp",
+        "subtract_bg.C": "cpp",
+        "SpecXrays.C": "cpp",
+        "positronium.C": "cpp",
+        "sumhisto.C": "cpp"
     }
 }
