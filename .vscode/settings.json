@@ -14,6 +14,10 @@
         "positronium.C": "cpp",
         "sumhisto.C": "cpp",
         "PCanvas.C": "cpp",
-        "gaussian_fit_ch.C": "cpp"
+        "gaussian_fit_ch.C": "cpp",
+        "single_pe.C": "cpp",
+        "arduino_preamp.C": "cpp",
+        "trg_plots.C": "cpp",
+        "PlotCalibrated.C": "cpp"
     }
 }
