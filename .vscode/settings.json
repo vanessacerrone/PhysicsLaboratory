@@ -1,25 +1,6 @@
 {
     "files.associations": {
-        "peaksearch.C": "cpp",
-        "multifit.C": "cpp",
-        "linear_fit.C": "cpp",
-        "gethisto.C": "cpp",
-        "gaussian_fit.C": "cpp",
-        "calibrate.C": "cpp",
-        "analysis.C": "cpp",
-        "fix_coinc.C": "cpp",
-        "three_gaussians.C": "cpp",
-        "subtract_bg.C": "cpp",
-        "SpecXrays.C": "cpp",
         "positronium.C": "cpp",
-        "sumhisto.C": "cpp",
-        "PCanvas.C": "cpp",
-        "gaussian_fit_ch.C": "cpp",
-        "single_pe.C": "cpp",
-        "arduino_preamp.C": "cpp",
-        "trg_plots.C": "cpp",
-        "PlotCalibrated.C": "cpp",
-        "shaper_bode.C": "cpp"
-    },
-    "C_Cpp.errorSquiggles": "Disabled"
+        "gaussian_fit.C": "cpp"
+    }
 }

@@ -74,34 +74,6 @@ void gaussian_fit(const string file_na) {
 
 
 
-TH1F* h = (TH1F*) (h_na->Clone());
-
-	h->GetYaxis()->SetTitle("Counts");
-	h->GetXaxis()->SetTitle("Energy [keV]");
-	h->SetTitle("Spectrum");
-	h->GetYaxis()->SetTitleSize(0.04);
-	h->GetYaxis()->SetTitleOffset(1.25);
-	h->GetXaxis()->SetTitleSize(0.04);
-	h->GetXaxis()->SetTitleOffset(1.25);
-	h->SetLineColor(12);
-
-	const int nBins = h->GetXaxis()->GetNbins();
-	double newBins[nBins + 1];
-	for(int i = 0; i <= nBins; i++) {
-		newBins[i] = a + b * (h->GetBinLowEdge(i+1));
-	}
-	h->SetBins(nBins, newBins);
-
-
-
-
-
-	h->Draw();
-	g1->Draw("same");
-
-	TLatex* t1 = new TLatex(1300, 50, "{}^{40}K");
-	t1->SetTextSize(0.05);
-	t1->Draw("same");
 
 
 
