@@ -18,6 +18,8 @@
         "single_pe.C": "cpp",
         "arduino_preamp.C": "cpp",
         "trg_plots.C": "cpp",
-        "PlotCalibrated.C": "cpp"
-    }
+        "PlotCalibrated.C": "cpp",
+        "shaper_bode.C": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
 }
