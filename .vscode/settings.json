@@ -12,6 +12,8 @@
         "subtract_bg.C": "cpp",
         "SpecXrays.C": "cpp",
         "positronium.C": "cpp",
-        "sumhisto.C": "cpp"
+        "sumhisto.C": "cpp",
+        "PCanvas.C": "cpp",
+        "gaussian_fit_ch.C": "cpp"
     }
 }
