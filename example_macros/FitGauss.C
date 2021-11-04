@@ -102,7 +102,7 @@ void Analysis(const string file_na,short chan)
 
     TCanvas* c3 = new TCanvas("c3","Plot of calibrated spectra",1080,1020);
         /*Re-fitting*/
-    TF1 *fit3 = new TF1("fit3","gaus(0)+pol1(3)",500,600);
+    TF1 *fit3 = new TF1("fit3","gaus(0)+pol1(3)",470,600);
     TF1 *fit4 = new TF1("fit4","gaus(0)+pol1(3)",1200,1400);
 
     h1->GetXaxis()->Set(16384,0,a+b*16384*h->GetXaxis()->GetBinWidth(0));
