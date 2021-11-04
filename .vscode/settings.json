@@ -1,6 +1,5 @@
 {
     "files.associations": {
-        "positronium.C": "cpp",
-        "gaussian_fit.C": "cpp"
+        "positronium.C": "cpp"
     }
 }
