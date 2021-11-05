@@ -47,11 +47,11 @@ void Analysis(const string file_na,short chan)
     h->GetXaxis()->SetLabelSize(0.04);
     h->GetXaxis()->SetTitleSize(0.04);
     h->GetXaxis()->SetTitleOffset(1.15);
-    h->GetYaxis()->SetTitle("Entries");
+    h->GetYaxis()->SetTitle("Counts");
     h->GetYaxis()->SetLabelOffset(0.008);
     h->GetYaxis()->SetLabelSize(0.04);
     h->GetYaxis()->SetTitleSize(0.04);
-    h->GetYaxis()->SetTitleOffset(1.25);
+    h->GetYaxis()->SetTitleOffset(1.3);
     gStyle->SetOptStat(1111);
 
 
@@ -93,7 +93,7 @@ void Analysis(const string file_na,short chan)
     
     mg->Add(g); //the graph
     mg->Draw("AP"); //drawing points
-    mg->SetTitle("Calibration Detector 2");
+    mg->SetTitle(Form("Calibration Detector %d",chan + 1)); // detector N was connected to ch N-1 of digitizer 
     mg->GetXaxis()->SetTitle("Mean value (ADC count) ");
     mg->GetYaxis()->SetTitle("E (keV)");
     f1->Draw("sames"); //add the fit line
@@ -131,11 +131,11 @@ void Analysis(const string file_na,short chan)
     h1->GetXaxis()->SetLabelSize(0.04);
     h1->GetXaxis()->SetTitleSize(0.04);
     h1->GetXaxis()->SetTitleOffset(1.15);
-    h1->GetYaxis()->SetTitle("Entries");
+    h1->GetYaxis()->SetTitle("Counts");
     h1->GetYaxis()->SetLabelOffset(0.008);
     h1->GetYaxis()->SetLabelSize(0.04);
     h1->GetYaxis()->SetTitleSize(0.04);
-    h1->GetYaxis()->SetTitleOffset(1.25);
+    h1->GetYaxis()->SetTitleOffset(1.3);
     h1->GetXaxis()->SetRangeUser(0, 1600);
 
     h1->Draw();
