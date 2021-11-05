@@ -16,9 +16,19 @@ void Analysis(const string file_na,short chan)
     TH1F* h1 = (TH1F*)h->Clone("h1");
 
                 /* -- Fitting the two gaussians  -- */
-    TF1 *fit1 = new TF1("fit1","gaus",4450,5000);
-    TF1 *fit2 = new TF1("fit2","gaus",10750,12000);
+    TF1 *fit1 = new TF1("g1","gaus(0)+pol1(3)", 4000, 5200);
+    TF1 *fit2 = new TF1("g2", "gaus(0)+pol1(3)", 10000, 12000);
     //TF1* total= new TF1("fitTotal","gaus(0=+gaus(3)",4450,12000);
+
+
+    fit1->SetLineStyle(1);
+	fit1->SetLineWidth(2);
+	fit1->SetParameter(1, 4500);
+    fit1->SetParameters(4780,4567,170, 450.217,-0.0488353);
+
+    fit2->SetLineStyle(1);
+	fit2->SetLineWidth(2);
+	fit2->SetParameters(8700,11000,315, 450.217,-0.0488353);
 
     h->Fit(fit1,"R");
     h->Fit(fit2,"R+");
@@ -48,6 +58,8 @@ void Analysis(const string file_na,short chan)
             /* -- Setting canvas info  and drawing histogram-- */    
     TCanvas* c1 = new TCanvas("c1","Plot of not calibrated spectra",1080,1020);
     h->Draw();
+    fit1->Draw("SAME");
+    fit2->Draw("SAME");
 
             /* -- Now we need to compute the calibration function  -- */    
 
@@ -90,20 +102,30 @@ void Analysis(const string file_na,short chan)
 
     TCanvas* c3 = new TCanvas("c3","Plot of calibrated spectra",1080,1020);
         /*Re-fitting*/
-    TF1 *fit3 = new TF1("fit3","gaus",510,600);
-    TF1 *fit4 = new TF1("fit4","gaus",1220,1380);
+    TF1 *fit3 = new TF1("fit3","gaus(0)+pol1(3)",470,600);
+    TF1 *fit4 = new TF1("fit4","gaus(0)+pol1(3)",1200,1400);
+
     h1->GetXaxis()->Set(16384,0,a+b*16384*h->GetXaxis()->GetBinWidth(0));
-     
+    
+
+    fit3->SetLineStyle(1);
+	fit3->SetLineWidth(2);
+	fit3->SetParameter(1, 511);
+    fit3->SetParameters(6260,532,17, 450.217,-0.0488353);
+
+    fit4->SetLineStyle(1);
+	fit4->SetLineWidth(2);
+    fit4->SetParameter(1, 1275);
+	fit4->SetParameters(1030,1300,30, 450.217,-0.0488353);
     h1->Fit(fit3,"R");
     h1->Fit(fit4,"R+");
 
-    double mean_1cal = fit1->GetParameter(1);
-    double mean_2cal = fit2->GetParameter(1);
+    /*double mean_1cal = fit1->GetParameter(0);
+    double mean_2cal = fit2->GetParameter(0);
 
-    double sigma_1cal = fit1->GetParameter(2);
-    double sigma_2cal = fit2->GetParameter(2);
+    double sigma_1cal = fit1->GetParameter(1);
+    double sigma_2cal = fit2->GetParameter(1);*/
 
-    std::cout<<"Print mean calibrated:"<<mean_1cal<<" "<<mean_2cal<<std::endl;
     h1->GetXaxis()->SetTitle("Energy [keV]");
     h1->GetXaxis()->SetLabelOffset(0.01);
     h1->GetXaxis()->SetLabelSize(0.04);
@@ -117,5 +139,7 @@ void Analysis(const string file_na,short chan)
     h1->GetXaxis()->SetRangeUser(0, 1600);
 
     h1->Draw();
+    fit3->Draw("SAME");
+    fit4->Draw("SAME");
 
 }
