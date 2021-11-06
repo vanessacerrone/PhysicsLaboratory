@@ -1,5 +1,10 @@
 {
     "files.associations": {
-        "positronium.C": "cpp"
+        "positronium.C": "cpp",
+        "PlotCalibrated.C": "cpp",
+        "FitGauss.C": "cpp",
+        "Fit2photons.C": "cpp",
+        "Fit1peak.C": "cpp",
+        "trg_time_all.C": "cpp"
     }
 }
