@@ -11,7 +11,10 @@
         "gaussian_fit_ch.C": "cpp",
         "PCanvas.C": "cpp",
         "fix_coinc.C": "cpp",
-        "gethisto.C": "cpp"
+        "gethisto.C": "cpp",
+        "fiilter.C": "cpp",
+        "filter.C": "cpp",
+        "subtract_bg.C": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
