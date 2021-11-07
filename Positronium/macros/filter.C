@@ -14,41 +14,42 @@
 
 
 void filter(const string name_file, int numBins, double minX, double maxX) {
-	// variables
-	slimport_data_t indata1,indata2;
-	TFile *infile = new TFile(name_file.c_str());
-	TTree *intree = (TTree*)infile->Get("acq_tree_0");
+	
+    // retrieve variables
+    slimport_data_t indata1,indata2;
+    TFile *infile = new TFile(name_file.c_str());
+    TTree *intree = (TTree*)infile->Get("acq_tree_0");
 
-	TBranch *inbranch1 = intree->GetBranch("acq_ch0");
+    TBranch *inbranch1 = intree->GetBranch("acq_ch0");
     TBranch *inbranch2 = intree->GetBranch("acq_ch1");
 
-	inbranch1->SetAddress(&indata1.timetag);
+    inbranch1->SetAddress(&indata1.timetag);
     inbranch2->SetAddress(&indata2.timetag);
 
-	TH1F *h_spectrum1 = new TH1F("h1","Detector 1",numBins,minX,maxX);
+    TH1F *h_spectrum1 = new TH1F("h1","Detector 1",numBins,minX,maxX);
     TH1F *h_spectrum2 = new TH1F("h2","Detector 2",numBins,minX,maxX);
     TH1F *h_fil1 = new TH1F("h1f","Detector 1 filtered",numBins,minX,maxX);
     TH1F *h_fil2 = new TH1F("h2f","Detector 2 filtered",numBins,minX,maxX);
 
-	// histogram filling
+    // histogram filling
     double entry1,entry2;
     
 	for (int i=0; i<inbranch1->GetEntries(); i++) {
         inbranch2->GetEntry(i);
-        entry2 =  -21.9585 + indata2.qlong*0.114419  ;
-		inbranch1->GetEntry(i);
+        entry2 =  -21.9585 + indata2.qlong*0.114419;   // using calibration parameters
+	inbranch1->GetEntry(i);
         entry1 = -17.8202 + indata1.qlong*0.115666;
         h_spectrum1->Fill(entry1);
         h_spectrum2->Fill(entry2);
 
-		if ((entry1 + entry2) < 1124.2 && (entry1 + entry2) > 919.8) {
+	if ((entry1 + entry2) < 1124.2 && (entry1 + entry2) > 919.8) {
 
-			h_fil1->Fill(entry1);
+	    h_fil1->Fill(entry1);
             h_fil2->Fill(entry2);
             
-		}
+			}
 
-	}
+		}
 
 
     TCanvas* c1 = new TCanvas("c1","D1",1080,1020);
