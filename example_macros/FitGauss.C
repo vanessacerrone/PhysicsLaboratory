@@ -132,8 +132,8 @@ void Analysis(const string file_na,short chan)
     double fwhm1 = 2*sqrt(2*log(2))* sigma_1cal;
     double fwhm2 = 2*sqrt(2*log(2))* sigma_2cal;
 
-    double res511 = fwhm1/511;
-    double res1275 = fwhm2/1275;
+    double res511 = fwhm1/mean_1cal;
+    double res1275 = fwhm2/mean_2cal;
 
     cout << "Resolution peak @ 511keV = " << res511 * 100 << "%" << endl;
 
