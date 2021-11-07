@@ -14,7 +14,8 @@
         "gethisto.C": "cpp",
         "fiilter.C": "cpp",
         "filter.C": "cpp",
-        "subtract_bg.C": "cpp"
+        "subtract_bg.C": "cpp",
+        "arduino_preamp.C": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

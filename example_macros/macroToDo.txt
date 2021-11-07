@@ -1,3 +1,0 @@
-FILTERED SPECTRUM
-sum filtered histograms and reject the events out from +-10% range
-
