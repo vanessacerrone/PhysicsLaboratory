@@ -5,6 +5,10 @@
         "FitGauss.C": "cpp",
         "Fit2photons.C": "cpp",
         "Fit1peak.C": "cpp",
-        "trg_time_all.C": "cpp"
-    }
+        "trg_time_all.C": "cpp",
+        "calibrate.C": "cpp",
+        "gaussian_fit.C": "cpp",
+        "gaussian_fit_ch.C": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
 }

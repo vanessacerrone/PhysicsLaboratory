@@ -28,6 +28,7 @@ void Analysis(const string file_na,short chan)
 
     fit2->SetLineStyle(1);
 	fit2->SetLineWidth(2);
+    fit2->SetLineColor(kBlue);
 	fit2->SetParameters(8700,11000,315, 450.217,-0.0488353);
 
     h->Fit(fit1,"R");
@@ -115,17 +116,30 @@ void Analysis(const string file_na,short chan)
 
     fit4->SetLineStyle(1);
 	fit4->SetLineWidth(2);
+    fit4->SetLineColor(kBlue);
     fit4->SetParameter(1, 1275);
 	fit4->SetParameters(1030,1300,30, 450.217,-0.0488353);
     h1->Fit(fit3,"R");
     h1->Fit(fit4,"R+");
 
-    /*double mean_1cal = fit1->GetParameter(0);
-    double mean_2cal = fit2->GetParameter(0);
+    double mean_1cal = fit3->GetParameter(1);
+    double mean_2cal = fit4->GetParameter(1);
 
-    double sigma_1cal = fit1->GetParameter(1);
-    double sigma_2cal = fit2->GetParameter(1);*/
+    double sigma_1cal = fit3->GetParameter(2);
+    double sigma_2cal = fit4->GetParameter(2);
 
+    /* -- Compute FWHM and resolution [%] -- */
+    double fwhm1 = 2*sqrt(2*log(2))* sigma_1cal;
+    double fwhm2 = 2*sqrt(2*log(2))* sigma_2cal;
+
+    double res511 = fwhm1/511;
+    double res1275 = fwhm2/1275;
+
+    cout << "Resolution peak @ 511keV = " << res511 * 100 << "%" << endl;
+
+    cout << "Resolution peak @ 1275keV = " << res1275 * 100 << "%" << endl;
+    
+    
     h1->GetXaxis()->SetTitle("Energy [keV]");
     h1->GetXaxis()->SetLabelOffset(0.01);
     h1->GetXaxis()->SetLabelSize(0.04);
