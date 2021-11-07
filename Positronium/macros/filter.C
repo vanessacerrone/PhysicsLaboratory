@@ -1,6 +1,17 @@
 #include "gethisto.C"
 #include <vector>
 
+/*
+/ -- Build the sum spectra for energy for the 2 photons decay --
+/
+/ Raw data (already calibrated in energy) is stored in two 
+/ histograms, then a filtering procedure is performed:
+/ the events whose sum of the energies measured by detectors 1 
+/ and 2 differs from 1022keV for more than 10% are discarded.
+/ Both filtered and unfiltered histograms are saved in a .root file. 
+*/ 
+
+
 
 void filter(const string name_file, int numBins, double minX, double maxX) {
 	// variables
