@@ -50,7 +50,7 @@ void gaussianfit(const string file_na,short chan)
     fit1->Draw("SAME");
    
 
-     /* -- using a and b previously obtained from calibraion  -- */
+     /* -- using a and b previously obtained from calibraion: YOU NEED TO CHANGE THIS VALUES  -- */
 
     double_t a = -17.8202;
     double_t b =  0.115666;
