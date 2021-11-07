@@ -16,7 +16,7 @@ void gaussianfit(const string file_na,short chan)
     TH1F* h1 = (TH1F*)h->Clone("h1");
 
     /* -- Fitting the two gaussians  -- */
-    TF1 *fit1 = new TF1("g1","gaus(0)+pol1(3)", 4200, 5300);
+    TF1 *fit1 = new TF1("g1","gaus(0)+pol1(3)", 4000, 5300);
     
     fit1->SetLineStyle(1);
 	fit1->SetLineWidth(2);
@@ -40,12 +40,13 @@ void gaussianfit(const string file_na,short chan)
     h->GetYaxis()->SetLabelOffset(0.008);
     h->GetYaxis()->SetLabelSize(0.04);
     h->GetYaxis()->SetTitleSize(0.04);
-    h->GetYaxis()->SetTitleOffset(1);
-    gStyle->SetOptStat(1111);
+    h->GetYaxis()->SetTitleOffset(1.5);
+    gStyle->SetOptStat(0000);
 
 
     /* -- Setting canvas info  and drawing histogram-- */    
     TCanvas* c1 = new TCanvas("c1","Plot of not calibrated spectra",1080,1020);
+    
     h->Draw();
     fit1->Draw("SAME");
    
@@ -53,9 +54,10 @@ void gaussianfit(const string file_na,short chan)
      /* -- using a and b previously obtained from calibraion: YOU NEED TO CHANGE THIS VALUES  -- */
 
     double_t a = -17.8202;
-    double_t b =  0.115666;
+    double_t b = 0.115666;
 
     TCanvas* c3 = new TCanvas("c3","Plot of calibrated spectra",1080,1020);
+    gPad->SetLeftMargin(0.12);
     /*Re-fitting*/
     TF1 *fit3 = new TF1("fit3","gaus(0)+pol1(3)",470,600);
     
@@ -85,8 +87,9 @@ void gaussianfit(const string file_na,short chan)
     h1->GetYaxis()->SetLabelOffset(0.008);
     h1->GetYaxis()->SetLabelSize(0.04);
     h1->GetYaxis()->SetTitleSize(0.04);
-    h1->GetYaxis()->SetTitleOffset(1);
-    h1->GetXaxis()->SetRangeUser(0, 1600);
+    h1->GetYaxis()->SetTitleOffset(1.5);
+    h1->GetXaxis()->SetRangeUser(0, 1000);
+    h1->GetYaxis()->SetRangeUser(0, 6001);
     //TGaxis::SetMaxDigits(2);
 
     h1->Draw();

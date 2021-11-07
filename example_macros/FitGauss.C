@@ -16,20 +16,20 @@ void Analysis(const string file_na,short chan)
     TH1F* h1 = (TH1F*)h->Clone("h1");
 
                 /* -- Fitting the two gaussians  -- */
-    TF1 *fit1 = new TF1("g1","gaus(0)+pol1(3)", 4000, 5200);
-    TF1 *fit2 = new TF1("g2", "gaus(0)+pol1(3)", 10000, 12000);
+    TF1 *fit1 = new TF1("g1","gaus(0)+pol1(3)", 2700, 3300);
+    TF1 *fit2 = new TF1("g2", "gaus(0)+pol1(3)", 6700, 7700);
     //TF1* total= new TF1("fitTotal","gaus(0=+gaus(3)",4450,12000);
 
 
     fit1->SetLineStyle(1);
-	fit1->SetLineWidth(2);
+	fit1->SetLineWidth(3);
 	fit1->SetParameter(1, 4500);
-    fit1->SetParameters(4780,4567,170, 450.217,-0.0488353);
+    fit1->SetParameters(1.25804e+04,2.99597e+03,1.05104e+02, 450.217,-0.0488353);
 
     fit2->SetLineStyle(1);
-	fit2->SetLineWidth(2);
-    fit2->SetLineColor(kBlue);
-	fit2->SetParameters(8700,11000,315, 450.217,-0.0488353);
+	fit2->SetLineWidth(3);
+    fit2->SetLineColor(kTeal+2);
+	fit2->SetParameters(2.72700e+03,7.20098e+03,1.96384e+02, 450.217,-0.0488353);
 
     h->Fit(fit1,"R");
     h->Fit(fit2,"R+");
@@ -53,7 +53,7 @@ void Analysis(const string file_na,short chan)
     h->GetYaxis()->SetLabelSize(0.04);
     h->GetYaxis()->SetTitleSize(0.04);
     h->GetYaxis()->SetTitleOffset(1.3);
-    gStyle->SetOptStat(1111);
+    gStyle->SetOptStat(0000);
 
 
             /* -- Setting canvas info  and drawing histogram-- */    
@@ -79,7 +79,7 @@ void Analysis(const string file_na,short chan)
     g->SetMarkerStyle(8);
     g->SetMarkerSize(1.2);
     g->SetMarkerColor(1);
-    f1->SetLineStyle(2);
+    f1->SetLineStyle(1);
     f1->SetLineColor(2);
     f1->SetLineWidth(2);
     f1->SetParameters(0,0);
@@ -94,29 +94,31 @@ void Analysis(const string file_na,short chan)
     
     mg->Add(g); //the graph
     mg->Draw("AP"); //drawing points
-    mg->SetTitle(Form("Calibration Detector %d",chan + 1)); // detector N was connected to ch N-1 of digitizer 
+    mg->SetTitle("Detector 2");
+    //mg->SetTitle(Form("Calibration Detector %d",chan + 1)); // detector N was connected to ch N-1 of digitizer 
     mg->GetXaxis()->SetTitle("Mean value (ADC count) ");
     mg->GetYaxis()->SetTitle("E (keV)");
-    f1->Draw("sames"); //add the fit line
+    f1->Draw("SAME"); //add the fit line
 
                    /* --  We can now plot the calibrated spectra, using the fit parameters obtained! -- */
 
     TCanvas* c3 = new TCanvas("c3","Plot of calibrated spectra",1080,1020);
+    gPad->SetLeftMargin(0.12);
         /*Re-fitting*/
     TF1 *fit3 = new TF1("fit3","gaus(0)+pol1(3)",470,600);
-    TF1 *fit4 = new TF1("fit4","gaus(0)+pol1(3)",1200,1400);
+    TF1 *fit4 = new TF1("fit4","gaus(0)+pol1(3)",1200,1410);
 
     h1->GetXaxis()->Set(16384,0,a+b*16384*h->GetXaxis()->GetBinWidth(0));
     
 
     fit3->SetLineStyle(1);
-	fit3->SetLineWidth(2);
+	fit3->SetLineWidth(1);
 	fit3->SetParameter(1, 511);
     fit3->SetParameters(6260,532,17, 450.217,-0.0488353);
 
     fit4->SetLineStyle(1);
-	fit4->SetLineWidth(2);
-    fit4->SetLineColor(kBlue);
+	fit4->SetLineWidth(1);
+    fit4->SetLineColor(kTeal+2);
     fit4->SetParameter(1, 1275);
 	fit4->SetParameters(1030,1300,30, 450.217,-0.0488353);
     h1->Fit(fit3,"R");
@@ -132,8 +134,8 @@ void Analysis(const string file_na,short chan)
     double fwhm1 = 2*sqrt(2*log(2))* sigma_1cal;
     double fwhm2 = 2*sqrt(2*log(2))* sigma_2cal;
 
-    double res511 = fwhm1/511;
-    double res1275 = fwhm2/1275;
+    double res511 = fwhm1/mean_1cal;
+    double res1275 = fwhm2/mean_2cal;
 
     cout << "Resolution peak @ 511keV = " << res511 * 100 << "%" << endl;
 
@@ -149,11 +151,16 @@ void Analysis(const string file_na,short chan)
     h1->GetYaxis()->SetLabelOffset(0.008);
     h1->GetYaxis()->SetLabelSize(0.04);
     h1->GetYaxis()->SetTitleSize(0.04);
-    h1->GetYaxis()->SetTitleOffset(1.3);
+    h1->GetYaxis()->SetTitleOffset(1.5);
     h1->GetXaxis()->SetRangeUser(0, 1600);
+    h1->GetYaxis()->SetRangeUser(0, 15001);
+    h1->SetTitleOffset(1); 
 
+    //gStyle->SetTitleAlign(33);
     h1->Draw();
     fit3->Draw("SAME");
     fit4->Draw("SAME");
 
+   
+     
 }
