@@ -44,7 +44,7 @@ TGraphErrors* plot_tac() {
   TGraphErrors *gr_tac = new TGraphErrors(N_points);
   for (int j=0; j<N_points; j++) {
     TH1F* h = getHistoForChannelFromTree(filelist[j],3,1026,0,16384);
-    TH1F* h1 = (TH1F*)h->Clone("gr");
+    TH1F* h1 = (TH1F*)h->Clone("h1");
     int binmax = h->GetMaximumBin();
     double x_max = h->GetXaxis()->GetBinCenter(binmax);
     
@@ -73,7 +73,7 @@ void run_analysis() {
   gr->SetMarkerStyle(8);
   gr->SetMarkerSize(0.8);
   gr->SetMarkerColor(kBlack);
-  gr->SetTitle("Tac calibration");
+  gr->SetTitle("TAC calibration fit");
 
   gr->GetXaxis()->SetTitle("Delay [ns]");
   gr->GetXaxis()->SetLabelOffset(0.01);

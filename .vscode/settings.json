@@ -23,7 +23,8 @@
         "plot_values.C": "cpp",
         "TacCal.C": "cpp",
         "rate.C": "cpp",
-        "trg_time_diff.C": "cpp"
+        "trg_time_diff.C": "cpp",
+        "TacPlot.C": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
