@@ -86,11 +86,11 @@ void run_analysis() {
   gr->GetYaxis()->SetTitleSize(0.04);
   gr->GetYaxis()->SetTitleOffset(1.6);
 
-  gr->GetYaxis()->SetRangeUser(-20, 50);
+  gr->GetYaxis()->SetRangeUser(-10, 50);
   gr->GetXaxis()->SetRangeUser(-40, 4000);
 
 
-  TF1 *f1 = new TF1("f1",myfit,-10,4000,2);
+  TF1 *f1 = new TF1("f1",myfit,-5,4000,2);
   TFitResultPtr fit_result = gr->Fit(f1,"RS");
   f1->SetLineWidth(3);
   f1->SetLineColor(kRed);
@@ -110,7 +110,7 @@ void run_analysis() {
 
 void plot_tac(const string file_na) {
 
-  TH1F* h = getHistoForChannelFromTree(file_na.c_str(), 3,1026,0,16384);
+  TH1F* h = getHistoForChannelFromTree(file_na.c_str(), 3,2000,0,16384);
   TH1F* h1 = (TH1F*)h->Clone("h1");
 
   double a = -0.0201002;
@@ -124,8 +124,7 @@ void plot_tac(const string file_na) {
   int max_bin = h1->GetNbinsX(); 
 	float max = h1->GetBinCenter(max_bin)*b + a;
 	h1->GetXaxis()->SetLimits(a,max);
-
-
+  //h1->SetMinimum(0);
   h1->GetXaxis()->SetTitle("t [ns]");
   h1->GetXaxis()->SetLabelOffset(0.01);
   h1->GetXaxis()->SetLabelSize(0.04);
@@ -136,8 +135,8 @@ void plot_tac(const string file_na) {
   h1->GetYaxis()->SetLabelSize(0.04);
   h1->GetYaxis()->SetTitleSize(0.04);
   h1->GetYaxis()->SetTitleOffset(1.5);
-  h1->GetXaxis()->SetRangeUser(0, 1600);
-  h1->GetYaxis()->SetRangeUser(0, 500);
+  h1->GetXaxis()->SetRangeUser(300, 500);
+  h1->GetYaxis()->SetRangeUser(0, 11500);
   h1->SetTitleOffset(1); 
 
   //gStyle->SetTitleAlign(33);
