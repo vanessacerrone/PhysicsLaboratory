@@ -24,7 +24,8 @@
         "TacCal.C": "cpp",
         "rate.C": "cpp",
         "trg_time_diff.C": "cpp",
-        "TacPlot.C": "cpp"
+        "TacPlot.C": "cpp",
+        "filter3gamma.C": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

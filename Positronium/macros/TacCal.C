@@ -50,7 +50,7 @@ TGraphErrors* plot_tac() {
     
     if(j == 0) {offset = x_max;}
 
-    gr_tac->SetPoint(j,delay[j],(x_max - offset));
+    gr_tac->SetPoint(j,(x_max - offset),delay[j]);
     gr_tac->SetPointError(j,0.,0);
       
     cout << "j: " << j << " mean: " << x_max << "\t" << x_max << endl; 
@@ -65,7 +65,6 @@ void run_analysis() {
   
   TGraphErrors *gr = plot_tac();
   
-
   TCanvas *c1 = new TCanvas("c1", "c1", 1080, 1020);
   gPad->SetLeftMargin(0.12);
   gStyle->SetOptStat(0000);
@@ -87,11 +86,11 @@ void run_analysis() {
   gr->GetYaxis()->SetTitleSize(0.04);
   gr->GetYaxis()->SetTitleOffset(1.6);
 
-  gr->GetXaxis()->SetRangeUser(-20, 50);
-  gr->GetYaxis()->SetRangeUser(-40, 4000);
+  gr->GetYaxis()->SetRangeUser(-20, 50);
+  gr->GetXaxis()->SetRangeUser(-40, 4000);
 
 
-  TF1 *f1 = new TF1("f1",myfit,-10,50,2);
+  TF1 *f1 = new TF1("f1",myfit,-10,4000,2);
   TFitResultPtr fit_result = gr->Fit(f1,"RS");
   f1->SetLineWidth(3);
   f1->SetLineColor(kRed);
@@ -105,5 +104,46 @@ void run_analysis() {
   gr->Draw("ap");
   f1->Draw("l SAME");
   l->Draw();
+
+}
+
+
+void plot_tac(const string file_na) {
+
+  TH1F* h = getHistoForChannelFromTree(file_na.c_str(), 3,1026,0,16384);
+  TH1F* h1 = (TH1F*)h->Clone("h1");
+
+  double a = -0.0201002;
+  double b = 0.0116122;
+ 
+  TCanvas* c3 = new TCanvas("c3","2 gammas decay - TAC spectrum",1080,1020);
+  gPad->SetLeftMargin(0.12);
+  gStyle->SetOptStat(0000);
+  gStyle->SetTitleY(0.975);
+
+  int max_bin = h1->GetNbinsX(); 
+	float max = h1->GetBinCenter(max_bin)*b + a;
+	h1->GetXaxis()->SetLimits(a,max);
+
+
+  h1->GetXaxis()->SetTitle("t [ns]");
+  h1->GetXaxis()->SetLabelOffset(0.01);
+  h1->GetXaxis()->SetLabelSize(0.04);
+  h1->GetXaxis()->SetTitleSize(0.04);
+  h1->GetXaxis()->SetTitleOffset(1.15);
+  h1->GetYaxis()->SetTitle("Counts");
+  h1->GetYaxis()->SetLabelOffset(0.008);
+  h1->GetYaxis()->SetLabelSize(0.04);
+  h1->GetYaxis()->SetTitleSize(0.04);
+  h1->GetYaxis()->SetTitleOffset(1.5);
+  h1->GetXaxis()->SetRangeUser(0, 1600);
+  h1->GetYaxis()->SetRangeUser(0, 500);
+  h1->SetTitleOffset(1); 
+
+  //gStyle->SetTitleAlign(33);
+  h1->Draw();
+   
+
+
 
 }
