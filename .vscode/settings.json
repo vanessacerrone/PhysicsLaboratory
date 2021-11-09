@@ -19,7 +19,10 @@
         "calTAC.C": "cpp",
         "linear_fit.C": "cpp",
         "preamp_lin.C": "cpp",
-        "lin.C": "cpp"
+        "lin.C": "cpp",
+        "plot_values.C": "cpp",
+        "TacCal.C": "cpp",
+        "rate.C": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
