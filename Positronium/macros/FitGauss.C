@@ -16,20 +16,20 @@ void Analysis(const string file_na,short chan)
     TH1F* h1 = (TH1F*)h->Clone("h1");
 
                 /* -- Fitting the two gaussians  -- */
-    TF1 *fit1 = new TF1("g1","gaus(0)+pol1(3)", 2700, 3300);
-    TF1 *fit2 = new TF1("g2", "gaus(0)+pol1(3)", 6700, 7700);
+    TF1 *fit1 = new TF1("g1","gaus(0)+pol1(3)", 3900, 5300);
+    TF1 *fit2 = new TF1("g2", "gaus(0)+pol1(3)", 10450, 12000);
     //TF1* total= new TF1("fitTotal","gaus(0=+gaus(3)",4450,12000);
 
 
     fit1->SetLineStyle(1);
 	fit1->SetLineWidth(3);
 	fit1->SetParameter(1, 4500);
-    fit1->SetParameters(1.25804e+04,2.99597e+03,1.05104e+02, 450.217,-0.0488353);
+    fit1->SetParameters(1.25804e+04,4500+03,1.05104e+02, 450.217,-0.0488353);
 
     fit2->SetLineStyle(1);
 	fit2->SetLineWidth(3);
     fit2->SetLineColor(kTeal+2);
-	fit2->SetParameters(2.72700e+03,7.20098e+03,1.96384e+02, 450.217,-0.0488353);
+	fit2->SetParameters(2.72700e+03,11000,1.96384e+02, 450.217,-0.0488353);
 
     h->Fit(fit1,"R");
     h->Fit(fit2,"R+");
@@ -105,16 +105,23 @@ void Analysis(const string file_na,short chan)
     TCanvas* c3 = new TCanvas("c3","Plot of calibrated spectra",1080,1020);
     gPad->SetLeftMargin(0.12);
         /*Re-fitting*/
-    TF1 *fit3 = new TF1("fit3","gaus(0)+pol1(3)",470,600);
+    TF1 *fit3 = new TF1("fit3","gaus(0)+pol1(3)",450,600);
     TF1 *fit4 = new TF1("fit4","gaus(0)+pol1(3)",1200,1410);
 
-    h1->GetXaxis()->Set(16384,0,a+b*16384*h->GetXaxis()->GetBinWidth(0));
+
+
+
+    int max_bin = h1->GetNbinsX(); // This method returns the number of bins in x of the histogram
+	float max_kev = h1->GetBinCenter(max_bin)*b + a;
+	h1->GetXaxis()->SetLimits(a,max_kev);
+
+    //h1->GetXaxis()->Set(16384,0,a+b*16384*h->GetXaxis()->GetBinWidth(0));
     
 
     fit3->SetLineStyle(1);
 	fit3->SetLineWidth(1);
 	fit3->SetParameter(1, 511);
-    fit3->SetParameters(6260,532,17, 450.217,-0.0488353);
+    fit3->SetParameters(6260,511,17, 450.217,-0.0488353);
 
     fit4->SetLineStyle(1);
 	fit4->SetLineWidth(1);
@@ -153,7 +160,7 @@ void Analysis(const string file_na,short chan)
     h1->GetYaxis()->SetTitleSize(0.04);
     h1->GetYaxis()->SetTitleOffset(1.5);
     h1->GetXaxis()->SetRangeUser(0, 1600);
-    h1->GetYaxis()->SetRangeUser(0, 15001);
+    h1->GetYaxis()->SetRangeUser(0, 6000);
     h1->SetTitleOffset(1); 
 
     //gStyle->SetTitleAlign(33);
