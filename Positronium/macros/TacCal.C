@@ -21,9 +21,8 @@ double myfit(double* x, double* par){
     return fitval;
 }
 
-TGraphErrors* plot_tac() {
+vector<string> filelist = {
 
-    vector<string> filelist = {
     "../day3/TAC-0.root",
     "../day3/TAC-4.root",
     "../day3/TAC-8.root",
@@ -32,25 +31,29 @@ TGraphErrors* plot_tac() {
     "../day3/TAC-32.root",
     "../day3/TAC-36.root",
     "../day3/TAC-40.root"
+
     };
-  
+
+
+TGraphErrors* plot_tac() {
+
   int N_points = 8;
   double delay[8] = {0,4,8,12,16,32,36,40};
-    
-  TGraphErrors *gr_tac = new TGraphErrors(N_points);
 
+  double offset;
+  TGraphErrors *gr_tac = new TGraphErrors(N_points);
   for (int j=0; j<N_points; j++) {
     TH1F* h = getHistoForChannelFromTree(filelist[j],3,1026,0,16384);
     TH1F* h1 = (TH1F*)h->Clone("gr");
-
     int binmax = h->GetMaximumBin();
     double x_max = h->GetXaxis()->GetBinCenter(binmax);
+    
+    if(j == 0) {offset = x_max;}
 
-
-    gr_tac->SetPoint(j,delay[j],x_max);
+    gr_tac->SetPoint(j,delay[j],(x_max - offset));
     gr_tac->SetPointError(j,0.,0);
       
-    cout << "j: " << j << " mean: " << h->GetMean() << "\t" << x_max << endl; 
+    cout << "j: " << j << " mean: " << x_max << "\t" << x_max << endl; 
     delete h;
       
   }
@@ -84,8 +87,8 @@ void run_analysis() {
   gr->GetYaxis()->SetTitleSize(0.04);
   gr->GetYaxis()->SetTitleOffset(1.6);
 
-  gr->GetXaxis()->SetRangeUser(-10, 50);
-  gr->GetYaxis()->SetRangeUser(11000, 15000);
+  gr->GetXaxis()->SetRangeUser(-20, 50);
+  gr->GetYaxis()->SetRangeUser(-40, 4000);
 
 
   TF1 *f1 = new TF1("f1",myfit,-10,50,2);
@@ -95,9 +98,9 @@ void run_analysis() {
   fit_result->Print("V");
   gStyle->SetOptFit(0);   
 
-  TLegend *l = new TLegend(0.11,0.7,0.3,0.9);
+  TLegend *l = new TLegend(0.15,0.7,0.4,0.87);
   l->AddEntry(gr,"Data points","p");
-  l->AddEntry("f1","Function y = a + bx","l");    
+  l->AddEntry(f1,"Function y = a + bx","l");    
   
   gr->Draw("ap");
   f1->Draw("l SAME");

@@ -22,7 +22,8 @@
         "lin.C": "cpp",
         "plot_values.C": "cpp",
         "TacCal.C": "cpp",
-        "rate.C": "cpp"
+        "rate.C": "cpp",
+        "trg_time_diff.C": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
