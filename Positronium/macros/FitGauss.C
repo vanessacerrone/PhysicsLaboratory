@@ -24,14 +24,14 @@ void Analysis(const string file_na,short chan)
     fit1->SetLineStyle(1);
 	fit1->SetLineWidth(3);
 	fit1->SetParameter(1, 4500);
-    fit1->SetParameters(1.25804e+04,4500+03,1.05104e+02, 450.217,-0.0488353); //for D1,D2,D3
-    // fit1->SetParameters(1.25784e+04,2.99596e+03,1.05122e+02, 450.217,-0.0488353); //forD4
+    //fit1->SetParameters(1.25804e+04,4500+03,1.05104e+02, 450.217,-0.0488353); //for D1,D2,D3
+    fit1->SetParameters(1.25784e+04,2.99596e+03,1.05122e+02, 450.217,-0.0488353); //forD4
 
     fit2->SetLineStyle(1);
 	fit2->SetLineWidth(3);
     fit2->SetLineColor(kTeal+2);
-	fit2->SetParameters(2.72700e+03,11000,1.96384e+02, 450.217,-0.0488353); //for D1,D2,D3
-    //fit2->SetParameters(2.62637e+03,7.19168e+03,2.07706e+02, 450.217,-0.0488353); //for D4
+	//fit2->SetParameters(2.72700e+03,11000,1.96384e+02, 450.217,-0.0488353); //for D1,D2,D3
+    fit2->SetParameters(2.62637e+03,7.19168e+03,2.07706e+02, 450.217,-0.0488353); //for D4
 
     h->Fit(fit1,"R");
     h->Fit(fit2,"R+");
