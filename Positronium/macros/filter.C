@@ -16,29 +16,35 @@
 void filter(const string name_file, int numBins, double minX, double maxX) {
 	
     // retrieve variables
-    slimport_data_t indata1,indata2;
+    slimport_data_t indata1,indata2,indata3;
     TFile *infile = new TFile(name_file.c_str());
     TTree *intree = (TTree*)infile->Get("acq_tree_0");
 
     TBranch *inbranch1 = intree->GetBranch("acq_ch0");
     TBranch *inbranch2 = intree->GetBranch("acq_ch1");
+    TBranch *inbranch3 = intree->GetBranch("acq_ch3");
 
     inbranch1->SetAddress(&indata1.timetag);
     inbranch2->SetAddress(&indata2.timetag);
+    inbranch3->SetAddress(&indata3.timetag);
 
     TH1F *h_spectrum1 = new TH1F("h1","2 photons decay - Detector 1",numBins,minX,maxX);
     TH1F *h_spectrum2 = new TH1F("h2","2 photons decay - Detector 2",numBins,minX,maxX);
     TH1F *h_fil1 = new TH1F("h1f","Detector 1 filtered",numBins,minX,maxX);
     TH1F *h_fil2 = new TH1F("h2f","Detector 2 filtered",numBins,minX,maxX);
     TH1F *h_sum = new TH1F("hsum","2 photons decay - Sum spectrum",numBins,minX,maxX);
+    TH1F *h_tac = new TH1F("htac","2 photons decay - TAC spectrum",numBins,minX,maxX);
     // histogram filling
-    double entry1,entry2;
+    double entry1,entry2,entry3;
     
 	for (int i=0; i<inbranch1->GetEntries(); i++) {
         inbranch2->GetEntry(i);
         entry2 =  -21.9585 + indata2.qlong*0.114419;   // using calibration parameters
 	    inbranch1->GetEntry(i);
         entry1 = -17.8202 + indata1.qlong*0.115666;
+        inbranch3->GetEntry(i);
+        entry3 = indata3.qlong;
+
         h_spectrum1->Fill(entry1);
         h_spectrum2->Fill(entry2);
         h_sum->Fill(entry1+entry2);
@@ -47,6 +53,7 @@ void filter(const string name_file, int numBins, double minX, double maxX) {
 
 	    h_fil1->Fill(entry1);
             h_fil2->Fill(entry2);
+            h_tac->Fill(entry3);
 			}
 
 		}
@@ -144,7 +151,7 @@ void filter(const string name_file, int numBins, double minX, double maxX) {
 
     //c1->SaveAs("D1_filtered.pdf");
     //c2->SaveAs("D2_filtered.pdf");
-    c3->SaveAs("2gamma_sum.pdf");
+    //c3->SaveAs("2gamma_sum.pdf");
    
     //TFile *outfile = new TFile("2Photons_filter.root","RECREATE");
     //outfile -> cd();
@@ -152,7 +159,7 @@ void filter(const string name_file, int numBins, double minX, double maxX) {
     //h_spectrum2->Write();
     //h_fil1->Write();
     //h_fil2->Write();
-
+    h_tac->SaveAs("TACfil.root");
     //delete outfile;
 
 

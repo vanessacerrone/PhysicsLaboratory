@@ -110,7 +110,7 @@ void run_analysis() {
 
 void plot_tac(const string file_na) {
 
-  TH1F* h = getHistoForChannelFromTree(file_na.c_str(), 3,2000,0,16384);
+  TH1F* h = getHistoForChannelFromTree(file_na.c_str(),3,100,13100,13500);
   TH1F* h1 = (TH1F*)h->Clone("h1");
 
   double a = -0.0201002;
@@ -125,7 +125,7 @@ void plot_tac(const string file_na) {
 	float max = h1->GetBinCenter(max_bin)*b + a;
 	h1->GetXaxis()->SetLimits(a,max);
   //h1->SetMinimum(0);
-  h1->GetXaxis()->SetTitle("t [ns]");
+  h1->GetXaxis()->SetTitle("time [ns], arbitrary zero");
   h1->GetXaxis()->SetLabelOffset(0.01);
   h1->GetXaxis()->SetLabelSize(0.04);
   h1->GetXaxis()->SetTitleSize(0.04);
@@ -135,8 +135,8 @@ void plot_tac(const string file_na) {
   h1->GetYaxis()->SetLabelSize(0.04);
   h1->GetYaxis()->SetTitleSize(0.04);
   h1->GetYaxis()->SetTitleOffset(1.5);
-  h1->GetXaxis()->SetRangeUser(300, 500);
-  h1->GetYaxis()->SetRangeUser(0, 11500);
+  h1->GetXaxis()->SetRangeUser(20, 150);
+  h1->GetYaxis()->SetRangeUser(0, 5000);
   h1->SetTitleOffset(1); 
 
   //gStyle->SetTitleAlign(33);
