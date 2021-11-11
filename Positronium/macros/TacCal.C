@@ -121,13 +121,13 @@ void run_analysis() {
 
 void plot_tac(const string file_na) {
 
-  TH1F* h = getHistoForChannelFromTree(file_na.c_str(),3,2400,0,16500);
+  TH1F* h = getHistoForChannelFromTree(file_na.c_str(),3,400,400,30000);
   TH1F* h1 = (TH1F*)h->Clone("h1");
 
   double a = -0.0201002;
   double b = 0.0116122;
  
-  TCanvas* c3 = new TCanvas("c3","2 gammas decay - TAC spectrum",1080,1020);
+  TCanvas* c3 = new TCanvas("c3","3 gammas decay - TAC spectrum",1080,1020);
   gPad->SetLeftMargin(0.12);
   gStyle->SetOptStat(0000);
   gStyle->SetTitleY(0.975);
@@ -141,13 +141,13 @@ void plot_tac(const string file_na) {
   h1->GetXaxis()->SetLabelSize(0.04);
   h1->GetXaxis()->SetTitleSize(0.04);
   h1->GetXaxis()->SetTitleOffset(1.15);
-  h1->GetYaxis()->SetTitle("Counts/0.08 ns");
+  h1->GetYaxis()->SetTitle("Counts/0.015 ns");
   h1->GetYaxis()->SetLabelOffset(0.008);
   h1->GetYaxis()->SetLabelSize(0.04);
   h1->GetYaxis()->SetTitleSize(0.04);
-  h1->GetYaxis()->SetTitleOffset(1.5);
-  h1->GetXaxis()->SetRangeUser(152, 157);
-  h1->GetYaxis()->SetRangeUser(0, 8500);
+  h1->GetYaxis()->SetTitleOffset(1.1);
+  h1->GetXaxis()->SetRangeUser(120, 190);
+  h1->GetYaxis()->SetRangeUser(0, 50);
   h1->SetTitleOffset(1); 
   h1->SetFillColorAlpha(kAzure-9,0.5);
   h1->SetLineWidth(1);
