@@ -19,9 +19,9 @@ void filter(const string name_file, int numBins, double minX, double maxX) {
 	TH1F *h_spectrum1 = new TH1F("h1","Detector 1",numBins,minX,maxX);
     TH1F *h_spectrum2 = new TH1F("h2","Detector 2",numBins,minX,maxX);
     TH1F *h_spectrum3 = new TH1F("h3","Detector 3",numBins,minX,maxX);
-    TH1F *h_fil1 = new TH1F("h1f","Detector 1 filtered",numBins,minX,maxX);
-    TH1F *h_fil2 = new TH1F("h2f","Detector 2 filtered",numBins,minX,maxX);
-    TH1F *h_fil3 = new TH1F("h2f","Detector 3 filtered",numBins,minX,maxX);
+    TH1F *h_fil1 = new TH1F("h1f","Detector 1 filtered",200,0,600);
+    TH1F *h_fil2 = new TH1F("h2f","Detector 2 filtered",200,0,600);
+    TH1F *h_fil3 = new TH1F("h2f","Detector 3 filtered",200,0,600);
     TH1F *h_sum = new TH1F("hsum","3 photons decay - Sum spectrum",numBins,minX,maxX);
 
 	// histogram filling
@@ -29,23 +29,24 @@ void filter(const string name_file, int numBins, double minX, double maxX) {
     
 	for (int i=0; i<inbranch1->GetEntries(); i++) {
         inbranch2->GetEntry(i);
-        entry2 =  -21.9585 + indata2.qlong*0.114419  ;
+        entry2 =  -21.7267 + indata2.qlong*0.114383  ;
 		inbranch1->GetEntry(i);
-        entry1 = -17.8202 + indata1.qlong*0.115666;
+        entry1 = -17.7045 + indata1.qlong*0.115652;
         inbranch3->GetEntry(i);
-        entry3 = -23.5959 + indata1.qlong*0.110415;
+        entry3 = -22.9221 + indata1.qlong*0.110317;
         
         h_spectrum1->Fill(entry1);
         h_spectrum2->Fill(entry2);
+        h_spectrum3->Fill(entry3);
         h_sum->Fill(entry1+entry2+entry3);
 
 		if ((entry1 + entry2 + entry3) < 1124.2 && (entry1 + entry2 + entry3) > 919.8 ) {
-            //if (entry1 < 374 && entry1 > 307 && entry2 < 374 && entry2 > 307 && entry3 < 374 && entry3 > 307){
+            if ( (entry1 < 374 && entry1 > 307) || (entry2 < 374 && entry2 > 307) || (entry3 < 374 && entry3 > 307)){
 
-			h_fil1->Fill(entry1);
-            h_fil2->Fill(entry2);
-            h_fil3->Fill(entry2);
-            
+			 h_fil1->Fill(entry1);
+             h_fil2->Fill(entry2);
+             h_fil3->Fill(entry3);
+            }
 		}
 
 	}
@@ -66,7 +67,7 @@ void filter(const string name_file, int numBins, double minX, double maxX) {
     h_spectrum1->GetYaxis()->SetLabelSize(0.035);
     h_spectrum1->GetYaxis()->SetTitleSize(0.04);
     h_spectrum1->GetYaxis()->SetTitleOffset(1.3);
-    h_spectrum1->GetXaxis()->SetRangeUser(0, 1200);
+    h_spectrum1->GetXaxis()->SetRangeUser(0, 1400);
     h_spectrum1->GetYaxis()->SetRangeUser(0, 20000);
     h_spectrum1->SetLineWidth(2);
     h_spectrum1->Draw();
@@ -98,7 +99,7 @@ void filter(const string name_file, int numBins, double minX, double maxX) {
     h_spectrum2->GetYaxis()->SetLabelSize(0.035);
     h_spectrum2->GetYaxis()->SetTitleSize(0.04);
     h_spectrum2->GetYaxis()->SetTitleOffset(1.3);
-    h_spectrum2->GetXaxis()->SetRangeUser(0, 1200);
+    h_spectrum2->GetXaxis()->SetRangeUser(0, 1400);
     h_spectrum2->GetYaxis()->SetRangeUser(0, 20000);
     h_spectrum2->SetLineWidth(2);
     h_spectrum2->Draw();
@@ -133,9 +134,8 @@ void filter(const string name_file, int numBins, double minX, double maxX) {
     h_spectrum3->GetXaxis()->SetRangeUser(0, 2000);
     h_spectrum3->GetYaxis()->SetRangeUser(0, 20000);
     h_spectrum3->SetLineWidth(2);
-    h_spectrum3->Draw();
+    //h_spectrum3->Draw();
     
-
     h_fil3->SetLineColor(kRed);
     h_fil3->SetLineWidth(2);
     h_fil3->Draw("same");
@@ -164,13 +164,36 @@ void filter(const string name_file, int numBins, double minX, double maxX) {
     h_sum->GetYaxis()->SetTitleSize(0.04);
     h_sum->GetYaxis()->SetTitleOffset(1.3);
     h_sum->GetXaxis()->SetRangeUser(0, 1900);
-    h_sum->GetYaxis()->SetRangeUser(0, 4000);
+    h_sum->GetYaxis()->SetRangeUser(0, 5500);
     //h_sum->SetFillColor(kAzure-9);
     h_sum->SetFillColorAlpha(kAzure-9,0.5);
     h_sum->SetLineWidth(1);
     h_sum->Draw();
-    
+    TLine *line = new TLine(1022, 0, 1022, 5000);
+    line->SetLineStyle(2);
+    line->SetLineColor(kRed);
+    line->Draw("same");
 
+    TPaveText *pt = new TPaveText(0.2,0.1,0.5,0.5,"blNDC");
+    pt->AddText("1022 keV");
+    pt->Draw("same");
+
+
+    TCanvas* c5 = new TCanvas("c5","Sum",1080,1020);
+    gPad->SetLeftMargin(0.12);
+    gStyle->SetOptStat(0000);
+
+    h_fil1->SetLineColor(kRed);
+    h_fil1->SetLineWidth(2);
+    h_fil1->Draw();
+
+    h_fil2->SetLineColor(kBlue);
+    h_fil2->SetLineWidth(2);
+    h_fil2->Draw("same");
+
+    h_fil3->SetLineColor(kGreen-3);
+    h_fil3->SetLineWidth(2);
+    h_fil3->Draw("same");
 
     //c1->SaveAs("D1_filtered.pdf");
     //c2->SaveAs("D2_filtered.pdf");
