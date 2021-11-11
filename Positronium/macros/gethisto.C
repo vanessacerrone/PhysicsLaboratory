@@ -34,8 +34,8 @@ TH1F* getHistoForChannelFromTree(const string name_file, short chan, int numBins
 	TTree *intree = (TTree*)infile->Get("acq_tree_0");
 	TBranch *inbranch = intree->GetBranch(Form("acq_ch%d",chan));
 	inbranch->SetAddress(&indata.timetag);
-	//TH1F *h_spectrum = new TH1F("h_spectrum",Form("Detector %d",chan + 1),numBins,minX,maxX);
-	TH1F *h_spectrum = new TH1F("h_spectrum","2 gammas decay - TAC spectrum",numBins,minX,maxX);
+	TH1F *h_spectrum = new TH1F("h_spectrum",Form("Detector %d",chan + 1),numBins,minX,maxX);
+	//TH1F *h_spectrum = new TH1F("h_spectrum","2 gammas decay - TAC spectrum",numBins,minX,maxX);
 	// histogram filling
 	for (int i=0; i<inbranch->GetEntries(); i++) {
 		inbranch->GetEntry(i);
