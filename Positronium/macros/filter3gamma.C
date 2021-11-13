@@ -26,7 +26,7 @@ void filter(const string name_file, int numBins, double minX, double maxX) {
     TH1F *h_fil3 = new TH1F("h3f","Detector 3 filtered",300,0,800);
     TH1F *h_sum = new TH1F("hsum","3 photons decay - Sum spectrum",numBins,minX,maxX);
     TH1F *h_tac = new TH1F("htac","3 photons decay - TAC spectrum",2000,minX,maxX);
-
+    TH2* h2 = new TH2F("h2", "2d histo",numBins,minX,maxX,numBins,minX,maxX);
 
 	// histogram filling
     double entry1,entry2,entry3,entry4;
@@ -39,12 +39,15 @@ void filter(const string name_file, int numBins, double minX, double maxX) {
         inbranch3->GetEntry(i);
         entry3 = -22.9221 + indata3.qlong*0.110317;
         inbranch4->GetEntry(i);
-        entry4 = indata4.qlong;
+        entry4 = -0.0201002 + 0.0116122*indata4.qlong;
 
         h_spectrum1->Fill(entry1);
         h_spectrum2->Fill(entry2);
         h_spectrum3->Fill(entry3);
-        h_sum->Fill(entry1+entry2+entry3);
+        double sum = entry1+entry2+entry3;
+
+        h_sum->Fill(sum);
+        h_tac->Fill(entry4);
         // conditions: TAC rileva roba >0
         // somma di 123 deve essere 1022 +- 10%
         // 
@@ -54,7 +57,7 @@ void filter(const string name_file, int numBins, double minX, double maxX) {
 			 h_fil1->Fill(entry1);
              h_fil2->Fill(entry2);
              h_fil3->Fill(entry3);
-             h_tac->Fill(entry4);
+             
 		}
         }
 
@@ -164,7 +167,7 @@ void filter(const string name_file, int numBins, double minX, double maxX) {
     h_tac->GetYaxis()->SetLabelSize(0.035);
     h_tac->GetYaxis()->SetTitleSize(0.04);
     h_tac->GetYaxis()->SetTitleOffset(1.3);
-    h_tac->GetXaxis()->SetRangeUser(200, 1900);
+    h_tac->GetXaxis()->SetRangeUser(0, 30000);
     h_tac->GetYaxis()->SetRangeUser(0, 5500);
     h_tac->SetFillColorAlpha(kAzure-9,0.5);
     h_tac->SetLineWidth(1);
@@ -203,19 +206,23 @@ void filter(const string name_file, int numBins, double minX, double maxX) {
     legend4->AddEntry(h_fil3,"D3","l");
     legend4->Draw();
 
+    
+    
+    
     //c1->SaveAs("D1_filtered.pdf");
     //c2->SaveAs("D2_filtered.pdf");
     //c4->SaveAs("3gamma_sum.pdf");
 
 
-    TFile *outfile = new TFile("3Photons_filter.root","RECREATE");
-    outfile -> cd();
-    h_spectrum1->Write();
-    h_spectrum2->Write();
-    h_fil1->Write();
-    h_fil2->Write();
-    h_fil3->Write();
-    h_tac->Write();
-    delete outfile;
+    //TFile *outfile = new TFile("3Photons_filter.root","RECREATE");
+    //outfile -> cd();
+    //h_spectrum1->Write();
+    //h_spectrum2->Write();
+    //h_fil1->Write();
+    //h_fil2->Write();
+    //h_fil3->Write();
+    //h_tac->Write();
+    //
+    //delete outfile;
 }
 

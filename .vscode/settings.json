@@ -27,7 +27,11 @@
         "TacPlot.C": "cpp",
         "filter3gamma.C": "cpp",
         "Gauss3Photons.C": "cpp",
-        "shaper_bode.C": "cpp"
+        "shaper_bode.C": "cpp",
+        "plotHisto.C": "cpp",
+        "queue": "cpp",
+        "stack": "cpp",
+        "Plot2D.C": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
