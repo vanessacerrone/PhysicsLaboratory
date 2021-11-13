@@ -21,17 +21,17 @@ void filter(const string name_file, int numBins, double minX, double maxX) {
 	TH1F *h_spectrum1 = new TH1F("h1","Detector 1",numBins,minX,maxX);
     TH1F *h_spectrum2 = new TH1F("h2","Detector 2",numBins,minX,maxX);
     TH1F *h_spectrum3 = new TH1F("h3","Detector 3",numBins,minX,maxX);
-    TH1F *h_fil1 = new TH1F("h1f","3 photons decay - Filtered spectra",300,0,800);
-    TH1F *h_fil2 = new TH1F("h2f","Detector 2 filtered",300,0,800);
-    TH1F *h_fil3 = new TH1F("h3f","Detector 3 filtered",300,0,800);
+    TH1F *h_fil1 = new TH1F("h1f","3 photons decay - Filtered spectra",250,0,1000);
+    TH1F *h_fil2 = new TH1F("h2f","Detector 2 filtered",250,0,1000);
+    TH1F *h_fil3 = new TH1F("h3f","Detector 3 filtered",250,0,1000);
     TH1F *h_sum = new TH1F("hsum","3 photons decay - Sum spectrum",numBins,minX,maxX);
-    TH1F *h_tac = new TH1F("htac","3 photons decay - TAC spectrum",2000,minX,maxX);
-    TH2* h2 = new TH2F("h2", "2d histo",numBins,minX,maxX,numBins,minX,maxX);
+    TH1F *h_tac = new TH1F("htac","3 photons decay - TAC spectrum",1000,0,1000);
+    
 
 	// histogram filling
     double entry1,entry2,entry3,entry4;
     
-	for (int i=0; i<inbranch1->GetEntries(); i++) {
+	for (int i=0; i<inbranch3->GetEntries(); i++) {
         inbranch2->GetEntry(i);
         entry2 =  -21.7267 + indata2.qlong*0.114383  ;
 		inbranch1->GetEntry(i);
@@ -47,16 +47,19 @@ void filter(const string name_file, int numBins, double minX, double maxX) {
         double sum = entry1+entry2+entry3;
 
         h_sum->Fill(sum);
-        h_tac->Fill(entry4);
+        
+
         // conditions: TAC rileva roba >0
         // somma di 123 deve essere 1022 +- 10%
-        // 
-		if ((entry1 + entry2 + entry3) < 1124.2 && (entry1 + entry2 + entry3) > 919.8) {
+        // 123 compreso tra 0 e 450 
+
+		if ((entry1 + entry2 + entry3) < 1124.2 && (entry1 + entry2 + entry3) > 919.8 ) {
             if ( (entry1 < 450 && entry1 > 0) && (entry2 < 450 && entry2 > 0) && (entry3 < 450 && entry3 > 0)){
 
 			 h_fil1->Fill(entry1);
              h_fil2->Fill(entry2);
              h_fil3->Fill(entry3);
+             h_tac->Fill(entry4);
              
 		}
         }
@@ -79,14 +82,12 @@ void filter(const string name_file, int numBins, double minX, double maxX) {
     h_fil1->GetYaxis()->SetLabelSize(0.035);
     h_fil1->GetYaxis()->SetTitleSize(0.04);
     h_fil1->GetYaxis()->SetTitleOffset(1.3);
-    h_fil1->GetXaxis()->SetRangeUser(0, 1400);
-    h_fil1->GetYaxis()->SetRangeUser(0, 20000);
+    h_fil1->GetXaxis()->SetRangeUser(0, 600);
+    h_fil1->GetYaxis()->SetRangeUser(1, 2000);
     h_fil1->SetLineWidth(1);
     h_fil1->Draw();
 
     auto legend = new TLegend(0.67,0.75,0.85,0.87);
-    //TLegend *legend = new TLegend(0.16, 0.63, 0.45, 0.91);
-    //legend->AddEntry(h_spectrum1,"Raw data","l");
     legend->AddEntry(h_fil1,"Filtered data","l");
     legend->Draw();
 
@@ -107,18 +108,13 @@ void filter(const string name_file, int numBins, double minX, double maxX) {
     h_fil2->GetYaxis()->SetLabelSize(0.035);
     h_fil2->GetYaxis()->SetTitleSize(0.04);
     h_fil2->GetYaxis()->SetTitleOffset(1.3);
-    h_fil2->GetXaxis()->SetRangeUser(0, 1400);
-    h_fil2->GetYaxis()->SetRangeUser(0, 20000);
+    h_fil2->GetXaxis()->SetRangeUser(0, 500);
+    h_fil2->GetYaxis()->SetRangeUser(1, 2000);
     h_fil2->SetLineWidth(1);
     h_fil2->Draw();
     
 
-    //h_fil2->SetLineColor(kRed);
-    //h_fil2->SetLineWidth(2);
-    //h_fil2->Draw("same");
-
     auto legend2 = new TLegend(0.67,0.75,0.85,0.87);
-    //legend2->AddEntry(h_spectrum2,"Raw data","l");
     legend2->AddEntry(h_fil2,"Filtered data","l");
     legend2->Draw();
 
@@ -128,7 +124,7 @@ void filter(const string name_file, int numBins, double minX, double maxX) {
     gPad->SetLeftMargin(0.12);
     gStyle->SetOptStat(0000);
 
-    h_fil3->SetMinimum(1);
+    h_fil3->SetMinimum(0);
     h_fil3->GetXaxis()->SetTitle("Energy [keV]");
     h_fil3->GetXaxis()->SetLabelOffset(0.01);
     h_fil3->GetXaxis()->SetLabelSize(0.035);
@@ -139,35 +135,31 @@ void filter(const string name_file, int numBins, double minX, double maxX) {
     h_fil3->GetYaxis()->SetLabelSize(0.035);
     h_fil3->GetYaxis()->SetTitleSize(0.04);
     h_fil3->GetYaxis()->SetTitleOffset(1.3);
-    h_fil3->GetXaxis()->SetRangeUser(0, 2000);
-    h_fil3->GetYaxis()->SetRangeUser(0, 20000);
+    h_fil3->GetXaxis()->SetRangeUser(0, 500);
+    h_fil3->GetYaxis()->SetRangeUser(0, 2000);
     h_fil3->SetLineWidth(1);
     h_fil3->Draw();
 
     auto legend3 = new TLegend(0.67,0.75,0.85,0.87);
-    //legend3->AddEntry(h_spectrum2,"Raw data","l");
     legend3->AddEntry(h_fil3,"Filtered data","l");
     legend3->Draw();
 
-    //c1->SaveAs("D1_filtered.pdf");
-    //c2->SaveAs("D2_filtered.pdf");
-   
-   TCanvas* c4 = new TCanvas("c4","",1080,1020);
+    TCanvas* c4 = new TCanvas("c4","",1080,1020);
     gPad->SetLeftMargin(0.12);
     gStyle->SetOptStat(0000);
-
+   
     h_tac->SetMinimum(1);
-    h_tac->GetXaxis()->SetTitle("Energy [keV]");
+    h_tac->GetXaxis()->SetTitle("time [ns], arbitrary zero");
     h_tac->GetXaxis()->SetLabelOffset(0.01);
     h_tac->GetXaxis()->SetLabelSize(0.035);
     h_tac->GetXaxis()->SetTitleSize(0.04);
     h_tac->GetXaxis()->SetTitleOffset(1.15);
-    h_tac->GetYaxis()->SetTitle("Counts");
+    h_tac->GetYaxis()->SetTitle("Counts/1 ns");
     h_tac->GetYaxis()->SetLabelOffset(0.008);
     h_tac->GetYaxis()->SetLabelSize(0.035);
     h_tac->GetYaxis()->SetTitleSize(0.04);
     h_tac->GetYaxis()->SetTitleOffset(1.3);
-    h_tac->GetXaxis()->SetRangeUser(0, 30000);
+    h_tac->GetXaxis()->SetRangeUser(0, 1000);
     h_tac->GetYaxis()->SetRangeUser(0, 5500);
     h_tac->SetFillColorAlpha(kAzure-9,0.5);
     h_tac->SetLineWidth(1);
@@ -177,7 +169,7 @@ void filter(const string name_file, int numBins, double minX, double maxX) {
     //line->SetLineStyle(2);
     //line->SetLineColor(kRed);
     //line->Draw("same");
-//
+
     //TPaveText *pt = new TPaveText(0.2,0.1,0.5,0.5,"blNDC");
     //pt->AddText("1022 keV");
     //pt->Draw("same");
@@ -188,41 +180,25 @@ void filter(const string name_file, int numBins, double minX, double maxX) {
     gStyle->SetOptStat(0000);
 
     h_fil1->SetLineColor(kRed);
-    h_fil1->SetLineWidth(2);
+    h_fil1->SetLineWidth(1);
     h_fil1->Draw();
 
     h_fil2->SetLineColor(kBlue);
-    h_fil2->SetLineWidth(2);
+    h_fil2->SetLineWidth(1);
     h_fil2->Draw("same");
 
     h_fil3->SetLineColor(kGreen-3);
-    h_fil3->SetLineWidth(2);
+    h_fil3->SetLineWidth(1);
     h_fil3->Draw("same");
 
+
     auto legend4 = new TLegend(0.67,0.75,0.85,0.87);
-    //legend3->AddEntry(h_spectrum2,"Raw data","l");
     legend4->AddEntry(h_fil1,"D1","l");
     legend4->AddEntry(h_fil2,"D2","l");
     legend4->AddEntry(h_fil3,"D3","l");
     legend4->Draw();
 
     
-    
-    
-    //c1->SaveAs("D1_filtered.pdf");
-    //c2->SaveAs("D2_filtered.pdf");
-    //c4->SaveAs("3gamma_sum.pdf");
 
-
-    //TFile *outfile = new TFile("3Photons_filter.root","RECREATE");
-    //outfile -> cd();
-    //h_spectrum1->Write();
-    //h_spectrum2->Write();
-    //h_fil1->Write();
-    //h_fil2->Write();
-    //h_fil3->Write();
-    //h_tac->Write();
-    //
-    //delete outfile;
 }
 
