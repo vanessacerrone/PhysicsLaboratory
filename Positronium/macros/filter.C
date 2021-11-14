@@ -13,15 +13,17 @@
 
 
 
-void filter(const string name_file, int numBins, double minX, double maxX) {
+void filter(const string name_file,const string name_file2, int numBins, double minX, double maxX) {
 	
     // retrieve variables
     slimport_data_t indata1,indata2,indata3;
     TFile *infile = new TFile(name_file.c_str());
     TTree *intree = (TTree*)infile->Get("acq_tree_0");
+    TFile *infile2 = new TFile(name_file2.c_str());
+    TTree *intree2 = (TTree*)infile2->Get("acq_tree_0");
 
     TBranch *inbranch1 = intree->GetBranch("acq_ch0");
-    TBranch *inbranch2 = intree->GetBranch("acq_ch1");
+    TBranch *inbranch2 = intree2->GetBranch("acq_ch1");
     TBranch *inbranch3 = intree->GetBranch("acq_ch3");
 
     inbranch1->SetAddress(&indata1.timetag);

@@ -31,7 +31,12 @@
         "plotHisto.C": "cpp",
         "queue": "cpp",
         "stack": "cpp",
-        "Plot2D.C": "cpp"
+        "Plot2D.C": "cpp",
+        "test.C": "cpp",
+        "vector": "cpp",
+        "iosfwd": "cpp",
+        "iterator": "cpp",
+        "algorithm": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
