@@ -36,7 +36,8 @@
         "vector": "cpp",
         "iosfwd": "cpp",
         "iterator": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "teast.C": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

@@ -7,12 +7,8 @@ using namespace std;
 #include <vector>
 #include <string>
 #include <iostream>
-#define _USE_MATH_DEFINES
 #include <cmath>
 //ROOT LIBRARIES
-#include "TROOT.h"
-#include "TStyle.h"
-#include "TCanvas.h"
 #include "TGraph.h"
 #include "TGraphErrors.h"
 #include "TMath.h"
@@ -55,16 +51,8 @@ void plot()
   
     
     TGraphErrors *graph6 = new TGraphErrors(6, &x2[0], &loss[0],0,&err[0]);
-    TCanvas* c3 = new TCanvas("c3","Dead time",1080,1020);
+    TCanvas* c2 = new TCanvas("c2","Dead time analysis",1080,1020);
     
-    //TF1 *fit = new TF1("fit", myFit, 0, 15000,1);
-    //fit->SetParameter(0,6e-05);
-    //graph6->Fit(fit, "R");
-    
-
-    gPad->SetLeftMargin(0.12);
-    gStyle->SetOptStat(0000);
-    gStyle->SetTitleY(0.975);
 
     TMultiGraph* mg = new TMultiGraph();
     mg->Add(graph0);
@@ -103,13 +91,21 @@ void plot()
 	graph6->SetLineWidth(1);
 
     mg->Draw("aepl");
-    //graph6->Draw("ep");
-    //fit->Draw("same");
+   
 
-    mg->SetTitle("Dead Time");
+    gPad->SetLeftMargin(0.12);
+    gStyle->SetTitleY(0.975);
+    mg->SetTitle("Dead time analysis");
     mg->GetYaxis()->SetTitle("Lost events [%]");
     mg->GetXaxis()->SetTitle("Rate Scaler [Hz]");
-
+    mg->GetXaxis()->SetLabelOffset(0.01);
+    mg->GetXaxis()->SetLabelSize(0.035);
+    mg->GetXaxis()->SetTitleSize(0.04);
+    mg->GetXaxis()->SetTitleOffset(1.15);
+    mg->GetYaxis()->SetLabelOffset(0.008);
+    mg->GetYaxis()->SetLabelSize(0.04);
+    mg->GetYaxis()->SetTitleSize(0.04);
+    mg->GetYaxis()->SetTitleOffset(1.);
 
 
     auto legend = new TLegend(0.1,0.7,0.48,0.9);
@@ -123,17 +119,6 @@ void plot()
     legend->Draw("same");
 
 
-    //TCanvas* c = new TCanvas("c","Dead time - Lost events",1080,1020);
-    //TGraph *g = new TGraph(6, &x2[0], &loss[0]);
-    //gPad->SetLeftMargin(0.12);
-    //gStyle->SetOptStat(0000);
-    //gStyle->SetTitleY(0.975);
-    //g->GetXaxis()->SetTitle("Real rate [Hz]");
-    //g->GetYaxis()->SetTitle("Lost events [%]");
-    //g->SetMarkerColor(kRed);
-    //g->SetMarkerStyle(8);
-    //g->SetMarkerSize(1);
-    //g->Draw("APE4");
   
 
 }

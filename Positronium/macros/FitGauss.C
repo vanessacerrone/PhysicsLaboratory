@@ -9,7 +9,7 @@ double_t LinearFit(double_t *x, double_t *par)
 }
 
 
-void Analysis(const string file_na,short chan)
+void FitGauss(const string file_na,short chan)
 {
         /*  Reading histogram file from the Tree  */
     TH1F* h = getHistoForChannelFromTree(file_na.c_str(), chan,1026,0,16384);

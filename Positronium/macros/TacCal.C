@@ -81,39 +81,40 @@ void run_analysis() {
   gStyle->SetOptStat(0000);
   gStyle->SetTitleY(0.975);
   gr->SetMarkerStyle(8);
-  gr->SetMarkerSize(0.8);
+  gr->SetMarkerSize(1);
   gr->SetMarkerColor(kBlack);
   gr->SetTitle("TAC calibration fit");
 
-  gr->GetXaxis()->SetTitle("Delay [ns]");
+  gr->GetXaxis()->SetTitle("ADC counts");
   gr->GetXaxis()->SetLabelOffset(0.01);
   gr->GetXaxis()->SetLabelSize(0.04);
   gr->GetXaxis()->SetTitleSize(0.04);
   gr->GetXaxis()->SetTitleOffset(1.15);
   
-  gr->GetYaxis()->SetTitle("ADC counts");
+  gr->GetYaxis()->SetTitle("Delay [ns]");
   gr->GetYaxis()->SetLabelOffset(0.008);
   gr->GetYaxis()->SetLabelSize(0.04);
   gr->GetYaxis()->SetTitleSize(0.04);
-  gr->GetYaxis()->SetTitleOffset(1.6);
+  gr->GetYaxis()->SetTitleOffset(1.);
 
-  gr->GetYaxis()->SetRangeUser(-10, 50);
+  gr->GetYaxis()->SetRangeUser(-5, 50);
   gr->GetXaxis()->SetRangeUser(-40, 4000);
 
 
   TF1 *f1 = new TF1("f1",myfit,-5,4000,2);
   TFitResultPtr fit_result = gr->Fit(f1,"RS");
-  f1->SetLineWidth(3);
+  f1->SetLineWidth(1);
   f1->SetLineColor(kRed);
   fit_result->Print("V");
   gStyle->SetOptFit(0);   
 
   TLegend *l = new TLegend(0.15,0.7,0.4,0.87);
   l->AddEntry(gr,"Data points","p");
-  l->AddEntry(f1,"Function y = a + bx","l");    
+  l->AddEntry(f1,"Linear fit","l");    
   
-  gr->Draw("ap");
-  f1->Draw("l SAME");
+  
+  f1->Draw("l");
+  gr->Draw("ap same");
   l->Draw();
 
 }
