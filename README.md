@@ -8,6 +8,6 @@ Group members:
   
 List of experiences:
 
-- [ ] [Positronium](Positronium/)
+- [x] [Positronium](Positronium/)
 - [ ] [Gamma](Gamma/)
 - [ ] [Compton](Compton/)
