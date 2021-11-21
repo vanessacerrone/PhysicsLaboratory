@@ -1,9 +1,13 @@
 #include "gethisto.C"
 #include <vector>
 #include <fstream>
+#include "../../Compton/macros/RootStyle.cc"
+
 
 void plot(const string name_file) {
 	// variables
+
+    
 	slimport_data_t indata1,indata2,indata3,indata4;
 	TFile *infile = new TFile(name_file.c_str());
 	TTree *intree = (TTree*)infile->Get("acq_tree_0");
@@ -55,6 +59,8 @@ void plot(const string name_file) {
           }
         }
     }
+
+
 
    //gStyle->SetPalette(58);
     //gStyle->SetPalette(kColorPrintableOnGrey);
@@ -114,7 +120,7 @@ void plot(const string name_file) {
     l2->Draw("same");
 
 
-
+   
 
     TCanvas* c3 = new TCanvas("c3","D3",1080,1020);
     //c->cd(3);

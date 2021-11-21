@@ -7,6 +7,7 @@
 #include "TFile.h"
 #include "TStyle.h"
 #include "TLegend.h"
+#include "../../Compton/macros/RootStyle.cc"
 
 using namespace std;
 
@@ -36,7 +37,7 @@ vector<string> filelist = {
 
 
 void plot_tac() {
-
+  //set_root_style();
   int N_points = 8;
   Int_t palette[8] = {632,800,400,416,840,432,600,880};
 
@@ -69,7 +70,7 @@ void plot_tac() {
 
       if ( (h[i]->GetXaxis()->GetBinCenter(j) > thr_up) && h[i]->GetMaximumBin() < 5000) {
         h_new[i]->SetBinContent(j,h[i]->GetBinContent(j));
-        cout << h[i]->GetBinContent(j) << endl;
+        //cout << h[i]->GetBinContent(j) << endl;
 //
        }
 

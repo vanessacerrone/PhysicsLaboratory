@@ -1,6 +1,6 @@
 // Digitizer data from the LAB
 // Get data from ROOT files
-
+//#include "../../Compton/macros/RootStyle.cc"
 struct slimport_data_t {
 	ULong64_t	timetag; //time stamp
 	UInt_t		baseline;
@@ -29,6 +29,7 @@ TH1F* getHistoFromTree(const string name_file, int numBins, double minX, double 
 
 TH1F* getHistoForChannelFromTree(const string name_file, short chan, int numBins, double minX, double maxX) {
 	// variables
+	
 	slimport_data_t indata;
 	TFile *infile = new TFile(name_file.c_str());
 	TTree *intree = (TTree*)infile->Get("acq_tree_0");
