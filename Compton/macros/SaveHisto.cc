@@ -85,21 +85,21 @@ void save_histo(string infilename, string outfilename)
 
     Int_t nbins = 1000;
     Double_t xmin = 0;
-    Double_t xmax = 20000;
+    Double_t xmax = 40000;
 
 
 	// CH0 spectrum
-	TH1F *ch0_spectrum = new TH1F("ch0", "Channel 0 spectrum", nbins, xmin, xmax);
+	TH1F *ch0_spectrum = new TH1F("ch0", "Tagger spectrum", nbins, xmin, xmax);
 	ch0_spectrum->GetXaxis()->SetTitle("ADC counts");
 	ch0_spectrum->GetYaxis()->SetTitle("Counts");
 
 	// CH1 spectrum
-	TH1F *ch1_spectrum = new TH1F("ch1", "Channel 1 spectrum", nbins, xmin, xmax);
+	TH1F *ch1_spectrum = new TH1F("ch1", "Scatterer spectrum", nbins, xmin, xmax);
     ch1_spectrum->GetXaxis()->SetTitle("ADC counts");
 	ch1_spectrum->GetYaxis()->SetTitle("Counts");
 
 	// CH2 spectrum
-	TH1F *ch2_spectrum = new TH1F("ch2", "Channel 2 spectrum", nbins, xmin, xmax);
+	TH1F *ch2_spectrum = new TH1F("ch2", "Detector spectrum", nbins, xmin, xmax);
 	ch2_spectrum->GetXaxis()->SetTitle("ADC counts");
 	ch2_spectrum->GetYaxis()->SetTitle("Counts");
 
@@ -155,7 +155,7 @@ void save_histo(string infilename, string outfilename)
 	ch0_spectrum->Write();
 	ch1_spectrum->Write();
 	ch2_spectrum->Write();
-	ch3_spectrum->Write();
+	//ch3_spectrum->Write();
 
 	outfile->Close();
 

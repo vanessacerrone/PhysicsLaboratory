@@ -21,21 +21,20 @@ void FitGauss(const string infilename,short chan)
     TH1F* h1 = (TH1F*)h->Clone("h1");
 
     // Fitting the two gaussians 
-    TF1 *fit1 = new TF1("g1","gaus(0)+pol1(3)", 3900, 5300);
-    TF1 *fit2 = new TF1("g2", "gaus(0)+pol1(3)", 10450, 12000);
+    TF1 *fit1 = new TF1("g1","gaus(0)+pol1(3)", 19500, 21800);
+    TF1 *fit2 = new TF1("g2", "gaus(0)+pol1(3)", 22000, 24200);
     
 
 
     fit1->SetLineStyle(1);
 	fit1->SetLineWidth(3);
-	fit1->SetParameter(1, 4500);
-    fit1->SetParameters(1.25804e+04,4500+03,1.05104e+02, 450.217,-0.0488353); //for D1,D2,D3
+    fit1->SetParameters(1500,20500,500, 450.217,-0.0488353); //for D1,D2,D3
     //fit1->SetParameters(1.25784e+04,2.99596e+03,1.05122e+02, 450.217,-0.0488353); //forD4
 
     fit2->SetLineStyle(1);
 	fit2->SetLineWidth(3);
     fit2->SetLineColor(kTeal+2);
-	fit2->SetParameters(2.72700e+03,11000,1.96384e+02, 450.217,-0.0488353); //for D1,D2,D3
+	fit2->SetParameters(2.72700e+03,23500,1.96384e+02, 450.217,-0.0488353); //for D1,D2,D3
     //fit2->SetParameters(2.62637e+03,7.19168e+03,2.07706e+02, 450.217,-0.0488353); //for D4
 
     h->Fit(fit1,"R");
@@ -66,12 +65,12 @@ void FitGauss(const string infilename,short chan)
     double_t x[2],y[2];
     x[0] = mean_1;
     x[1] = mean_2;
-    y[0] = 511;
-    y[1] = 1275;
+    y[0] = 1173.228;
+    y[1] = 1332.492;
    
 
     // Setting fit info and drawing options
-    TF1 *f1 = new TF1("f1", LinearFit, 0, 30000, 2);
+    TF1 *f1 = new TF1("f1", LinearFit, 10000, 40000, 2);
     TGraph *g = new TGraph(2,x,y);
     g->SetMarkerStyle(8);
     g->SetMarkerSize(1.2);
@@ -83,7 +82,7 @@ void FitGauss(const string infilename,short chan)
     f1->SetParNames("a", "b");
 
     g->Fit(f1,"R");
-    double a= f1->GetParameter(0);
+    double a = f1->GetParameter(0);
     double b = f1->GetParameter(1);
     TCanvas* c2 = new TCanvas("c2","Linear Fit for calibration",1080,1020);
     TMultiGraph* mg = new TMultiGraph();
@@ -102,8 +101,8 @@ void FitGauss(const string infilename,short chan)
     gPad->SetLeftMargin(0.12);
 
    // Re-fitting
-    TF1 *fit3 = new TF1("fit3","gaus(0)+pol1(3)",450,600);
-    TF1 *fit4 = new TF1("fit4","gaus(0)+pol1(3)",1200,1410);
+    TF1 *fit3 = new TF1("fit3","gaus(0)+pol1(3)",1050,1250);
+    TF1 *fit4 = new TF1("fit4","gaus(0)+pol1(3)",1260,1400);
 
 
 
@@ -113,13 +112,13 @@ void FitGauss(const string infilename,short chan)
 
     fit3->SetLineStyle(1);
 	fit3->SetLineWidth(1);
-	fit3->SetParameter(1, 511);
-    fit3->SetParameters(6260,511,17, 450.217,-0.0488353);
+	fit3->SetParameter(1, 1173);
+    fit3->SetParameters(6260,1100,17, 450.217,-0.0488353);
 
     fit4->SetLineStyle(1);
 	fit4->SetLineWidth(1);
     fit4->SetLineColor(kTeal+2);
-    fit4->SetParameter(1, 1275);
+    fit4->SetParameter(1, 1332);
 	fit4->SetParameters(1030,1300,30, 450.217,-0.0488353);
     h1->Fit(fit3,"R");
     h1->Fit(fit4,"R+");
@@ -144,7 +143,7 @@ void FitGauss(const string infilename,short chan)
     
     h1->GetXaxis()->SetTitle("Energy [keV]");
     h1->GetYaxis()->SetTitle("Counts");
-    h1->GetXaxis()->SetRangeUser(0, 1600);
+    h1->GetXaxis()->SetRangeUser(0, 2000);
     h1->GetYaxis()->SetRangeUser(0, 6000);
    
     h1->Draw();
