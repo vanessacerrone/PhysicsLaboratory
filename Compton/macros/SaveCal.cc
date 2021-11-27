@@ -23,8 +23,9 @@ void save_cal(string filename, int chan, string outfilename)
 
   Int_t nbins;
 
-  Double_t a[4] = {-17.7045,-21.7267,-22.9221,-0.0201002};
-  Double_t b[4] = {0.115652 ,0.114383,0.110317,0.0116122};
+
+  Double_t a[4] = {-9.6562,-21.7267,-22.9221,-0.0201002};
+  Double_t b[4] = { 0.0640172 ,0.114383,0.110317,0.0116122};
 
   if(chan == 0)
   {

@@ -37,7 +37,10 @@
         "iosfwd": "cpp",
         "iterator": "cpp",
         "algorithm": "cpp",
-        "teast.C": "cpp"
+        "teast.C": "cpp",
+        "LinFit.C": "cpp",
+        "string": "cpp",
+        "filesystem": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

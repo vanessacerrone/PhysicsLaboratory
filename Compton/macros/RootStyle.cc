@@ -20,8 +20,8 @@ void set_root_style(int n)
   gStyle->SetCanvasColor(0);
   gStyle->SetCanvasBorderSize(0);
   gStyle->SetCanvasBorderMode(0);
-  gStyle->SetCanvasDefH(1020); // Height of canvas
-  gStyle->SetCanvasDefW(1080); // Width of canvas
+  gStyle->SetCanvasDefH(900); // Height of canvas
+  gStyle->SetCanvasDefW(900); // Width of canvas
  
   
   // Pads
@@ -30,13 +30,14 @@ void set_root_style(int n)
   gStyle->SetPadBorderMode(0);
   gStyle->SetPadBottomMargin(0.1);
   gStyle->SetPadTopMargin(0.1);
-  gStyle->SetPadLeftMargin(0.1);
-  gStyle->SetPadRightMargin(0.1);
+  gStyle->SetPadLeftMargin(0.11);
+  gStyle->SetPadRightMargin(0.11);
   gStyle->SetPadGridX(0);
   gStyle->SetPadGridY(0);
   gStyle->SetPadTickX(0);
   gStyle->SetPadTickY(0);
   gStyle->SetTitleY(0.97);
+  
 
   
   // Histograms
@@ -48,7 +49,7 @@ void set_root_style(int n)
  
   else {   
       gStyle->SetHistFillColor(kAzure-9);
-      gStyle->SetHistLineColor(kBlack);
+      gStyle->SetHistLineColor(kBlue+2);
 
     }
 
@@ -72,9 +73,10 @@ void set_root_style(int n)
   gStyle->SetNdivisions(510,"XY");
 
   gStyle->SetTitleOffset(1.15,"X");
-  gStyle->SetTitleOffset(1.3,"Y");
+  gStyle->SetTitleOffset(1.2,"Y");
   gStyle->SetTitleOffset(1,"Z");
   
+
   gStyle->SetLabelOffset(0.01,"X");
   gStyle->SetLabelOffset(0.008,"Y");
   gStyle->SetLabelOffset(0.015,"Z");
