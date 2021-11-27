@@ -40,7 +40,8 @@
         "teast.C": "cpp",
         "LinFit.C": "cpp",
         "string": "cpp",
-        "filesystem": "cpp"
+        "filesystem": "cpp",
+        "angular.C": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

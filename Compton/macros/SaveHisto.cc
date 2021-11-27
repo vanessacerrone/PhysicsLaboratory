@@ -77,11 +77,6 @@ void save_histo(string infilename, string outfilename)
 	ULong64_t n_events_ch2 = inbranch_2->GetEntries();
 	ULong64_t n_events_ch3 = inbranch_3->GetEntries();
 
-	//ULong64_t n_events_ch0 = 500;
-	//ULong64_t n_events_ch1 = 500;
-	//ULong64_t n_events_ch2 = 500;
-	//ULong64_t n_events_ch3 = 500;
-
 	ULong64_t counter_ch0 = 0;
 	ULong64_t counter_ch1 = 0;
 	ULong64_t counter_ch2 = 0;
