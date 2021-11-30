@@ -35,18 +35,18 @@ void substract(string dataFileName, string bgFileName, short chan)
     //different calibrations according to the parameters
     if (chan == 0)
     {
-        a = -7;
-        b = 0.0631;
+        a = -6.59056;
+        b = 0.063135;
     }
     else if (chan == 1)
     {
-        a = -7;
-        b = 0.0547;
+        a = -7.25507;
+        b = 0.0547132;
     }
     else 
     {
-        a = -11;
-        b = 0.0607;
+        a = -10.8547;
+        b = 0.0607387;
     }
 
     //calibrating x-axis for data spectrum
@@ -85,3 +85,13 @@ void substract(string dataFileName, string bgFileName, short chan)
 
     
 }
+
+/*
+                        Fit result of gaussian
+    1  p0           1.24373e+02   6.76003e+00   2.15600e-02  -3.16930e-05
+    2  p1           2.07696e+02   9.56076e-01   4.09354e-03  -7.93442e-04
+    3  p2          -1.99514e+01   1.65372e+00   3.08414e-03   2.52045e-04
+    4  p3           1.28123e+02   1.69099e+01   1.08323e-02  -8.55828e-05
+    5  p4          -4.87374e-01   8.42461e-02   5.13017e-05  -2.47612e-02
+
+*/
