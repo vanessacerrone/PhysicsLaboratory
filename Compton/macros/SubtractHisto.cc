@@ -113,8 +113,22 @@ void subtract(string dataFileName, string bgFileName, short chan)
     pt->SetBorderSize(0);
     pt->Draw("same");
     
+<<<<<<< HEAD:Compton/macros/SubtractHisto.cc
     // rende il titolo della finestra colorato
     TText *t = pt->GetLineWith("3835");
     t->SetTextColor(kBlue);
  
 }
+=======
+}
+
+/*
+                        Fit result of gaussian
+    1  p0           1.24373e+02   6.76003e+00   2.15600e-02  -3.16930e-05
+    2  p1           2.07696e+02   9.56076e-01   4.09354e-03  -7.93442e-04
+    3  p2          -1.99514e+01   1.65372e+00   3.08414e-03   2.52045e-04
+    4  p3           1.28123e+02   1.69099e+01   1.08323e-02  -8.55828e-05
+    5  p4          -4.87374e-01   8.42461e-02   5.13017e-05  -2.47612e-02
+
+*/
+>>>>>>> de14cf89398aaa03efb70f188d8d6c2f451998ea:Compton/macros/SubstractHisto.cc
