@@ -21,7 +21,6 @@ void fit() {
 
 	// Define a function which fits the points
 
-
 	gr->Draw("ALP");
     TF1 *f1 = new TF1("f1",LinearFit,7000,30000,2);
     TFitResultPtr fit_result = gr->Fit(f1,"RS");

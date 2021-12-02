@@ -41,7 +41,25 @@
         "LinFit.C": "cpp",
         "string": "cpp",
         "filesystem": "cpp",
-        "angular.C": "cpp"
+        "angular.C": "cpp",
+        "correlation.C": "cpp",
+        "correlation_test.C": "cpp",
+        "gStyle.C": "cpp",
+        "day2analysis.C": "cpp",
+        "utils.C": "cpp",
+        "new": "cpp",
+        "f511.C": "cpp",
+        "random": "cpp",
+        "resolution.C": "cpp",
+        "chrono": "cpp",
+        "limits": "cpp",
+        "ratio": "cpp",
+        "semaphore": "cpp",
+        "valarray": "cpp",
+        "aluminium.C": "cpp",
+        "correlation2.C": "cpp",
+        "correlation1.C": "cpp",
+        "tagger.C": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

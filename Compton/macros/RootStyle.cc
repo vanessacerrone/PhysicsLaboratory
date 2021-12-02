@@ -49,31 +49,31 @@ void set_root_style(int n)
  
   else {   
       gStyle->SetHistFillColor(kAzure-9);
-      gStyle->SetHistLineColor(kBlue+2);
-
+      gStyle->SetHistLineColor(kBlack);
+      gStyle->SetHistLineWidth(1);
     }
 
   gStyle->SetHistLineStyle(1);
   gStyle->SetHistLineWidth(1);
-  gStyle->SetEndErrorSize(0);
+
   
   // 2D histo
   gStyle->SetNumberContours(70);
   gStyle->SetPalette(57);
   
   // Markers
-  gStyle->SetMarkerStyle(8); 
-  gStyle->SetMarkerSize(1);
+  //gStyle->SetMarkerStyle(8); 
+  //gStyle->SetMarkerSize(1);
   
   // Various
   gStyle->SetTickLength(0.02,"xy");    
   gStyle->SetTitleSize(0.04,"XYZ");
   gStyle->SetTitleFont(42,"XYZ");
   gStyle->SetLabelFont(42,"XYZ");
-  gStyle->SetNdivisions(510,"XY");
+  gStyle->SetNdivisions(509,"XY");
 
   gStyle->SetTitleOffset(1.15,"X");
-  gStyle->SetTitleOffset(1.2,"Y");
+  gStyle->SetTitleOffset(1.4,"Y");
   gStyle->SetTitleOffset(1,"Z");
   
 
