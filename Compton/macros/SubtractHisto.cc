@@ -107,20 +107,21 @@ void subtract(string dataFileName, string bgFileName, short chan)
     std::cout << "counts under peak: " << counts << std::endl;
 
     TPaveText *pt = new TPaveText(0.1,0.1,0.2,0.2,"blNDC");
-    pt->AddText("N_{511} = 3835");
+    pt->AddText("N_{peak} = 3835");
+    pt->AddText("#mu = (208 #pm 1) keV");
     pt->SetFillColor(0);
     pt->SetTextAlign(22);
     pt->SetBorderSize(0);
     pt->Draw("same");
     
-<<<<<<< HEAD:Compton/macros/SubtractHisto.cc
     // rende il titolo della finestra colorato
     TText *t = pt->GetLineWith("3835");
     t->SetTextColor(kBlue);
+    TText *t2 = pt->GetLineWith("keV");
+    t2->SetTextColor(kBlue);
  
 }
-=======
-}
+
 
 /*
                         Fit result of gaussian
@@ -131,4 +132,3 @@ void subtract(string dataFileName, string bgFileName, short chan)
     5  p4          -4.87374e-01   8.42461e-02   5.13017e-05  -2.47612e-02
 
 */
->>>>>>> de14cf89398aaa03efb70f188d8d6c2f451998ea:Compton/macros/SubstractHisto.cc
