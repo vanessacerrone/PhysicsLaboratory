@@ -9,30 +9,83 @@ double_t LinearFit(double_t *x, double_t *par)
 }
 
 
-void fit() {
+void fit(const string filename) {
     set_root_style(1);
+    TCanvas *c = new TCanvas("c", "c", 800, 600);
 
-    //double x[4] = {8.13486e+03,1.96613e+04,2.00570e+04,2.21480e+04};  // tagger
-    double x[4] = {9.30445e+03,2.21039e+04,2.29508e+04,2.48324e+04};    // scatterer
-    double y[4] = {511,1173.228,1274.537,1332.492};
-	double erry[4] = {0,0.007,0.003,0.004};
+    TPad* upperPad = new TPad("lowerPad", "lowerPad",0,0.3,1,1);
+    TPad* lowerPad = new TPad("upperPad", "upperPad", 0,0,1,0.3);
+    upperPad->SetBottomMargin(0);
+    lowerPad->SetTopMargin(0);
+    upperPad->Draw(); 			       
+    lowerPad->Draw(); 
 
-	TGraphErrors *gr = new TGraphErrors(4,x,y,0,erry);
+    upperPad->cd();
+	TGraphErrors *gr = new TGraphErrors(filename.c_str());
 
-	// Define a function which fits the points
-
-	gr->Draw("ALP");
-    TF1 *f1 = new TF1("f1",LinearFit,7000,30000,2);
+    gr->GetXaxis()->SetTitle("1 - cos(#theta)");
+    gr->GetYaxis()->SetTitle("1/E_{f} [keV^{-1}]");
+    //gr->GetYaxis()->SetRangeUser(0,0.002);
+    gr->SetTitle("");
+    gr->SetMarkerColor(kBlack);
+    gr->GetYaxis()->SetMaxDigits(4);
+	gr->Draw("ap");
+    TF1 *f1 = new TF1("f1",LinearFit,0,1.1,2);
+    f1->SetParameters(0.0019569472,0.0019569472);
     TFitResultPtr fit_result = gr->Fit(f1,"RS");
+    
     f1->SetLineWidth(1);
     f1->SetLineColor(kRed);
+    f1->Draw("same");
     fit_result->Print("V");
 
 	// Get the parameters
 	double m = f1->GetParameter(1);
+    double em = f1->GetParError(1);
+    double eq = f1->GetParError(1);
 	double q = f1->GetParameter(0);
-
+    double err = 1/(m*m) * em;
+    double errq = 1/(q*q) * eq;
 	cout << "Slope = " << m << ", Intercept = " << q << endl;
+    cout << 1/m << "pm" << err <<endl;
+    cout << 1/q << "pm" << errq <<endl;
 
+
+    TPaveText *pt = new TPaveText(0.1,0.1,0.2,0.2,"blNDC");
+    pt->AddText("m = (1791 #pm 8) 10^{-6} keV^{-1}");
+    pt->AddText("q = (1927 #pm 6) 10^{-6} keV^{-1}");
+    pt->AddText("#chi^{(2)}/ ndof = 1.9/3");
+    pt->SetFillColor(0);
+    pt->SetBorderSize(0);
+    pt->Draw("same");
+
+
+    // calculates residuals
+    TGraphErrors *gr2 = new TGraphErrors(filename.c_str());
+    for (int i=0; i<gr->GetN(); i++) {
+      double res = gr->GetY()[i] - f1->Eval(gr->GetX()[i]); // residual
+      gr2->SetPoint(i,gr->GetX()[i],res);
+      double eresy = gr->GetEY()[i];
+      gr2->SetPointError(i,0,eresy);
+    }
+    
+    lowerPad->cd();
+    
+    gr2->SetTitle("");
+    gr2->SetMarkerColor(kBlack);
+    gr2->SetMarkerStyle(8);
+    gr2->SetMarkerSize(0.7);
+    gr2->SetLineWidth(1);
+    gr2->GetXaxis()->SetTitle("1 - cos(#theta)");
+    gr2->GetYaxis()->SetTitle("y-y_{th} [kev^{-1}]");
+    gr2->Draw("ap");
+    gr2->GetYaxis()->SetRangeUser(-0.000025,0.000022);
+        
+    // linea di zero per i residui
+    TLine *line = new TLine(0, 0, 1.1, 0);
+    line->SetLineStyle(2);
+    line->SetLineColor(kBlack);
+    line->Draw("same");
+    
 }
 
