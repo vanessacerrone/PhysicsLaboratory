@@ -62,8 +62,8 @@ void set_root_style(int n)
   gStyle->SetPalette(57);
   
   // Markers
-  //gStyle->SetMarkerStyle(8); 
-  //gStyle->SetMarkerSize(1);
+  gStyle->SetMarkerStyle(20); 
+  gStyle->SetMarkerSize(0.8);
   
   // Various
   gStyle->SetTickLength(0.02,"xy");    

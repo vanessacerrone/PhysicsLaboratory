@@ -9,7 +9,6 @@ double_t myFit(double_t *x, double_t *par)
   return fitval;
 }
 
-
 void plot(string filename )
 {
   set_root_style(1);
