@@ -9,5 +9,5 @@ Group members:
 List of experiences:
 
 - [x] [Positronium](Positronium/)
+- [x] [Compton](Compton/)
 - [ ] [Gamma](Gamma/)
-- [ ] [Compton](Compton/)
