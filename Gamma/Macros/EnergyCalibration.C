@@ -16,22 +16,22 @@ void FitGauss(const string file_na,short chan)
     TH1F* h1 = (TH1F*)h->Clone("h1");
 
                 /* -- Fitting the two gaussians  -- */
-    TF1 *fit1 = new TF1("g1","gaus(0)+pol1(3)", 3900, 5300);
-    TF1 *fit2 = new TF1("g2", "gaus(0)+pol1(3)", 10450, 12000);
+    TF1 *fit1 = new TF1("g1","gaus(0)+pol1(3)", 5600, 6400);
+    TF1 *fit2 = new TF1("g2", "gaus(0)+pol1(3)", 14000, 15200);
     //TF1* total= new TF1("fitTotal","gaus(0=+gaus(3)",4450,12000);
 
 
     fit1->SetLineStyle(1);
 	fit1->SetLineWidth(3);
-	fit1->SetParameter(1, 4500);
+	//fit1->SetParameter(1, 4500);
     //fit1->SetParameters(1.25804e+04,4500+03,1.05104e+02, 450.217,-0.0488353); //for D1,D2,D3
-    fit1->SetParameters(1.25784e+04,2.99596e+03,1.05122e+02, 450.217,-0.0488353); //forD4
+    fit1->SetParameters(  5.58132e+03,6.02970e+03,1.88145e+02, 450.217,-0.0488353); //forD4
 
     fit2->SetLineStyle(1);
 	fit2->SetLineWidth(3);
     fit2->SetLineColor(kTeal+2);
 	//fit2->SetParameters(2.72700e+03,11000,1.96384e+02, 450.217,-0.0488353); //for D1,D2,D3
-    fit2->SetParameters(2.62637e+03,7.19168e+03,2.07706e+02, 450.217,-0.0488353); //for D4
+    fit2->SetParameters( 8.78377e+02, 1.45831e+04, 3.04099e+02 , 450.217,-0.0488353); //for D4
 
     h->Fit(fit1,"R");
     h->Fit(fit2,"R+");
@@ -74,7 +74,7 @@ void FitGauss(const string file_na,short chan)
     y[0]=511;
     y[1]=1275;
     //setting most visible peak values for Eu-152
-    vector<double> peaks{121.7817, 244.6974, 344.2785, 411.1165, 443.965, 778.9045, 867.380};
+    vector <double> peaks{121.7817, 244.6974, 344.2785, 411.1165, 443.965, 778.9045, 867.380};
    
 
                         /* -- Setting fit info and drawing options-- */    

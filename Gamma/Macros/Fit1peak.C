@@ -12,15 +12,17 @@ double_t LinearFit(double_t *x, double_t *par)
 void gaussianfit(const string file_na,short chan)
 {
     /* -- Reading histogram file from the Tree -- */
-    TH1F* h = getHistoForChannelFromTree(file_na.c_str(),chan,1026,0,16384);
+    TFile *infile = new TFile(file_na.c_str());
+    TH1F *h = (TH1F*)infile->Get(Form("ch%i",chan));
+
     TH1F* h1 = (TH1F*)h->Clone("h1");
 
     /* -- Fitting the two gaussians  -- */
-    TF1 *fit1 = new TF1("g1","gaus(0)+pol1(3)", 4000, 5300);
+    TF1 *fit1 = new TF1("g1","gaus(0)+pol1(3)", 730, 900);
     
     fit1->SetLineStyle(1);
 	fit1->SetLineWidth(2);
-    fit1->SetParameters(4780,4761,150, 450.217,-9.31430e-02);
+    fit1->SetParameters(5.38578e+04,7.79164e+02,3.73645e+01, 450.217,-9.31430e-02);
 
     h->Fit(fit1,"R");
    
