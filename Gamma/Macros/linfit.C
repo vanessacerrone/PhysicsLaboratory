@@ -23,19 +23,20 @@ void fit(const string filename) {
     upperPad->cd();
 	TGraphErrors *gr = new TGraphErrors(filename.c_str());
 
-    gr->GetXaxis()->SetTitle("1 - cos(#theta)");
-    gr->GetYaxis()->SetTitle("1/E_{f} [keV^{-1}]");
+    gr->GetXaxis()->SetTitle("E [ADC counts]");
+    gr->GetYaxis()->SetTitle("E [keV]");
+    gr->GetXaxis()->SetRangeUser(100,20000);
     //gr->GetYaxis()->SetRangeUser(0,0.002);
     gr->SetTitle("");
     gr->SetMarkerColor(kBlack);
     gr->GetYaxis()->SetMaxDigits(4);
-	gr->Draw("ap");
     TF1 *f1 = new TF1("f1",LinearFit,300,20000,2);
-    //f1->SetParameters(0.0019569472,0.0019569472);
+
     TFitResultPtr fit_result = gr->Fit(f1,"RS");
     
     f1->SetLineWidth(1);
     f1->SetLineColor(kRed);
+    gr->Draw("ap");
     f1->Draw("same");
     fit_result->Print("V");
 
@@ -44,11 +45,8 @@ void fit(const string filename) {
     double em = f1->GetParError(1);
     double eq = f1->GetParError(1);
 	double q = f1->GetParameter(0);
-    double err = 1/(m*m) * em;
-    double errq = 1/(q*q) * eq;
+   
 	cout << "Slope = " << m << ", Intercept = " << q << endl;
-    cout << 1/m << "pm" << err <<endl;
-    cout << 1/q << "pm" << errq <<endl;
 
 
     TPaveText *pt = new TPaveText(0.1,0.1,0.2,0.2,"blNDC");
@@ -76,13 +74,13 @@ void fit(const string filename) {
     gr2->SetMarkerStyle(8);
     gr2->SetMarkerSize(0.7);
     gr2->SetLineWidth(1);
-    gr2->GetXaxis()->SetTitle("1 - cos(#theta)");
-    gr2->GetYaxis()->SetTitle("y-y_{th} [kev^{-1}]");
+    gr2->GetXaxis()->SetTitle("E [ADC counts]");
+    gr2->GetYaxis()->SetTitle("E [keV]");
     gr2->Draw("ap");
-    //gr2->GetYaxis()->SetRangeUser(-0.000025,0.000022);
+    gr2->GetYaxis()->SetRangeUser(-0.8,0.8);
         
     // linea di zero per i residui
-    TLine *line = new TLine(0, 0, 1.1, 0);
+    TLine *line = new TLine(300, 0, 20000, 0);
     line->SetLineStyle(2);
     line->SetLineColor(kBlack);
     line->Draw("same");
