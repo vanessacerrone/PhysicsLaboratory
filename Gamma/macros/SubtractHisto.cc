@@ -30,7 +30,7 @@ void subtract(string dataFileName, string bgFileName, short chan, string outfile
         hbgConverted->SetBinContent(i, temp);
     }
 
-    //set calibration function parameters
+    // set calibration function parameters
     double a;
     double b;
 
@@ -68,9 +68,9 @@ void subtract(string dataFileName, string bgFileName, short chan, string outfile
     hdata->GetYaxis()->SetTitle(Form("Counts/%0.1f keV",w));
     hdata->SetStats(kFALSE);
     hdata->SetTitle("Background subtracted spectrum");
-    hdata->GetYaxis()->SetTitleOffset(1.4);
+    hdata->GetYaxis()->SetMaxDigits(3);
     hdata->Draw();
-    hdata->Draw();
+
 
   
     //saving outfile

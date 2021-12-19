@@ -49,7 +49,7 @@ void set_root_style(int n)
  
   else {   
       gStyle->SetHistFillColor(kAzure-9);
-      gStyle->SetHistLineColor(kBlack);
+      gStyle->SetHistLineColor(kBlue+2);
       gStyle->SetHistLineWidth(1);
     }
 
