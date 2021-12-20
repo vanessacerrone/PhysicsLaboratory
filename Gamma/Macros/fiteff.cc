@@ -40,7 +40,7 @@ void eff() {
   TCanvas * c1 = new TCanvas("c1", "efficiency curve ", 27, 50, 1020, 760);
 
   //this will be used for the fit
-  TGraphErrors *g = new TGraphErrors("effHPGe.txt");
+  TGraphErrors *g = new TGraphErrors("efficiency.txt");
   
 
 
