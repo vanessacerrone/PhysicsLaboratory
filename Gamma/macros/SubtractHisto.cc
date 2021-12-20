@@ -60,10 +60,11 @@ void subtract(string dataFileName, string bgFileName, short chan, string outfile
     //subtracting bin-to-bin the histogram of bg from the data one
     hdata->Add(hbgConverted, -1.);
     //hdata->GetYaxis()->SetRangeUser(0, 201);
-    hdata->GetXaxis()->SetRangeUser(0, 600);
+    hdata->GetXaxis()->SetRangeUser(5, 2200);
 
     float w;
     w = hdata->GetXaxis()->GetBinWidth(0);
+    hdata->SetMinimum(0);
     hdata->GetXaxis()->SetTitle("Energy [keV]");
     hdata->GetYaxis()->SetTitle(Form("Counts/%0.1f keV",w));
     hdata->SetStats(kFALSE);
