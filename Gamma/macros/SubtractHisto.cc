@@ -16,7 +16,7 @@ void subtract(string dataFileName, string bgFileName, short chan, string outfile
     TFile *dataFile = new TFile(dataFileName.c_str());
     TH1F *hdata = (TH1F*)dataFile->Get(Form("ch%i",chan));
     //background
-    double conversion_factor_BG = (20)/20;
+    double conversion_factor_BG = (30.)/20;
     TFile *bgFile = new TFile(bgFileName.c_str());
     TH1F *hbg = (TH1F*)bgFile->Get(Form("ch%i",chan));
 
