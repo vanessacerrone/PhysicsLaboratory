@@ -18,7 +18,7 @@ Nothing - just noise
 
 1) NaI 
 
-- peak at 77 kev Pb214
+- peak at 77 kev Pb214 (X ray)
 
    1  p0           5.87994e+01   5.99194e+00   1.48977e-02   7.30919e-05
    2  p1           8.03186e+01   1.13479e+00   3.40334e-03   4.16818e-04
@@ -30,7 +30,7 @@ counts under peak 1: 860.3
 
 --------------
 
-- peak at 242 kev Bi214
+- peak at 241.997 keV Pb214
 
    1  p0           3.97667e+02   2.31758e+01   7.03154e-04   1.58656e-04
    2  p1           2.62886e+02   1.75945e+00   6.26769e-05  -2.92483e-03
@@ -81,3 +81,58 @@ Impossible to fit but visible
 
 area under peak 1: 175.77
 counts under peak 1: 141.585
+
+
+----- Zirconium Oxide ( see txt files )-----
+
+1) NaI
+
+Peak #0 @ energy 79.232 -> peak at 77.1088 keV Pb214 (X ray)
+Peak #1 @ energy 158.221 NO
+Peak #2 @ energy 192.45 -> peak at 196.20 keV Pb214
+Peak #3 @ energy 245.109 -> peak at 241.997 keV Pb214 *
+Peak #4 @ energy 299.434 -> peak at 295.224 keV Pb214 or at 304.2 Bi214 *
+Peak #5 @ energy 360.96  -> peak at 351.932 keV Pb214 *
+Peak #6 @ energy 518.939 NO
+Peak #7 @ energy 621.625  -> peak at 609.312 keV Bi214 *
+Peak #8 @ energy 782.236  -> peak at 785.96 keV Pb214
+Peak #9 @ energy 927.05 NO 
+Peak #10 @ energy 942.847  -> peak at 934.061 keV Bi214
+Peak #11 @ energy 987.608 NO
+Peak #12 @ energy 1127.16  -> peak at 1120.287 keV Bi214 *
+Peak #13 @ energy 1240.37 -> peak at 1238.111 keV Bi214 *
+Peak #14 @ energy 1387.82 -> peak at 1377.669 keV Bi214 *
+Peak #15 @ energy 1751.17 -> peak at 1764.494 keV Bi214 *
+Peak #16 @ energy 2390.98 NO 
+
+2)HPGe
+
+Peak #0 @ energy 6.06916
+Peak #1 @ energy 52.3259
+Peak #2 @ energy 76.3794
+Peak #3 @ energy 91.1816
+Peak #4 @ energy 113.385
+Peak #5 @ energy 130.037
+Peak #6 @ energy 155.941
+Peak #7 @ energy 187.396
+Peak #8 @ energy 207.749
+Peak #9 @ energy 241.053
+Peak #10 @ energy 270.658
+Peak #11 @ energy 296.562
+Peak #12 @ energy 352.07
+Peak #13 @ energy 463.086
+Peak #14 @ energy 511.193
+Peak #15 @ energy 583.353
+Peak #16 @ energy 609.257
+Peak #17 @ energy 664.765
+Peak #18 @ energy 766.53
+Peak #19 @ energy 785.033
+Peak #20 @ energy 909.001
+Peak #21 @ energy 933.054
+Peak #22 @ energy 966.359
+Peak #23 @ energy 1118.08
+Peak #24 @ energy 1153.24
+Peak #25 @ energy 1234.65
+Peak #26 @ energy 1375.27
+Peak #27 @ energy 1724.97
+Peak #28 @ energy 1760.13

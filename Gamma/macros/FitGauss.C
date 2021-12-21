@@ -21,21 +21,21 @@ void FitGauss(const string infilename,short chan)
     TH1F* h1 = (TH1F*)h->Clone("h1");
 
     // Fitting the two gaussians 
-    TF1 *fit1 = new TF1("g1","gaus(0)+pol1(3)", 7500, 9200);
-    TF1 *fit2 = new TF1("g2", "gaus(0)+pol1(3)", 19000, 21800);
+    TF1 *fit1 = new TF1("g1","gaus(0)+pol1(3)", 3390, 3473);
+    TF1 *fit2 = new TF1("g2", "gaus(0)+pol1(3)", 8530, 8600);
     //TF1 *fit_a = new TF1("ga", "gaus(0)+pol1(3)", 700, 1400);
     
 
 
     fit1->SetLineStyle(1);
 	fit1->SetLineWidth(3);
-    fit1->SetParameters(1500,9200,500, 450.217,-0.0488353); //for D1,D2,D3
+    fit1->SetParameters(1500,3430,1.09168e+01, 450.217,-0.0488353); //for D1,D2,D3
     //fit1->SetParameters(1.25784e+04,2.99596e+03,1.05122e+02, 450.217,-0.0488353); //forD4
 
     fit2->SetLineStyle(1);
 	fit2->SetLineWidth(3);
     fit2->SetLineColor(kViolet);
-	fit2->SetParameters(2.72700e+03,20000,1.96384e+02, 450.217,-0.0488353); //for D1,D2,D3
+	fit2->SetParameters(2.72700e+03,8560,10, 450.217,-0.0488353); //for D1,D2,D3
     //fit2->SetParameters(2.62637e+03,7.19168e+03,2.07706e+02, 450.217,-0.0488353); //for D4
 
     //fit_a->SetLineStyle(1);
@@ -83,7 +83,7 @@ void FitGauss(const string infilename,short chan)
    
 
     // Setting fit info and drawing options
-    TF1 *f1 = new TF1("f1", LinearFit, 0, 30000, 2);
+    TF1 *f1 = new TF1("f1", LinearFit, 0, 20000, 2);
     TGraph *g = new TGraph(2,x,y);
     g->SetMarkerStyle(8);
     g->SetMarkerSize(1.2);
@@ -113,9 +113,9 @@ void FitGauss(const string infilename,short chan)
     TCanvas* c3 = new TCanvas("c3","Plot of calibrated spectra",900,900);
     gPad->SetLeftMargin(0.12);
 
-   // Re-fitting
-    TF1 *fit3 = new TF1("fit3","gaus(0)+pol1(3)",460,560);
-    TF1 *fit4 = new TF1("fit4","gaus(0)+pol1(3)",1200,1340);
+   // Re-fittin2
+    TF1 *fit3 = new TF1("fit3","gaus(0)+pol1(3)",500,530);
+    TF1 *fit4 = new TF1("fit4","gaus(0)+pol1(3)",1260,1300);
     //TF1 *fit5 = new TF1("fit5","gaus(0)+pol1(3)",40,83);
 
            
@@ -132,8 +132,8 @@ void FitGauss(const string infilename,short chan)
     fit4->SetLineStyle(1);
 	fit4->SetLineWidth(2);
     fit4->SetLineColor(kViolet);
-    fit4->SetParameter(1, 1332);
-	fit4->SetParameters(1030,1275,30, 450.217,-0.0488353);
+    fit4->SetParameter(1, 1275);
+	fit4->SetParameters(1030,1275,4, 450.217,-0.0488353);
 
     //fit5->SetLineStyle(1);
 	//fit5->SetLineWidth(2);
@@ -174,8 +174,9 @@ void FitGauss(const string infilename,short chan)
 
     h1->GetXaxis()->SetTitle("Energy [keV]");
     h1->GetYaxis()->SetTitle(Form("Counts/%0.1f keV",w));
+    h1->SetTitle("^{22}Na - HPGe detector");
     h1->GetXaxis()->SetRangeUser(0, 1500);
-    h1->GetYaxis()->SetRangeUser(0, 58000);
+    h1->GetYaxis()->SetRangeUser(0, 20000);
     h1->GetYaxis()->SetMaxDigits(4);
    
     h1->Draw();
