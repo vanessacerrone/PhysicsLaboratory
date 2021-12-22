@@ -55,13 +55,13 @@ void eff() {
 
   TF1 *f1 = new TF1("f1", fit_hurtado, 40, 1700, 7);
   
-  f1->SetParameter(0,-1);
-  f1->SetParameter(1,-2.83);
-  f1->SetParameter(2,-6.4e-1);
-  f1->SetParameter(3,-2.23e2);
-  f1->SetParameter(4,-1.7);
-  f1->SetParameter(5,-3.34e-2);
-  f1->SetParameter(6,-2.41e-1);
+  f1->SetParameter(0,-0.5);
+  f1->SetParameter(1,-9);
+  f1->SetParameter(2,-0.2);
+  f1->SetParameter(3,-500);
+  f1->SetParameter(4,-1.2);
+  f1->SetParameter(5,-0.2);
+  f1->SetParameter(6,-0.22);
   //f1->SetParameter(7,1);
 
   f1->SetParNames("par0", "par1", "par2", "par3", "par4", "par5", "par6");
@@ -147,7 +147,7 @@ void eff() {
   qui root in order to avoid crushes. (Idk wher's the problem).*/
 
   
-  TCanvas* c2 = new TCanvas("c2", "residuisalita",
+  /*TCanvas* c2 = new TCanvas("c2", "residuisalita",
                              27, 50, 1020, 760);
   TGraphErrors* gr = (TGraphErrors*)g->Clone("gres");
   gr->SetTitle("residui");
@@ -177,6 +177,28 @@ TF1 *zero = new TF1("zero", fitzero2, 36, 1700, 2);
     mg1->GetYaxis()->SetTitle("Residuals ");
     mg1->GetXaxis()->SetTitle("E (keV)");
     zero->Draw("same");
-    //c1->SaveAs("ploteff.pdf");
+    //c1->SaveAs("ploteff.pdf");*/
   return;
 }
+
+/* 
+
+result without 59 keV
+
+par0                      =    -0.483612   +/-   0.0591558     0            +0            (Minos) 
+par1                      =     -9.44284   +/-   0.320342      0            +0            (Minos) 
+par2                      =    -0.198426   +/-   0.00718743    0            +0            (Minos) 
+par3                      =     -690.459   +/-   130.77        0            +0            (Minos) 
+par4                      =     -1.22775   +/-   0.0410038     0            +0            (Minos) 
+par5                      =    -0.104285   +/-   0.0165862     0            +0            (Minos) 
+par6                      =    -0.313618   +/-   0.0237908     0            +0            (Minos) 
+
+result with 59 keV
+
+par0                      =    -0.836337   +/-   0.0123288     0            +0            (Minos) 
+par1                      =     -41.3568   +/-   1.11404       0            +0            (Minos) 
+par2                      =    -0.680303   +/-   0.00659534    0            +0            (Minos) 
+par3                      =     -2326.85   +/-   108.749       0            +0            (Minos) 
+par4                      =     -1.72274   +/-   0.0117532     0            +0            (Minos) 
+par5                      =    -0.026264   +/-   0.00302778    0            +0            (Minos) 
+par6                      =     0.312344   +/-   0.0211419     0            +0            (Minos) /*
