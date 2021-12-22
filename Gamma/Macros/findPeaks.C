@@ -12,7 +12,7 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
     /*Reading histogram file from the Root file*/
 
     //data
-    const string bgFileName = "histo_bkg2500.root";
+    const string bgFileName = "histo_bkg.root";
 
     TFile *dataFile = new TFile(dataFileName.c_str());
     TH1F *hdata = (TH1F*)dataFile->Get(Form("ch%i",chan));
@@ -105,7 +105,7 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
     hdata->GetYaxis()->SetMaxDigits(4);
     //h_peaks->Draw();
 
-    Double_t peaks[10] = {78.9824,192.243,244.9,302.,360.,621.,782.9,1127.28,1387.,1750.};
+    Double_t peaks[10] = {78.9824,192.243,247.556,302.,350.,621.,782.9,1127.28,1387.,1750.};
     Double_t min[10];
     Double_t max[10];
 
@@ -118,7 +118,7 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
     }
 
     ofstream f;
-    f.open ("ZrO2_NaI.txt", std::ofstream::out | std::ofstream::app);
+    f.open ("electrodes_NaI.txt", std::ofstream::out | std::ofstream::app);
     f << "Mean "  << "\t" << "\t" << "\t"  << "StdDev " << "\t" << "Resolution[%]" << "\t"  << "\n";
 
     

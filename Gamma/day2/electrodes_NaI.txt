@@ -1,0 +1,43 @@
+Peak #0 @ energy 60.5447  
+Peak #1 @ energy 210.68
+Peak #2 @ energy 244.922  238.632 Pb212
+Peak #3 @ energy 347.646 
+Peak #4 @ energy 474.076
+Peak #5 @ energy 521.487
+Peak #6 @ energy 595.238    583.187 Tl208
+Peak #7 @ energy 740.106
+Peak #9 @ energy 919.215
+
+
+
+
+Peak #1 @ energy 49.2421    x rays 
+Peak #2 @ energy 60.3437    x rays 
+Peak #3 @ energy 68.3616    x rays 
+Peak #4 @ energy 76.3794    x rays 
+Peak #5 @ energy 86.8643    could be Ta208 X ray peak 84-88 
+Peak #6 @ energy 126.337     
+Peak #7 @ energy 130.037     129.065 Ac228
+Peak #8 @ energy 155.941     153.967 Ac228
+Peak #9 @ energy 165.809     165.8575 Ce139
+Peak #10 @ energy 201.581
+Peak #11 @ energy 209.599    209.248 Ac228
+Peak #12 @ energy 239.203   238.632 Pb212 and Ra224
+Peak #13 @ energy 270.658   270.245 Ac228
+Peak #14 @ energy 278.059   277.37 Tl 208
+Peak #15 @ energy 283.61 
+Peak #16 @ energy 300.879    300.089 Pb212
+Peak #17 @ energy 328.633    328.320 Ac228
+Peak #18 @ energy 339.118    338.320 Ac228
+Peak #19 @ energy 409.428    409.460 Ac228
+Peak #20 @ energy 463.086    463.002 Ac228
+Peak #21 @ energy 510.576    510.74 Tl208
+Peak #22 @ energy 582.737    583.187 Tl208 and Po212
+Peak #23 @ energy 726.441    727.33 Bi212
+Peak #24 @ energy 771.464    772.291 Ac228
+Peak #25 @ energy 793.667    794.942 Ac228
+Peak #26 @ energy 834.373    835.704 Ac228
+Peak #27 @ energy 859.044    860.53 Tl208
+Peak #28 @ energy 909.618    911.196 Ac228
+Peak #29 @ energy 967.593    968.960 Ac228
+

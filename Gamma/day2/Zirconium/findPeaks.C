@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "RootStyle.cc"
+#include "../../macros/RootStyle.cc"
 
 /*requested files: histogramOfData.root, histogramOfBackground.root, channel*/
 using namespace std;
@@ -121,14 +121,17 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
     f.open ("ZrO2_NaI.txt", std::ofstream::out | std::ofstream::app);
     f << "Mean "  << "\t" << "\t" << "\t"  << "StdDev " << "\t" << "Resolution[%]" << "\t"  << "\n";
 
-    
+
+ 
 
     vector<double> mean;
     vector<double> stdev;
     vector<double> mean_err;
     vector<double> stdev_err;
     vector<double> res_v;
+    vector<double> counts;
     Double_t res;
+    Double_t integral;
 
     TF1** fit = new TF1*[10]; 
     for (unsigned int i=0;i < 10;i++) { 
@@ -145,11 +148,14 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
         mean_err.push_back(fit[i]->GetParError(1));
         stdev.push_back(fit[i]->GetParameter(2));
         stdev_err.push_back(fit[i]->GetParError(2));
+        integral = (fit[i]->Integral(min[i],max[i]))/hdata->GetBinWidth(0);
         
         res = 2*sqrt(2*log(2))*stdev[i] / mean[i];
         res_v.push_back(res*100);
+        counts.push_back(integral);
 
-        f << mean[i] << "\t" << mean_err[i] << "\t" << stdev[i]<< "\t" << stdev_err[i] << "\t" << res_v[i]<< '\n'; 
+        f << mean[i] << "\t" << mean_err[i] << "\t" << stdev[i]
+                << "\t" << stdev_err[i] << "\t" << res_v[i] << "\t" << counts[i] << "\t" << sqrt(counts[i]) << '\n'; 
 
    } 
 
