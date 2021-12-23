@@ -63,7 +63,7 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
 
     //subtracting bin-to-bin the histogram of bg from the data one
     hdata->Add(hbgConverted, -1.);
-    hdata->SetTitle("ZrO_{2} - NaI(Tl) detector");
+    hdata->SetTitle("Electrodes - NaI(Tl) detector");
 
 
     TH1F *h_peaks = (TH1F*)hdata->Clone();
@@ -105,15 +105,33 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
     hdata->GetYaxis()->SetMaxDigits(4);
     //h_peaks->Draw();
 
-    Double_t peaks[10] = {78.9824,192.243,247.556,302.,350.,621.,782.9,1127.28,1387.,1750.};
-    Double_t min[10];
-    Double_t max[10];
+    Double_t peaks[8] = {60.5447,244.922,347.646,474.076,521.487,595.238,740.106,919.215};
+    Double_t min[8];
+    Double_t max[8];
 
     // Set fit range 
-    for (int i = 0; i<10; i++){
+    min[0] = peaks[0]*(1-0.13);
+    max[0] = peaks[0]*(1+0.13);
 
-        min[i] = peaks[i]*(1-0.07);
-        max[i] = peaks[i]*(1+0.07);
+
+    for (int i = 1; i<3; i++){
+
+        min[i] = peaks[i]*(1-0.09);
+        max[i] = peaks[i]*(1+0.09);
+
+    }
+
+    for (int i = 3; i<7; i++){
+
+        min[i] = peaks[i]*(1-0.055);
+        max[i] = peaks[i]*(1+0.055);
+
+    }
+
+    for (int i = 6; i<8; i++){
+
+        min[i] = peaks[i]*(1-0.04);
+        max[i] = peaks[i]*(1+0.04);
 
     }
 
@@ -128,10 +146,12 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
     vector<double> mean_err;
     vector<double> stdev_err;
     vector<double> res_v;
+    vector<double> counts;
     Double_t res;
+    Double_t integral;
 
-    TF1** fit = new TF1*[10]; 
-    for (unsigned int i=0;i < 10;i++) { 
+    TF1** fit = new TF1*[8]; 
+    for (unsigned int i=0;i < 8;i++) { 
 
         fit[i] = new TF1(Form("f%d",i), "gaus(0)+pol1(3)",min[i],max[i]);
         fit[i]->SetParameter(1,peaks[i]);
@@ -146,10 +166,14 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
         stdev.push_back(fit[i]->GetParameter(2));
         stdev_err.push_back(fit[i]->GetParError(2));
         
+        integral = (fit[i]->Integral(min[i],max[i]))/hdata->GetBinWidth(0);
+        
         res = 2*sqrt(2*log(2))*stdev[i] / mean[i];
         res_v.push_back(res*100);
+        counts.push_back(integral);
 
-        f << mean[i] << "\t" << mean_err[i] << "\t" << stdev[i]<< "\t" << stdev_err[i] << "\t" << res_v[i]<< '\n'; 
+        f << mean[i] << "\t" << mean_err[i] << "\t" << stdev[i]
+                << "\t" << stdev_err[i] << "\t" << res_v[i] << "\t" << counts[i] << "\t" << sqrt(counts[i]) << '\n'; 
 
    } 
 

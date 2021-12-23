@@ -1,12 +1,12 @@
 Peak #0 @ energy 60.5447  
-Peak #1 @ energy 210.68
-Peak #2 @ energy 244.922  238.632 Pb212
-Peak #3 @ energy 347.646 
-Peak #4 @ energy 474.076
-Peak #5 @ energy 521.487
+Peak #1 @ energy 210.68     209.248 Ac228 no
+Peak #2 @ energy 244.922    238.632 Pb212
+Peak #3 @ energy 347.646    338.320 Ac228
+Peak #4 @ energy 474.076    463.002 Ac228
+Peak #5 @ energy 521.487    510.74 Tl208
 Peak #6 @ energy 595.238    583.187 Tl208
 Peak #7 @ energy 740.106
-Peak #9 @ energy 919.215
+Peak #9 @ energy 919.215    911.196 Ac228
 
 
 
@@ -41,3 +41,7 @@ Peak #27 @ energy 859.044    860.53 Tl208
 Peak #28 @ energy 909.618    911.196 Ac228
 Peak #29 @ energy 967.593    968.960 Ac228
 
+
+
+
+ 239.203,270.658,278.059,283.61 ,300.879,328.633,339.118,409.428,463.086,510.576,582.737,726.441,793.667,859.044,909.618,967.593,
