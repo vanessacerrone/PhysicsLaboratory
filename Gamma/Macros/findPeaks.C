@@ -63,7 +63,7 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
 
     //subtracting bin-to-bin the histogram of bg from the data one
     hdata->Add(hbgConverted, -1.);
-    hdata->SetTitle("Electrodes - NaI(Tl) detector");
+    hdata->SetTitle("Porphyry- NaI(Tl) detector");
 
 
     TH1F *h_peaks = (TH1F*)hdata->Clone();
@@ -93,50 +93,51 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
 		cout << "Peak #" << p << " @ energy " << peakvec[p] << endl;	
 	}
 	
-    
-    hdata->GetXaxis()->SetRangeUser(0, 2100);
 
-    float w;
-    w = h_peaks->GetXaxis()->GetBinWidth(0);
+    hdata->GetXaxis()->SetRangeUser(0, 2100);
     hdata->SetMinimum(0);
+    hdata->Rebin(2);
+    float w;
+    w = hdata->GetXaxis()->GetBinWidth(0);
+    
     hdata->GetXaxis()->SetTitle("Energy [keV]");
     hdata->GetYaxis()->SetTitle(Form("Counts/%0.1f keV",w));
     hdata->SetStats(kFALSE);
     hdata->GetYaxis()->SetMaxDigits(4);
-    //h_peaks->Draw();
+    
 
-    Double_t peaks[8] = {60.5447,244.922,347.646,474.076,521.487,595.238,740.106,919.215};
-    Double_t min[8];
-    Double_t max[8];
+    Double_t peaks[5] = {76.3484,244.922,355.548,605.774, 1456.5};
+    Double_t min[5];
+    Double_t max[5];
 
     // Set fit range 
-    min[0] = peaks[0]*(1-0.13);
-    max[0] = peaks[0]*(1+0.13);
+    min[0] = peaks[0]*(1-0.14);
+    max[0] = peaks[0]*(1+0.14);
 
 
-    for (int i = 1; i<3; i++){
+    for (int i = 1; i<5; i++){
 
-        min[i] = peaks[i]*(1-0.09);
-        max[i] = peaks[i]*(1+0.09);
-
-    }
-
-    for (int i = 3; i<7; i++){
-
-        min[i] = peaks[i]*(1-0.055);
-        max[i] = peaks[i]*(1+0.055);
+        min[i] = peaks[i]*(1-0.085);
+        max[i] = peaks[i]*(1+0.085);
 
     }
 
-    for (int i = 6; i<8; i++){
+   // for (int i = 3; i<5; i++){
+//
+   //     min[i] = peaks[i]*(1-0.055);
+   //     max[i] = peaks[i]*(1+0.055);
+//
+   // }
 
-        min[i] = peaks[i]*(1-0.04);
-        max[i] = peaks[i]*(1+0.04);
-
-    }
-
+    //for (int i = 6; i<8; i++){
+//
+    //    min[i] = peaks[i]*(1-0.04);
+    //    max[i] = peaks[i]*(1+0.04);
+//
+    //}
+//
     ofstream f;
-    f.open ("electrodes_NaI.txt", std::ofstream::out | std::ofstream::app);
+    f.open ("porphyry_NaI.txt", std::ofstream::out | std::ofstream::app);
     f << "Mean "  << "\t" << "\t" << "\t"  << "StdDev " << "\t" << "Resolution[%]" << "\t"  << "\n";
 
     
@@ -150,8 +151,8 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
     Double_t res;
     Double_t integral;
 
-    TF1** fit = new TF1*[8]; 
-    for (unsigned int i=0;i < 8;i++) { 
+    TF1** fit = new TF1*[5]; 
+    for (unsigned int i=0;i < 5;i++) { 
 
         fit[i] = new TF1(Form("f%d",i), "gaus(0)+pol1(3)",min[i],max[i]);
         fit[i]->SetParameter(1,peaks[i]);

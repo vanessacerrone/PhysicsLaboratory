@@ -63,7 +63,7 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
 
     //subtracting bin-to-bin the histogram of bg from the data one
     hdata->Add(hbgConverted, -1.);
-    hdata->SetTitle("Electrodes - HPGe detector");
+    hdata->SetTitle("Porphyry - HPGe detector");
 
 
     TH1F *h_peaks = (TH1F*)hdata->Clone();
@@ -94,34 +94,40 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
 	}
 	
     
-    h_peaks->GetXaxis()->SetRangeUser(0, 2000);
-
-    float w;
-    w = h_peaks->GetXaxis()->GetBinWidth(0);
+    hdata->GetXaxis()->SetRangeUser(0, 2100);
     hdata->SetMinimum(0);
+    hdata->Rebin(2);
+    float w;
+    w = hdata->GetXaxis()->GetBinWidth(0);
+
     hdata->GetXaxis()->SetTitle("Energy [keV]");
     hdata->GetYaxis()->SetTitle(Form("Counts/%0.1f keV",w));
     hdata->SetStats(kFALSE);
     hdata->GetYaxis()->SetMaxDigits(3);
     //h_peaks->Draw();
 
-    Double_t peaks[13] = {60.3437,239.203,300.879,339.118,409.428,463.086,510.576,582.737,726.441,793.667,859.044,909.618,967.593};
-    Double_t min[13];
-    Double_t max[13];
+    
+    Double_t peaks[5] = {7.65220e+01,2.41026e+02,584.,911., 1.45766e+03};
+    Double_t min[5];
+    Double_t max[5];
     Double_t tolerance = 0.014;
     
     // Set fit range 
-    for (int i = 3; i<13; i++){
+    //for (int i = 3; i<5; i++){
+//
+    //    min[i] = peaks[i]*(1-tolerance);
+    //    max[i] = peaks[i]*(1+tolerance);
+//
+    //}
 
-        min[i] = peaks[i]*(1-tolerance);
-        max[i] = peaks[i]*(1+tolerance);
+    min[0] = peaks[0]*(1-0.11);
+    max[0] = peaks[0]*(1+0.11);
 
-    }
 
-    min[0] = peaks[0]*(1-0.056);
-    max[0] = peaks[0]*(1+0.056);
+    min[1] = peaks[1]*(1-0.08);
+    max[1] = peaks[1]*(1+0.08);
 
-    for (int i = 1; i<4; i++){
+    for (int i = 2; i<5; i++){
 
         min[i] = peaks[i]*(1-0.04);
         max[i] = peaks[i]*(1+0.04);
@@ -130,7 +136,7 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
    
 
     ofstream f;
-    f.open ("electrodes_HPGe.txt", std::ofstream::out | std::ofstream::app);
+    f.open ("porphyry_HPGe.txt", std::ofstream::out | std::ofstream::app);
     f << "Mean "  << "\t" << "\t" << "\t"  << "StdDev " << "\t" << "Resolution[%]" << "\t"  << "\n";
 
     
@@ -144,8 +150,8 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
     Double_t res;
     Double_t integral;
 
-    TF1** fit = new TF1*[13]; 
-    for (unsigned int i=0;i < 13;i++) { 
+    TF1** fit = new TF1*[5]; 
+    for (unsigned int i=0;i < 5;i++) { 
         
         fit[i] = new TF1(Form("f%d",i), "gaus(0)+pol1(3)",min[i],max[i]);
         fit[i]->SetParameter(1,peaks[i]);
