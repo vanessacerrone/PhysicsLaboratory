@@ -30,7 +30,7 @@ void fit(const string filename) {
     gr->SetTitle("");
     gr->SetMarkerColor(kBlack);
     gr->GetYaxis()->SetMaxDigits(4);
-    TF1 *f1 = new TF1("f1",LinearFit,0,20000,2);
+    TF1 *f1 = new TF1("f1",LinearFit,0,22000,2);
     f1->SetParameter(1,0.0881642);
     TFitResultPtr fit_result = gr->Fit(f1,"RS");
     
