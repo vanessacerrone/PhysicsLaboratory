@@ -42,7 +42,7 @@ void eff() {
   //TCanvas * c1 = new TCanvas("c1", "efficiency curve ", 27, 50, 1020, 760);
 
   //this will be used for the fit
-  TGraphErrors *g = new TGraphErrors("efficiency.txt");
+  TGraphErrors *g = new TGraphErrors("effdata.txt");
   
 
 
@@ -74,8 +74,8 @@ void eff() {
   g->Fit("f1","E M","",40,1500);
   g->Fit("f1","E M","",40,1500);
   
-  g->Draw("AP");
-  f1->Draw("SAME");
+  //g->Draw("AP");
+  //f1->Draw("SAME");
   
 
   double p0= f1->GetParameter(0);
@@ -180,26 +180,26 @@ TF1 *zero = new TF1("zero", fitzero2, 36, 1700, 2);
     mg1->GetXaxis()->SetTitle("E (keV)");
     zero->Draw("same");
     //c1->SaveAs("ploteff.pdf");*/
-  return;
+    
+
+//Double_t peaks[10] = {77.1088,185.720,241.997,295.224,351.932,609.312,785.96,1120.287,1377.669,1764.494};
+//Double_t peaks[4] = {77.1088,241.997,295.224,351.932};
+
+//Double_t peaks[17] = {77.1088,185.720,241.997,295.224,351.932,463.002,510.74,583.108,609.312,768.356,911.196,934.34,968.960,1120.287,1238.111,1377.669,1764.494};
+
+Double_t peaks[8] = {77.1088,185.720,241.997,295.224,351.932,609.312,1120.287,1764.494};
+
+
+for(unsigned int i = 0; i< 8; i++){
+  cout << f1->Eval(peaks[i]) << endl;
+}
+cout << "------- NaI -------" << endl;
+double val;
+for(unsigned int i = 0; i< 8; i++){
+  val = (-8.93124e+00* pow(peaks[i],-6.00311e-01 ))/((-1000*1.37583e-03 )+pow(peaks[i],-1.20989e+03 ));
+  cout << val << endl;
 }
 
 
-//result without 59 keV
-//
-//par0                      =    -0.483612   +/-   0.0591558     0            +0            (Minos) 
-//par1                      =     -9.44284   +/-   0.320342      0            +0            (Minos) 
-//par2                      =    -0.198426   +/-   0.00718743    0            +0            (Minos) 
-//par3                      =     -690.459   +/-   130.77        0            +0            (Minos) 
-//par4                      =     -1.22775   +/-   0.0410038     0            +0            (Minos) 
-//par5                      =    -0.104285   +/-   0.0165862     0            +0            (Minos) 
-//par6                      =    -0.313618   +/-   0.0237908     0            +0            (Minos) 
-//
-//result with 59 keV
-//
-//par0                      =    -0.836337   +/-   0.0123288     0            +0            (Minos) 
-//par1                      =     -41.3568   +/-   1.11404       0            +0            (Minos) 
-//par2                      =    -0.680303   +/-   0.00659534    0            +0            (Minos) 
-//par3                      =     -2326.85   +/-   108.749       0            +0            (Minos) 
-//par4                      =     -1.72274   +/-   0.0117532     0            +0            (Minos) 
-//par5                      =    -0.026264   +/-   0.00302778    0            +0            (Minos) 
-//par6                      =     0.312344   +/-   0.0211419     0            +0            (Minos)  
+}
+

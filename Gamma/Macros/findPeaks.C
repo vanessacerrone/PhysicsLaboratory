@@ -12,7 +12,7 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
     /*Reading histogram file from the Root file*/
 
     //data
-    const string bgFileName = "histo_bkg.root";
+    const string bgFileName = "histo_nonexpcan.root";
 
     TFile *dataFile = new TFile(dataFileName.c_str());
     TH1F *hdata = (TH1F*)dataFile->Get(Form("ch%i",chan));
@@ -39,11 +39,13 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
 
      if (chan == 0) //NaI
     {
-        //a = -9.25518;
-        //b = 0.0878425;
+       // a = -8.97259;
+       // b = 0.0878097;
 
-        a = -16.9311;
-        b = 0.0879669;
+       a = -16.9311;
+       b = 0.0879669;
+
+        
     }
 
     if (chan == 1) //HPGe
@@ -70,7 +72,7 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
 
     //subtracting bin-to-bin the histogram of bg from the data one
     hdata->Add(hbgConverted, -1.);
-    hdata->SetTitle("Autunite- NaI(Tl) detector");
+    hdata->SetTitle("Exposed canister - NaI(Tl) detector");
 
 
     TH1F *h_peaks = (TH1F*)hdata->Clone();
@@ -113,13 +115,13 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
     hdata->GetYaxis()->SetMaxDigits(4);
     
 
-    Double_t peaks[8] = {71.4314, 182.214,240.243,295.635,353.664,612.157,1120.287,1764.};
-    Double_t min[8];
-    Double_t max[8];
+    Double_t peaks[9] = {71.4314,240.243,295.635,353.664,612.157,780.,1120.287,1377.,1764.};
+    Double_t min[9];
+    Double_t max[9];
 
     // Set fit range 
-    min[0] = peaks[0]*(1-0.14);
-    max[0] = peaks[0]*(1+0.14);
+    min[0] = peaks[0]*(1-0.2);
+    max[0] = peaks[0]*(1+0.2);
 
 
     for (int i = 1; i<6; i++){
@@ -130,7 +132,7 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
     }
 
 
-    for (int i = 6; i<8; i++){
+    for (int i = 6; i<9; i++){
 
         min[i] = peaks[i]*(1-0.06);
         max[i] = peaks[i]*(1+0.06);
@@ -138,7 +140,7 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
     }
 
     ofstream f;
-    f.open ("autunite_NaI.txt", std::ofstream::out | std::ofstream::app);
+    f.open ("exposed_can_NaI.txt", std::ofstream::out | std::ofstream::app);
     f << "Mean "  << "\t" << "\t" << "\t"  << "StdDev " << "\t" << "Resolution[%]" << "\t"  << "\n";
 
     
@@ -152,8 +154,8 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
     Double_t res;
     Double_t integral;
 
-    TF1** fit = new TF1*[8]; 
-    for (unsigned int i=0;i < 8;i++) { 
+    TF1** fit = new TF1*[9]; 
+    for (unsigned int i=0;i < 9;i++) { 
 
         fit[i] = new TF1(Form("f%d",i), "gaus(0)+pol1(3)",min[i],max[i]);
         fit[i]->SetParameter(1,peaks[i]);

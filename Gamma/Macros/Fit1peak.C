@@ -18,11 +18,11 @@ void gaussianfit(const string file_na,short chan)
     TH1F* h1 = (TH1F*)h->Clone("h1");
 
     /* -- Fitting the two gaussians  -- */
-    TF1 *fit1 = new TF1("g1","gaus(0)+pol1(3)", 730, 900);
+    TF1 *fit1 = new TF1("g1","gaus(0)+pol1(3)", 380, 420);
     
     fit1->SetLineStyle(1);
 	fit1->SetLineWidth(2);
-    fit1->SetParameters(5.38578e+04,7.79164e+02,3.73645e+01, 450.217,-9.31430e-02);
+    fit1->SetParameters(5.38578e+04,400,3.73645e+01, 450.217,-9.31430e-02);
 
     h->Fit(fit1,"R");
    
@@ -55,21 +55,24 @@ void gaussianfit(const string file_na,short chan)
 
      /* -- using a and b previously obtained from calibraion: YOU NEED TO CHANGE THIS VALUES  -- */
 
-    double_t a = -17.8202;
-    double_t b = 0.115666;
+    double a = -0.019234 ; 
+    double b = 0.148907 ;
 
     TCanvas* c3 = new TCanvas("c3","Plot of calibrated spectra",1080,1020);
     gPad->SetLeftMargin(0.12);
     /*Re-fitting*/
-    TF1 *fit3 = new TF1("fit3","gaus(0)+pol1(3)",470,600);
+    TF1 *fit3 = new TF1("fit3","gaus(0)",58,63);
     
+    int max_bin = h1->GetNbinsX(); // This method returns the number of bins in x of the histogram
+    //float max_kev = h1->GetBinCenter(max_bin)*0.0607717 -11.041;
+	float max_kev = h1->GetBinCenter(max_bin)*b + a;
+	h1->GetXaxis()->SetLimits(a,max_kev);
 
-    h1->GetXaxis()->Set(16384,0,a+b*16384*h->GetXaxis()->GetBinWidth(0));
     
     fit3->SetLineStyle(1);
 	fit3->SetLineWidth(2);
-	fit3->SetParameter(1, 511);
-    fit3->SetParameters(2000,532,17, 450.217,-0.0488353);
+	fit3->SetParameter(1, 59);
+    //fit3->SetParameters(2000,59,17, 450.217,-0.0488353);
 
     h1->Fit(fit3,"R");
     
@@ -96,6 +99,9 @@ void gaussianfit(const string file_na,short chan)
 
     h1->Draw();
     fit3->Draw("SAME");
-   
 
+    double integral = (fit3->Integral(58,63))/h1->GetBinWidth(0);
+    cout << integral;
+    double area =  h1->Integral( h1->GetXaxis()->FindBin(57),h1->GetXaxis()->FindBin(63));
+    cout<<area<<endl;
 }

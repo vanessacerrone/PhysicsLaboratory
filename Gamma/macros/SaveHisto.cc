@@ -82,7 +82,7 @@ void save_histo(string infilename, string outfilename)
 	ch0_spectrum->GetYaxis()->SetTitle("Counts");
 
 	// CH1 spectrum
-	TH1F *ch1_spectrum = new TH1F("ch1", "HPGe spectrum", 2500, 0,20000);
+	TH1F *ch1_spectrum = new TH1F("ch1", "HPGe spectrum", 2500, 0,25000);
     ch1_spectrum->GetXaxis()->SetTitle("ADC counts");
 	ch1_spectrum->GetYaxis()->SetTitle("Counts");
 
