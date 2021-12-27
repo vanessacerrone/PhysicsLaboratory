@@ -12,7 +12,7 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
     /*Reading histogram file from the Root file*/
 
     //data
-    const string bgFileName = "histo_nonexpcan.root";
+    const string bgFileName = "histo_bkg.root";
 
     TFile *dataFile = new TFile(dataFileName.c_str());
     TH1F *hdata = (TH1F*)dataFile->Get(Form("ch%i",chan));
@@ -68,7 +68,7 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
 
     //subtracting bin-to-bin the histogram of bg from the data one
     hdata->Add(hbgConverted, -1.);
-    hdata->SetTitle("Calibrated canister - HPGe detector");
+    hdata->SetTitle("Autunite - HPGe detector");
 
 
     TH1F *h_peaks = (TH1F*)hdata->Clone();
@@ -111,9 +111,9 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
     //h_peaks->Draw();
 
     
-    Double_t peaks[10] = {7.58544e+01 ,186.,2.42062e+02,295.635,352.,609.,768.,1120.287,1377.,1764.};
-    Double_t min[10];
-    Double_t max[10];
+    Double_t peaks[13] = {7.64181e+01, 185.720,241.,295.635,351.932,609.312,768.,934.,1120.287,1238.1,1377.,1508.,1764.};
+    Double_t min[13];
+    Double_t max[13];
 
     Double_t tolerance = 0.014;
     
@@ -125,21 +125,21 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
 //
     //}
 
-    min[0] = peaks[0]*(1-0.09);
-    max[0] = peaks[0]*(1+0.09);
+    min[0] = peaks[0]*(1-0.11);
+    max[0] = peaks[0]*(1+0.11);
 
 
-    min[1] = peaks[1]*(1-0.03);
-    max[1] = peaks[1]*(1+0.03);
+    min[1] = peaks[1]*(1-0.06);
+    max[1] = peaks[1]*(1+0.06);
 
     for (int i = 2; i<6; i++){
 
-        min[i] = peaks[i]*(1-0.023);
-        max[i] = peaks[i]*(1+0.023);
+        min[i] = peaks[i]*(1-0.03);
+        max[i] = peaks[i]*(1+0.03);
 
     }
    
-   for (int i = 6; i<10; i++){
+   for (int i = 6; i<13; i++){
 
         min[i] = peaks[i]*(1-0.013);
         max[i] = peaks[i]*(1+0.013);
@@ -147,7 +147,7 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
     }
 
     ofstream f;
-    f.open ("calcan_HPGe.txt", std::ofstream::out | std::ofstream::app);
+    f.open ("autunite_HPGe.txt", std::ofstream::out | std::ofstream::app);
     f << "Mean "  << "\t" << "\t" << "\t"  << "StdDev " << "\t" << "Resolution[%]" << "\t"  << "\n";
 
     
@@ -161,8 +161,8 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
     Double_t res;
     Double_t integral;
 
-    TF1** fit = new TF1*[10]; 
-    for (unsigned int i=0;i < 10;i++) { 
+    TF1** fit = new TF1*[13]; 
+    for (unsigned int i=0;i < 13;i++) { 
         
         fit[i] = new TF1(Form("f%d",i), "gaus(0)+pol1(3)",min[i],max[i]);
         fit[i]->SetParameter(1,peaks[i]);

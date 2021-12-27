@@ -12,7 +12,7 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
     /*Reading histogram file from the Root file*/
 
     //data
-    const string bgFileName = "histo_bkg.root";
+    const string bgFileName = "histo_bkg2500.root";
 
     TFile *dataFile = new TFile(dataFileName.c_str());
     TH1F *hdata = (TH1F*)dataFile->Get(Form("ch%i",chan));
@@ -39,16 +39,25 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
 
      if (chan == 0) //NaI
     {
-        a = -9.25518;
-        b = 0.0878425;
+        a = -8.97259;
+        b = 0.0878097;
 
+       //a = -16.9311;
+       //b = 0.0879669;
+
+        
     }
 
     if (chan == 1) //HPGe
     {
-        a = 1.44349;
-        b = 0.15422;
+        //a = 1.44349;
+        //b = 0.15422;
+
+        a = -0.016463;
+        b = 0.154683;
     }
+
+
 
     //calibrating x-axis for data spectrum
     int max_binData = hdata->GetNbinsX(); 
@@ -63,7 +72,7 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
 
     //subtracting bin-to-bin the histogram of bg from the data one
     hdata->Add(hbgConverted, -1.);
-    hdata->SetTitle("ZrO_{2} - NaI(Tl) detector");
+    hdata->SetTitle("KCl - HPGe detector");
 
 
     TH1F *h_peaks = (TH1F*)hdata->Clone();
@@ -93,32 +102,45 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
 		cout << "Peak #" << p << " @ energy " << peakvec[p] << endl;	
 	}
 	
-    
-    hdata->GetXaxis()->SetRangeUser(0, 2100);
 
-    float w;
-    w = h_peaks->GetXaxis()->GetBinWidth(0);
+    hdata->GetXaxis()->SetRangeUser(0, 2100);
     hdata->SetMinimum(0);
+    //hdata->Rebin(2);
+    float w;
+    w = hdata->GetXaxis()->GetBinWidth(0);
+    
     hdata->GetXaxis()->SetTitle("Energy [keV]");
     hdata->GetYaxis()->SetTitle(Form("Counts/%0.1f keV",w));
     hdata->SetStats(kFALSE);
     hdata->GetYaxis()->SetMaxDigits(4);
-    //h_peaks->Draw();
+    
 
-    Double_t peaks[10] = {78.9824,192.243,247.556,302.,350.,621.,782.9,1127.28,1387.,1750.};
-    Double_t min[10];
-    Double_t max[10];
+    Double_t peaks[9] = {1460. ,240.243,295.635,353.664,612.157,780.,1120.287,1377.,1764.};
+    Double_t min[9];
+    Double_t max[9];
 
     // Set fit range 
-    for (int i = 0; i<10; i++){
+    min[0] = peaks[0]*(1-0.02);
+    max[0] = peaks[0]*(1+0.02);
 
-        min[i] = peaks[i]*(1-0.07);
-        max[i] = peaks[i]*(1+0.07);
+
+    for (int i = 1; i<6; i++){
+
+        min[i] = peaks[i]*(1-0.085);
+        max[i] = peaks[i]*(1+0.085);
+
+    }
+
+
+    for (int i = 6; i<9; i++){
+
+        min[i] = peaks[i]*(1-0.06);
+        max[i] = peaks[i]*(1+0.06);
 
     }
 
     ofstream f;
-    f.open ("electrodes_NaI.txt", std::ofstream::out | std::ofstream::app);
+    f.open ("KCl_NaI.txt", std::ofstream::out | std::ofstream::app);
     f << "Mean "  << "\t" << "\t" << "\t"  << "StdDev " << "\t" << "Resolution[%]" << "\t"  << "\n";
 
     
@@ -128,10 +150,12 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
     vector<double> mean_err;
     vector<double> stdev_err;
     vector<double> res_v;
+    vector<double> counts;
     Double_t res;
+    Double_t integral;
 
-    TF1** fit = new TF1*[10]; 
-    for (unsigned int i=0;i < 10;i++) { 
+    TF1** fit = new TF1*[1]; 
+    for (unsigned int i=0;i < 1;i++) { 
 
         fit[i] = new TF1(Form("f%d",i), "gaus(0)+pol1(3)",min[i],max[i]);
         fit[i]->SetParameter(1,peaks[i]);
@@ -146,10 +170,14 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
         stdev.push_back(fit[i]->GetParameter(2));
         stdev_err.push_back(fit[i]->GetParError(2));
         
+        integral = (fit[i]->Integral(min[i],max[i]))/hdata->GetBinWidth(0);
+        
         res = 2*sqrt(2*log(2))*stdev[i] / mean[i];
         res_v.push_back(res*100);
+        counts.push_back(integral);
 
-        f << mean[i] << "\t" << mean_err[i] << "\t" << stdev[i]<< "\t" << stdev_err[i] << "\t" << res_v[i]<< '\n'; 
+        f << mean[i] << "\t" << mean_err[i] << "\t" << stdev[i]
+                << "\t" << stdev_err[i] << "\t" << res_v[i] << "\t" << counts[i] << "\t" << sqrt(counts[i]) << '\n'; 
 
    } 
 

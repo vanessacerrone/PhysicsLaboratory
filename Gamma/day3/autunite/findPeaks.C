@@ -12,7 +12,7 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
     /*Reading histogram file from the Root file*/
 
     //data
-    const string bgFileName = "histo_nonexpcan.root";
+    const string bgFileName = "histo_bkg.root";
 
     TFile *dataFile = new TFile(dataFileName.c_str());
     TH1F *hdata = (TH1F*)dataFile->Get(Form("ch%i",chan));
@@ -55,6 +55,8 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
         b = 0.154683;
     }
 
+
+
     //calibrating x-axis for data spectrum
     int max_binData = hdata->GetNbinsX(); 
 	float max_kevData = hdata->GetBinCenter(max_binData)*b + a;
@@ -68,7 +70,7 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
 
     //subtracting bin-to-bin the histogram of bg from the data one
     hdata->Add(hbgConverted, -1.);
-    hdata->SetTitle("Calibrated canister - HPGe detector");
+    hdata->SetTitle("Autunite- NaI(Tl) detector");
 
 
     TH1F *h_peaks = (TH1F*)hdata->Clone();
@@ -98,56 +100,45 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
 		cout << "Peak #" << p << " @ energy " << peakvec[p] << endl;	
 	}
 	
-    hdata->GetXaxis()->SetRangeUser(20, 2100);
+
+    hdata->GetXaxis()->SetRangeUser(0, 2100);
     hdata->SetMinimum(0);
-    hdata->GetYaxis()->SetRangeUser(0, 601);
+    //hdata->Rebin(2);
     float w;
     w = hdata->GetXaxis()->GetBinWidth(0);
-
+    
     hdata->GetXaxis()->SetTitle("Energy [keV]");
     hdata->GetYaxis()->SetTitle(Form("Counts/%0.1f keV",w));
     hdata->SetStats(kFALSE);
-    hdata->GetYaxis()->SetMaxDigits(3);
-    //h_peaks->Draw();
-
+    hdata->GetYaxis()->SetMaxDigits(4);
     
-    Double_t peaks[10] = {7.58544e+01 ,186.,2.42062e+02,295.635,352.,609.,768.,1120.287,1377.,1764.};
-    Double_t min[10];
-    Double_t max[10];
 
-    Double_t tolerance = 0.014;
-    
+    Double_t peaks[8] = {71.4314, 182.214,240.243,295.635,353.664,612.157,1120.287,1764.};
+    Double_t min[8];
+    Double_t max[8];
+
     // Set fit range 
-    //for (int i = 3; i<5; i++){
-//
-    //    min[i] = peaks[i]*(1-tolerance);
-    //    max[i] = peaks[i]*(1+tolerance);
-//
-    //}
-
-    min[0] = peaks[0]*(1-0.09);
-    max[0] = peaks[0]*(1+0.09);
+    min[0] = peaks[0]*(1-0.14);
+    max[0] = peaks[0]*(1+0.14);
 
 
-    min[1] = peaks[1]*(1-0.03);
-    max[1] = peaks[1]*(1+0.03);
+    for (int i = 1; i<6; i++){
 
-    for (int i = 2; i<6; i++){
-
-        min[i] = peaks[i]*(1-0.023);
-        max[i] = peaks[i]*(1+0.023);
+        min[i] = peaks[i]*(1-0.085);
+        max[i] = peaks[i]*(1+0.085);
 
     }
-   
-   for (int i = 6; i<10; i++){
 
-        min[i] = peaks[i]*(1-0.013);
-        max[i] = peaks[i]*(1+0.013);
+
+    for (int i = 6; i<8; i++){
+
+        min[i] = peaks[i]*(1-0.06);
+        max[i] = peaks[i]*(1+0.06);
 
     }
 
     ofstream f;
-    f.open ("calcan_HPGe.txt", std::ofstream::out | std::ofstream::app);
+    f.open ("autunite_NaI.txt", std::ofstream::out | std::ofstream::app);
     f << "Mean "  << "\t" << "\t" << "\t"  << "StdDev " << "\t" << "Resolution[%]" << "\t"  << "\n";
 
     
@@ -157,29 +148,26 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
     vector<double> mean_err;
     vector<double> stdev_err;
     vector<double> res_v;
-      vector<double> counts;
+    vector<double> counts;
     Double_t res;
     Double_t integral;
 
-    TF1** fit = new TF1*[10]; 
-    for (unsigned int i=0;i < 10;i++) { 
-        
+    TF1** fit = new TF1*[8]; 
+    for (unsigned int i=0;i < 8;i++) { 
+
         fit[i] = new TF1(Form("f%d",i), "gaus(0)+pol1(3)",min[i],max[i]);
         fit[i]->SetParameter(1,peaks[i]);
-        fit[i]->SetParameter(2,5);
-        fit[i]->SetParLimits(2,0,10);
+        fit[i]->SetParameter(2,20);
         fit[i]->SetLineStyle(1);
 	    fit[i]->SetLineWidth(1);
         hdata->Fit(fit[i],"R+");
         fit[i]->Draw("same");
 
-        
-
         mean.push_back(fit[i]->GetParameter(1));
         mean_err.push_back(fit[i]->GetParError(1));
         stdev.push_back(fit[i]->GetParameter(2));
         stdev_err.push_back(fit[i]->GetParError(2));
-
+        
         integral = (fit[i]->Integral(min[i],max[i]))/hdata->GetBinWidth(0);
         
         res = 2*sqrt(2*log(2))*stdev[i] / mean[i];
@@ -194,6 +182,5 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
     f.close();
 
 }
-
 
 
