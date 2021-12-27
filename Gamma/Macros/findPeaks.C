@@ -39,22 +39,22 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
 
      if (chan == 0) //NaI
     {
-        a = -8.97259;
-        b = 0.0878097;
+        //a = -8.97259;
+        //b = 0.0878097;
 
-       //a = -16.9311;
-       //b = 0.0879669;
+       a = -16.9311;
+       b = 0.0879669;
 
         
     }
 
     if (chan == 1) //HPGe
     {
-        //a = 1.44349;
-        //b = 0.15422;
+        a = 1.44349;
+        b = 0.15422;
 
-        a = -0.016463;
-        b = 0.154683;
+        //a = -0.016463;
+        //b = 0.154683;
     }
 
 
@@ -72,7 +72,7 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
 
     //subtracting bin-to-bin the histogram of bg from the data one
     hdata->Add(hbgConverted, -1.);
-    hdata->SetTitle("KCl - HPGe detector");
+    hdata->SetTitle("Mushrooms - HPGe detector");
 
 
     TH1F *h_peaks = (TH1F*)hdata->Clone();
@@ -105,7 +105,7 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
 
     hdata->GetXaxis()->SetRangeUser(0, 2100);
     hdata->SetMinimum(0);
-    //hdata->Rebin(2);
+    //hdata->Rebin(4);
     float w;
     w = hdata->GetXaxis()->GetBinWidth(0);
     
@@ -115,13 +115,13 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
     hdata->GetYaxis()->SetMaxDigits(4);
     
 
-    Double_t peaks[9] = {1460. ,240.243,295.635,353.664,612.157,780.,1120.287,1377.,1764.};
+    Double_t peaks[9] = {661. ,240.243,295.635,353.664,612.157,780.,1120.287,1377.,1764.};
     Double_t min[9];
     Double_t max[9];
 
     // Set fit range 
-    min[0] = peaks[0]*(1-0.02);
-    max[0] = peaks[0]*(1+0.02);
+    min[0] = peaks[0]*(1-0.082);
+    max[0] = peaks[0]*(1+0.082);
 
 
     for (int i = 1; i<6; i++){
@@ -134,13 +134,13 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
 
     for (int i = 6; i<9; i++){
 
-        min[i] = peaks[i]*(1-0.06);
-        max[i] = peaks[i]*(1+0.06);
+        min[i] = peaks[i]*(1-0.045);
+        max[i] = peaks[i]*(1+0.045);
 
     }
 
     ofstream f;
-    f.open ("KCl_NaI.txt", std::ofstream::out | std::ofstream::app);
+    f.open ("mushrooms_NaI.txt", std::ofstream::out | std::ofstream::app);
     f << "Mean "  << "\t" << "\t" << "\t"  << "StdDev " << "\t" << "Resolution[%]" << "\t"  << "\n";
 
     
@@ -163,7 +163,7 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
         fit[i]->SetLineStyle(1);
 	    fit[i]->SetLineWidth(1);
         hdata->Fit(fit[i],"R+");
-        fit[i]->Draw("same");
+        //fit[i]->Draw("same");
 
         mean.push_back(fit[i]->GetParameter(1));
         mean_err.push_back(fit[i]->GetParError(1));
