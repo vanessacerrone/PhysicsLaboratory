@@ -16,7 +16,7 @@ void subtract(string dataFileName, string bgFileName, short chan, string outfile
     TFile *dataFile = new TFile(dataFileName.c_str());
     TH1F *hdata = (TH1F*)dataFile->Get(Form("ch%i",chan));
     //background
-    double conversion_factor_BG = (30.)/20;
+    double conversion_factor_BG = 1;
     TFile *bgFile = new TFile(bgFileName.c_str());
     TH1F *hbg = (TH1F*)bgFile->Get(Form("ch%i",chan));
 
@@ -76,7 +76,7 @@ void subtract(string dataFileName, string bgFileName, short chan, string outfile
     //saving outfile
     TFile * outfile = new TFile(outfilename.c_str(), "RECREATE");
 	hdata->Write();
-    cout<<"num of entries in the whole histogram:"<<hdata->GetEntries()<<endl;
+    cout<<"num of entries in the whole histogram:"<<hdata->GetEntries()<<endl<<hdata->GetEntries()<<endl;
 	outfile->Close();
     /*We can now fit the 256 keV gaussian*/
 

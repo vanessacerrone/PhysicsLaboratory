@@ -20,14 +20,13 @@ double fit_hurtado(double *x, double *par)
 
     return (( a1 + a2 ) * ( 1 - a3 ));
 }
-double fit_hurtado2(double *x, double *par)
-{
-    double a1 = par[0]*TMath::Exp(-par[1]*pow(x[0],par[2]));
-    double a2 = TMath::Exp(-par[3]*pow(x[0], par[4]));
-    double a3 = TMath::Exp(-par[5]*pow(x[0], par[6]));
 
-    return par[7]*(( a1 + a2 ) * ( 1 - a3 ));
+double fit_hurtadoNaI(double *x, double *par)
+{
+    return (( par[0] * pow(x[0],par[1] )) / ( 1000*par[2] +pow(x[0],par[3]) ));
 }
+
+
 double fitzero2(double *x, double *par)
 {
   double fitval = par[0] + par[1]*0;
@@ -40,7 +39,7 @@ void eff() {
   TCanvas * c1 = new TCanvas("c1", "efficiency curve ", 27, 50, 1020, 760);
 
   //this will be used for the fit
-  TGraphErrors *g = new TGraphErrors("efficiency.txt");
+  TGraphErrors *g = new TGraphErrors("effNa.txt");
   
 
 
@@ -49,11 +48,11 @@ void eff() {
   g->SetMarkerSize(0.9);
   g->SetMarkerColor(1);
 
-  g->SetTitle("Efficiency curve for HPGe detector");
+  g->SetTitle("Efficiency curve for NaI detector");
   g->GetYaxis()->SetTitle("Efficiency ");
   g->GetXaxis()->SetTitle(" E (keV) ");
 
-  TF1 *f1 = new TF1("f1", fit_hurtado, 40, 1700, 7);
+  TF1 *f1 = new TF1("f1", fit_hurtadoNaI, 30, 1800, 4);
   
   f1->SetParameter(0,-0.5);
   f1->SetParameter(1,-9);
@@ -63,14 +62,16 @@ void eff() {
   f1->SetParameter(5,-0.2);
   f1->SetParameter(6,-0.22);
   //f1->SetParameter(7,1);
+  f1->SetLineStyle(1);
+  f1->SetLineColor(2);
+  f1->SetLineWidth(3);
+  f1->SetParNames("par0", "par1", "par2", "par3");
 
-  f1->SetParNames("par0", "par1", "par2", "par3", "par4", "par5", "par6");
-
-  g->Fit("f1","M","",40,1500);
-  g->Fit("f1","M","",40,1500);
-  g->Fit("f1","E M","",40,1500);
-  g->Fit("f1","E M","",40,1500);
-  g->Fit("f1","E M","",40,1500);
+  g->Fit("f1","M","",30,1800);
+  g->Fit("f1","M","",30,1800);
+  g->Fit("f1","E M","",30,1800);
+  g->Fit("f1","E M","",30,1800);
+  g->Fit("f1","E M","",30,1800);
   
   g->Draw("AP");
   f1->Draw("SAME");
@@ -80,20 +81,20 @@ void eff() {
   double p1 = f1->GetParameter(1);
   double p2= f1->GetParameter(2);
   double p3 = f1->GetParameter(3);
-  double p4= f1->GetParameter(4);
-  double p5 = f1->GetParameter(5);
-  double p6= f1->GetParameter(6);
+  //double p4= f1->GetParameter(4);
+  //double p5 = f1->GetParameter(5);
+  //double p6= f1->GetParameter(6);
   //double p7=f1->GetParameter(7);
 
   double ep0 = f1->GetParError(0);
   double ep1 = f1->GetParError(1);
   double ep2 = f1->GetParError(2);
   double ep3 = f1->GetParError(3);
-  double ep4 = f1->GetParError(4);
-  double ep5 = f1->GetParError(5);
-  double ep6 = f1->GetParError(6);
+  //double ep4 = f1->GetParError(4);
+  //double ep5 = f1->GetParError(5);
+  //double ep6 = f1->GetParError(6);
 
- TF1 *f2 = new TF1("f2", fit_hurtado2, 40, 1700, 8);
+ /*TF1 *f2 = new TF1("f2", fit_hurtado2, 30, 1700, 8);
   //here I'm just cloning the function f1, modifying the 7th parameter with a 
   f2->SetParameter(0,p0);
   f2->SetParameter(1,p1);
@@ -103,7 +104,7 @@ void eff() {
   f2->SetParameter(5,p5);
   f2->SetParameter(6,p6);
   f2->SetParameter(7,1+1.7/100);
-  TF1 *f3 = new TF1("f3", fit_hurtado2, 40, 1700, 8);
+  TF1 *f3 = new TF1("f3", fit_hurtado2, 30, 1700, 8);
   //probably I'll need better parameters
   f3->SetParameter(0,p0);
   f3->SetParameter(1,p1);
@@ -112,7 +113,7 @@ void eff() {
   f3->SetParameter(4,p4);
   f3->SetParameter(5,p5);
   f3->SetParameter(6,p6);
-  f3->SetParameter(7,1-1.7/100);
+  f3->SetParameter(7,1-1.7/100);*/
 
 //f2->SetLineColor(kBlue);
 //f2->SetFillStyle(3014);
@@ -181,24 +182,5 @@ TF1 *zero = new TF1("zero", fitzero2, 36, 1700, 2);
   return;
 }
 
-/* 
 
-result without 59 keV
 
-par0                      =    -0.483612   +/-   0.0591558     0            +0            (Minos) 
-par1                      =     -9.44284   +/-   0.320342      0            +0            (Minos) 
-par2                      =    -0.198426   +/-   0.00718743    0            +0            (Minos) 
-par3                      =     -690.459   +/-   130.77        0            +0            (Minos) 
-par4                      =     -1.22775   +/-   0.0410038     0            +0            (Minos) 
-par5                      =    -0.104285   +/-   0.0165862     0            +0            (Minos) 
-par6                      =    -0.313618   +/-   0.0237908     0            +0            (Minos) 
-
-result with 59 keV
-
-par0                      =    -0.836337   +/-   0.0123288     0            +0            (Minos) 
-par1                      =     -41.3568   +/-   1.11404       0            +0            (Minos) 
-par2                      =    -0.680303   +/-   0.00659534    0            +0            (Minos) 
-par3                      =     -2326.85   +/-   108.749       0            +0            (Minos) 
-par4                      =     -1.72274   +/-   0.0117532     0            +0            (Minos) 
-par5                      =    -0.026264   +/-   0.00302778    0            +0            (Minos) 
-par6                      =     0.312344   +/-   0.0211419     0            +0            (Minos) /*
