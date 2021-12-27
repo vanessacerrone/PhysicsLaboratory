@@ -11,6 +11,8 @@ double_t LinearFit(double_t *x, double_t *par)
 
 void gaussianfit(const string file_na,short chan)
 {
+    set_root_style(1);
+
     /* -- Reading histogram file from the Tree -- */
     TFile *infile = new TFile(file_na.c_str());
     TH1F *h = (TH1F*)infile->Get(Form("ch%i",chan));
@@ -55,13 +57,15 @@ void gaussianfit(const string file_na,short chan)
 
      /* -- using a and b previously obtained from calibraion: YOU NEED TO CHANGE THIS VALUES  -- */
 
-    double a = -0.019234 ; 
-    double b = 0.148907 ;
+    double a = -8.97259 ; 
+    double b = 0.0878097 ;
+
+  
 
     TCanvas* c3 = new TCanvas("c3","Plot of calibrated spectra",1080,1020);
     gPad->SetLeftMargin(0.12);
     /*Re-fitting*/
-    TF1 *fit3 = new TF1("fit3","gaus(0)",58,63);
+    TF1 *fit3 = new TF1("fit3","gaus(0)",1430,1470);
     
     int max_bin = h1->GetNbinsX(); // This method returns the number of bins in x of the histogram
     //float max_kev = h1->GetBinCenter(max_bin)*0.0607717 -11.041;
@@ -71,7 +75,7 @@ void gaussianfit(const string file_na,short chan)
     
     fit3->SetLineStyle(1);
 	fit3->SetLineWidth(2);
-	fit3->SetParameter(1, 59);
+	fit3->SetParameter(1, 1451);
     //fit3->SetParameters(2000,59,17, 450.217,-0.0488353);
 
     h1->Fit(fit3,"R");
