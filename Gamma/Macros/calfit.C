@@ -18,12 +18,12 @@ void fit(const string filename) {
     gr->GetXaxis()->SetTitle("E [ADC counts]");
     gr->GetYaxis()->SetTitle("E [keV]");
     gr->GetXaxis()->SetRangeUser(0,13000);
-    gr->GetYaxis()->SetRangeUser(-5, 1650);
+    //gr->GetYaxis()->SetRangeUser(-5, 1650);
     gr->SetTitle("Calibration fit - HPGe detector");
     gr->SetMarkerColor(kBlack);
     gr->GetYaxis()->SetMaxDigits(4);
-    TF1 *f1 = new TF1("f1",LinearFit,0,22000,2);
-    f1->SetParameter(1,0.0881642);
+    TF1 *f1 = new TF1("f1",LinearFit,0,2200,2);
+    //f1->SetParameter(1,0.0881642);
     TFitResultPtr fit_result = gr->Fit(f1,"RS");
     
     f1->SetLineWidth(1);
