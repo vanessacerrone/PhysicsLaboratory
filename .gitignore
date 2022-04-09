@@ -12,3 +12,6 @@ Gamma/.DS_Store
 Positronium/.DS_Store
 */Lab_sessions
 *.txt
+*/*.txt
+*/*.pages 
+*/*.numbers 

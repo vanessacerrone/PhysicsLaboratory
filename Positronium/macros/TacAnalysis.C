@@ -3,7 +3,7 @@
 /*
  * Author  : Vanessa
  * Description:  
- * Usage   : $ cd /path/to/root/file
+ * Usage   : $ cd /path/to/macro
  *           $ root
  *           # .L TacAnalysis.C
  *           # run_analysis()        // draw data and perform calibration fit 

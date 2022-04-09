@@ -3,7 +3,7 @@
 /*
  * Author  : Vanessa
  * Description:  
- * Usage   : $ cd /path/to/root/file
+ * Usage   : $ cd /path/to/macro
  *           $ root
  *           # .L TacPlot.C
  *           # plot_tac()     // plots all peaks correponding to different delays  

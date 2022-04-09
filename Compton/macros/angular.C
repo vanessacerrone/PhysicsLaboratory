@@ -1,10 +1,23 @@
+/*-- Perform Compton events angular distribution analysis *--/
+
+/*
+ * Author      : Vanessa
+ * Description : Tagger, scatterer and detector spectra are saved in 
+                 histograms and plotted for different scattering angles 
+
+ * Usage       : $ cd /path/to/macro
+ *               $ root
+ *               # .L angular.C
+ *               # plot()
+*/
+
+
 #include <vector>
 #include <string>
 
 #include "RootStyle.cc"
 
 using namespace std;
-
 
 
 struct slimport_data_t {
@@ -62,9 +75,10 @@ void plot() {
     ULong64_t n_events_ch1[6];
     ULong64_t n_events_ch2[6];
     
-    int angles[6] = { 0, 20, 40, 60,70, 90 };
+    // scattering angles in deg 
+    int angles[6] = { 0, 20, 40, 60, 70, 90 };
 
-
+    // tagger 
     for(int i=0;i < N;i++){
         infile[i] = new TFile(filelist[i].c_str());
         intree[i] = (TTree*) infile[i]->Get("acq_tree_0");
@@ -82,7 +96,7 @@ void plot() {
 
     }
 
-
+    // scatterer 
     for(int i=0;i < N;i++){
         infile[i] = new TFile(filelist[i].c_str());
         intree[i] = (TTree*) infile[i]->Get("acq_tree_0");
@@ -100,7 +114,7 @@ void plot() {
 
     }
     
-
+    // detector 
     for(int i=0;i < N;i++){
         infile[i] = new TFile(filelist[i].c_str());
         intree[i] = (TTree*) infile[i]->Get("acq_tree_0");
@@ -119,6 +133,7 @@ void plot() {
     }
 
 
+    // tagger plot
     TCanvas* c0 = new TCanvas("c0", "canvas", 550, 1200);
     c0->Divide(2, 3, 0.0005, 0.0005);
     float w0;
@@ -132,6 +147,7 @@ void plot() {
 
         }
 
+    // scatterer plot
     TCanvas* c1 = new TCanvas("c1", "canvas", 550, 1200);
     c1->Divide(2,3, 0.0005, 0.0005);
     float w1;
@@ -145,6 +161,7 @@ void plot() {
 
   }
     
+    // detector plot 
     TCanvas* c2 = new TCanvas("c2", "canvas", 550, 1200);
     c2->Divide(2, 3, 0.0005, 0.0005);
     float w2;

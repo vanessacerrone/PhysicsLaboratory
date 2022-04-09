@@ -1,6 +1,3 @@
-#include "gethisto.C"
-#include <vector>
-
 /*-- Filter and build the sum spectra for the 2 photons decay *--/
 
 /*
@@ -16,7 +13,12 @@
  *               $ root
  *               # .L filter2gamma.C
  *               # filter("file_det1.root","file_det2.root", 1000, 0,2000) // histograms with 1000 bins for x in [0,2000] 
- */
+*/
+
+#include "gethisto.C"
+#include <vector>
+
+
 
 void filter(const string name_file, const string name_file2, int numBins, double minX, double maxX) {
 	
