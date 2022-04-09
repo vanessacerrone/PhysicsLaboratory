@@ -148,7 +148,7 @@ void save_histo(string infilename, string outfilename)
 
 	}
 
-	// Fill histogram for channel 3
+	// Fill histogram for channel 2
 	while( counter_ch3 < n_events_ch3)
 	{
 

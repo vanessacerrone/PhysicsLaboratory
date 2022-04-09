@@ -1,16 +1,15 @@
-#include <TROOT.h>
-#include <TStyle.h>
+/*-- Set RootStyle *--/
 
 /*
-/ -- Set RootStyle --
-/ usage: set_root_style(int n);
-/        if n = 0 histograms are plotted in the usual way (no fill, blue lines)
-/        if n !=0 histograms are plotted with Azure fill and black lines 
-/ 
-/
-/ 11/20/2021 Vanessa 
-/
-*/ 
+ * Author      : Vanessa
+ * Date        : 20211120
+ * Usage       : #include "RootStyle.cc" in your macro 
+ *                if n = 0 histograms are plotted in the usual way (no fill, blue lines)
+ *                if n !=0 histograms are plotted with Azure fill and black contour lines  
+*/
+
+#include <TROOT.h>
+#include <TStyle.h>
 
 
 void set_root_style(int n)
@@ -49,7 +48,7 @@ void set_root_style(int n)
  
   else {   
       gStyle->SetHistFillColor(kAzure-9);
-      gStyle->SetHistLineColor(kBlue+2);
+      gStyle->SetHistLineColor(kBlack);
       gStyle->SetHistLineWidth(1);
     }
 

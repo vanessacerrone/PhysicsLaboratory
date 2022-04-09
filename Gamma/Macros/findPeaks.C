@@ -1,25 +1,38 @@
+/*-- Find peaks in NaI(Tl) spectrum and fit them *--/
+
+/*
+ * Author      : Vanessa
+ * Description : Search for peaks and then manually select the ones to fit
+                 Results are saved in a txt file with 
+                 centroid - stddev - mean err - resolution  (with uncertainties)
+
+ * Usage       : first save histograms in root file with SaveHisto.cc
+ *               $ cd /path/to/root/files
+ *               $ root
+ *               # .L findPeaks.C
+ *               # peakseatch("file.root", channel, conversion factor for BKG)
+*/
+
+
 #include <iostream>
 #include <string>
 #include "RootStyle.cc"
 
-/*requested files: histogramOfData.root, histogramOfBackground.root, channel*/
 using namespace std;
 
 void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
 {
     set_root_style(1);
 
-    /*Reading histogram file from the Root file*/
-
-    //data
+    // load bkg histo 
     const string bgFileName = "histo_bkg2500.root";
 
+    // read histograms 
     TFile *dataFile = new TFile(dataFileName.c_str());
     TH1F *hdata = (TH1F*)dataFile->Get(Form("ch%i",chan));
-    
+
     TFile *bgFile = new TFile(bgFileName.c_str());
     TH1F *hbg = (TH1F*)bgFile->Get(Form("ch%i",chan));
-
 
     TH1F* hbgConverted = (TH1F*)hbg->Clone("h");
     double temp;
@@ -30,72 +43,61 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
         hbgConverted->SetBinContent(i, temp);
     }
 
+
     // set calibration function parameters
     Double_t a;
     Double_t b;
 
-    //different calibrations according to the parameters needed for the 2 detectors
+    // different calibrations according to the parameters needed for the 2 detectors
 
+    if (chan == 0) // NaI(Tl)
+        {
+            a = -16.9311;
+            b = 0.0879669;
+        }
 
-     if (chan == 0) //NaI
-    {
-        //a = -8.97259;
-        //b = 0.0878097;
-
-       a = -16.9311;
-       b = 0.0879669;
-
-        
-    }
-
-    if (chan == 1) //HPGe
-    {
-        a = 1.44349;
-        b = 0.15422;
-
-        //a = -0.016463;
-        //b = 0.154683;
-    }
+    if (chan == 1) // HPGe
+        {
+            a = 1.44349;
+            b = 0.15422;
+        }
 
 
 
-    //calibrating x-axis for data spectrum
+    // calibrate x-axis for data spectrum
     int max_binData = hdata->GetNbinsX(); 
 	float max_kevData = hdata->GetBinCenter(max_binData)*b + a;
 	hdata->GetXaxis()->SetLimits(a,max_kevData);
 
-
-    //same for background
+    // same for background
     int max_binBg = hbgConverted->GetNbinsX(); 
 	float max_kevBg = hbgConverted->GetBinCenter(max_binBg)*b + a;
     hbgConverted->GetXaxis()->SetLimits(a,max_kevBg);
 
-    //subtracting bin-to-bin the histogram of bg from the data one
+    // subtracte bin-to-bin the histogram of bg from the data one
     hdata->Add(hbgConverted, -1.);
-    hdata->SetTitle("Mushrooms - HPGe detector");
+    hdata->SetTitle("Mushrooms - NaI(Tl) detector");
 
 
     TH1F *h_peaks = (TH1F*)hdata->Clone();
-
 
 	TSpectrum *s = new TSpectrum(30);
 	int nPeaks;
 	double *xPeaks;
 	int sigma = 2;
 	double minratio = 0.02;	// minimum ratio between a peak and the main peak
-
+    
+    // search for peaks
 	nPeaks = s->Search(h_peaks,sigma,"nodraw",minratio);
-
 	xPeaks = s->GetPositionX();
 
     vector<double> peakvec;
 
     for (int p = 0; p<nPeaks; p++){
-
         peakvec.push_back(xPeaks[p]);
     }
    
-    // Sorting the  vector
+    // sort the vector
     sort(peakvec.begin(), peakvec.end());
 
 	for (int p = 0; p<nPeaks; p++) {
@@ -122,7 +124,6 @@ void peaksearch(string dataFileName, short chan, double conversion_factor_BG)
     // Set fit range 
     min[0] = peaks[0]*(1-0.082);
     max[0] = peaks[0]*(1+0.082);
-
 
     for (int i = 1; i<6; i++){
 
