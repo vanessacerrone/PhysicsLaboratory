@@ -1,7 +1,3 @@
-#include <vector>
-#include <fstream>
-#include "../../Compton/macros/RootStyle.cc"
-
 /*-- 3 photons decay 2D spectra  *--/
 
 /*
@@ -14,7 +10,12 @@
  *           $ root
  *           # .L Plot2D.C
  *           # plot_2d("file.root") // input raw data root file 
- */
+*/
+
+#include <vector>
+#include <fstream>
+#include "../../Compton/macros/RootStyle.cc"
+
 
 void plot_2d(const string name_file) {
 
@@ -167,7 +168,7 @@ void plot_2d(const string name_file) {
     h_fil->GetYaxis()->SetRangeUser(100, 520);
     h_fil->SetLineWidth(1);
     h_fil->Draw("COLZ2");
-    
+
    
 }
 

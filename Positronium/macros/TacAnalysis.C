@@ -1,3 +1,15 @@
+/*-- TAC spectrum analysis  *--/
+
+/*
+ * Author  : Vanessa
+ * Description:  
+ * Usage   : $ cd /path/to/root/file
+ *           $ root
+ *           # .L TacAnalysis.C
+ *           # run_analysis()        // draw data and perform calibration fit 
+ *           # plot_tac("file.root") // takes input raw data root file and plots TAC spectrum
+*/
+
 #include <vector>
 #include <string>
 #include "gethisto.C"
@@ -112,7 +124,6 @@ void run_analysis() {
   l->AddEntry(gr,"Data points","p");
   l->AddEntry(f1,"Linear fit","l");    
   
-  
   f1->Draw("l");
   gr->Draw("ap same");
   l->Draw();
@@ -153,6 +164,7 @@ void plot_tac(const string file_na) {
   h1->SetFillColorAlpha(kAzure-9,0.5);
   h1->SetLineWidth(1);
 
+  // perform exponential fit 
   //TF1 *f1 = new TF1("f1",exp,155,156,2);
   //TFitResultPtr fit_result = h1->Fit(f1,"RS");
   //f1->SetLineWidth(1);

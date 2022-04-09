@@ -4,18 +4,18 @@
 /*-- Filter and build the sum spectra for the 2 photons decay *--/
 
 /*
- * Author  : Vanessa
- * Example : Raw data in input root files is stored in two 
-             histograms, then a filtering procedure is performed:
-             the events whose sum of the energies measured by detectors 1 
-             and 2 differs from 1022 keV for more than 10% are discarded.
-             Both filtered and unfiltered histograms are saved in a .root file. 
-             The TAC spectrum is saved as well.
+ * Author      : Vanessa
+ * Description : Raw data in input root files is stored in two 
+                 histograms, then a filtering procedure is performed:
+                 the events whose sum of the energies measured by detectors 1 
+                 and 2 differs from 1022 keV for more than 10% are discarded.
+                 Both filtered and unfiltered histograms are saved in a .root file. 
+                 The TAC spectrum is saved as well.
 
- * Usage   : $ cd /path/to/root/file
- *           $ root
- *           # .L filter2gamma.C
- *           # filter("file_det1.root","file_det2.root", 1000, 0,2000) // histograms with 1000 bins for x in [0,2000] 
+ * Usage       : $ cd /path/to/root/file
+ *               $ root
+ *               # .L filter2gamma.C
+ *               # filter("file_det1.root","file_det2.root", 1000, 0,2000) // histograms with 1000 bins for x in [0,2000] 
  */
 
 void filter(const string name_file, const string name_file2, int numBins, double minX, double maxX) {

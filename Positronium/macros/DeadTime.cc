@@ -1,3 +1,5 @@
+/* -- Dead time analysis  -- */
+
 
 using namespace std;
 
@@ -49,7 +51,6 @@ void plot()
     TGraphErrors *graph5 = new TGraphErrors(1, &x2[5], &loss[5], 0,&err[5]);
 
   
-    
     TGraphErrors *graph6 = new TGraphErrors(6, &x2[0], &loss[0],0,&err[0]);
     TCanvas* c2 = new TCanvas("c2","Dead time analysis",1080,1020);
     

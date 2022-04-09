@@ -1,12 +1,3 @@
-#include <vector>
-#include <string>
-#include "gethisto.C"
-
-#include "TCanvas.h"
-#include "TFile.h"
-#include "TStyle.h"
-#include "TLegend.h"
-
 /*-- Draw histograms for all 4 detectors in one canvas  *--/
 
 /*
@@ -16,8 +7,17 @@
  *           $ root
  *           # .L plotHisto.C
  *           # plotHisto("file.root") // input raw data root file 
- */
+*/
 
+
+#include <vector>
+#include <string>
+#include "gethisto.C"
+
+#include "TCanvas.h"
+#include "TFile.h"
+#include "TStyle.h"
+#include "TLegend.h"
 
 
 void plotHisto(const string name_file) {
