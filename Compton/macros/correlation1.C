@@ -51,7 +51,7 @@ void correlation_test()
 
     slimport_data_t indata_ch0,indata_ch1,indata_ch2;
     TBranch *inbranch_0;
-	  TBranch *inbranch_1;
+    TBranch *inbranch_1;
     TBranch *inbranch_2;
 
     int N = 6;
@@ -102,7 +102,7 @@ void correlation_test()
 
         inbranch_0->SetAddress(&indata_ch0.timetag);
         inbranch_1->SetAddress(&indata_ch1.timetag);
-	      inbranch_2->SetAddress(&indata_ch2.timetag);
+        inbranch_2->SetAddress(&indata_ch2.timetag);
 
         h0[i] = new TH1F(Form("h0%d",i), Form("Tagger spectrum @ angle = %i#circ",angles[i]),1000,0,1700);
         h1[i] = new TH1F(Form("h1%d",i), Form("Scatterer spectrum @ angle = %i#circ",angles[i]),1000,0,1700);
