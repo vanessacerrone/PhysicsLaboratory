@@ -1,3 +1,5 @@
+/*-- Plot peak precision as a function of # events -- */ 
+
 #include <iostream>
 #include <string>
 #include "RootStyle.cc"
@@ -9,7 +11,7 @@ double_t myFit(double_t *x, double_t *par)
   return fitval;
 }
 
-void plot(string filename )
+void plot(string filename)
 {
   set_root_style(1);
   // Retrieving data file

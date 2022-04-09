@@ -1,6 +1,20 @@
+/*-- Perform linear fit to calculate electron mass *--/
+
+/*
+ * Author      : Vanessa
+ * Description : Calculate electron mass and initial energy from 
+ *               linear fit --> ( 1 - cos(theta) ) vs 1/E_gamma_f
+
+ * Usage       : $ cd /path/to/txt/file
+ *               $ root
+ *               # .L LinFit.C
+ *               # fit("file.txt")
+*/
+
 #include <iostream>
 #include <string>
 #include "RootStyle.cc"
+
 
 double_t LinearFit(double_t *x, double_t *par) 
 {
@@ -10,6 +24,7 @@ double_t LinearFit(double_t *x, double_t *par)
 
 
 void fit(const string filename) {
+
     set_root_style(1);
     TCanvas *c = new TCanvas("c", "c", 800, 600);
 
@@ -31,7 +46,7 @@ void fit(const string filename) {
     gr->GetYaxis()->SetMaxDigits(4);
 	gr->Draw("ap");
     TF1 *f1 = new TF1("f1",LinearFit,0,1.1,2);
-    f1->SetParameters(0.0019569472,0.0019569472);
+    //f1->SetParameters(0.0019569472,0.0019569472);
     TFitResultPtr fit_result = gr->Fit(f1,"RS");
     
     f1->SetLineWidth(1);
@@ -39,7 +54,7 @@ void fit(const string filename) {
     f1->Draw("same");
     fit_result->Print("V");
 
-	// Get the parameters
+	// get the parameters
 	double m = f1->GetParameter(1);
     double em = f1->GetParError(1);
     double eq = f1->GetParError(1);
@@ -47,8 +62,8 @@ void fit(const string filename) {
     double err = 1/(m*m) * em;
     double errq = 1/(q*q) * eq;
 	cout << "Slope = " << m << ", Intercept = " << q << endl;
-    cout << 1/m << "pm" << err <<endl;
-    cout << 1/q << "pm" << errq <<endl;
+    cout << 1/m << "±" << err <<endl;
+    cout << 1/q << "±" << errq <<endl;
 
 
     TPaveText *pt = new TPaveText(0.1,0.1,0.2,0.2,"blNDC");
@@ -60,7 +75,7 @@ void fit(const string filename) {
     pt->Draw("same");
 
 
-    // calculates residuals
+    // calculate residuals
     TGraphErrors *gr2 = new TGraphErrors(filename.c_str());
     for (int i=0; i<gr->GetN(); i++) {
       double res = gr->GetY()[i] - f1->Eval(gr->GetX()[i]); // residual

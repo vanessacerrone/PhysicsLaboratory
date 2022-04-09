@@ -1,3 +1,16 @@
+/*-- Verify Inverse Square Law  *--/
+
+/*
+ * Description : Analysis of # events as a function of distance 
+                 detector - source
+
+ * Usage       : $ cd /path/to/txt/files
+ *               $ root
+ *               # .L distance.cxx
+ *               # plot("file1.txt","file2.txt")  -> files for 511 and 1275 keV peaks 
+ *               // txt files format: x (distance) y (N events) errx erry 
+*/
+
 #include <iostream>
 #include <string>
 #include "RootStyle.cc"
@@ -13,9 +26,8 @@ double_t myFit(double_t *x, double_t *par)
 void plot(string file511, string file1275)
 {
   set_root_style(1);
+
   // Retrieving data file
-
-
   TGraphErrors *g = new TGraphErrors(file511.c_str());
   TGraphErrors *g2 = new TGraphErrors(file1275.c_str());
   TMultiGraph* mg = new TMultiGraph();
@@ -23,7 +35,6 @@ void plot(string file511, string file1275)
   
   TF1 *f1 = new TF1("f1",myFit,15,55,2);
   TF1 *f2 = new TF1("f2",myFit,15,55,2);
-  
   
   
   g->GetXaxis()->SetTitle("Distance [cm]");
@@ -48,7 +59,7 @@ void plot(string file511, string file1275)
   f2->SetLineStyle(7);
   g2->Fit(f2,"R+");
 
-  //TGaxis::SetMaxDigits(3);
+
   f2->Draw("al");
   f1->Draw("l same");
   g->Draw("aep");
@@ -90,7 +101,7 @@ void plot(string file511, string file1275)
   
 
 
-  // calculates residuals
+  // calculate residuals
     TGraphErrors *gr = new TGraphErrors(file1275.c_str());
     for (int i=0; i<g2->GetN(); i++) {
       double res = g2->GetY()[i] - f2->Eval(g2->GetX()[i]); // residual
@@ -110,7 +121,7 @@ void plot(string file511, string file1275)
     gr->GetXaxis()->SetTitle("Distance [cm]");
     gr->GetYaxis()->SetTitle("y-y_{th}");
     gr->Draw("ap");
-    //gr->GetYaxis()->SetRangeUser(-0.08,0.08);
+    // gr->GetYaxis()->SetRangeUser(-0.08,0.08);
         
     // linea di zero per i residui
     TLine *line = new TLine(15, 0, 55, 0);

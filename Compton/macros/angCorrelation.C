@@ -1,3 +1,18 @@
+/*-- Perform Compton events angular distribution analysis *--/
+
+/*
+ * Author      : Vanessa
+ * Description : Tagger, scatterer and detector spectra ( both raw and filtered ) 
+                 are saved in histograms and plotted for different scattering angles; 
+                 different filtering conditions are applied 
+
+
+ * Usage       : $ cd /path/to/macro
+ *               $ root
+ *               # .L angCorrelation.C
+ *               # correlation()
+*/
+
 #include <vector>
 #include <string>
 #include <iostream>
@@ -32,6 +47,7 @@ vector<string> filelist = {
     "../angular/70deg.root",
     "../angular/90deg_3.root"
     };
+
 
 vector<string> outfilelist = {
     "../correlation_data/0deg.root",
@@ -94,7 +110,7 @@ void correlation()
     Double_t sum;
 
 
-    // set tolerance to 8%
+    // set tolerance to 8 %
 	Double_t tolerance = 0.04;
 	Double_t minEnergy = (1 - tolerance) * 511.;
 	Double_t maxEnergy = (1 + tolerance) * 511.;
@@ -131,7 +147,6 @@ void correlation()
             inbranch_1->GetEntry(j);
             inbranch_2->GetEntry(j);
 
-    
 
             tagger_energy = (-7.32807 +  0.0544615*indata_ch0.qlong);
             scatterer_energy = (-7.81986 +  0.0577517*indata_ch1.qlong);

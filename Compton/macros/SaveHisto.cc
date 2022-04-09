@@ -1,10 +1,19 @@
+
+/*-- Read CAEN digitizer data from the LAB *--/
+
 /*
-/	Read digitizer data from the LAB
-/	Digitizer: CAEN
-/   NB: for Compton we'll use just ch0,1,2 
-/
-/   11/20/2021  
+ * Author      : Vanessa
+ * Date 	   : 20211120
+ * Description : Get data from SaveHisto.cc output file and save calibrated histograms
+
+ * Usage       : $ cd /path/to/root/file
+ *               $ root
+ *               # .L SaveHisto.cc
+ *               # save_histo("infile.root", "outfile.root")
 */
+
+// NB: for Compton we'll use just channels 0,1,2 
+
 
 #include <iostream>
 #include <string>
@@ -139,7 +148,7 @@ void save_histo(string infilename, string outfilename)
 
 	}
 
-	// Fill histogram for channel 2
+	// Fill histogram for channel 3
 	while( counter_ch3 < n_events_ch3)
 	{
 

@@ -1,7 +1,3 @@
-#include "gethisto.C"
-#include <vector>
-
-
 /*
  * Author  : Aurora 
  * Example : Fit spectrum with one gaussian peak
@@ -10,6 +6,10 @@
  *           # .L Fit1peak.C
  *           # gaussianfit("file.root", channel) 
  */
+
+
+#include "gethisto.C"
+#include <vector>
 
 
 /*  Function for linear fit */
@@ -52,7 +52,7 @@ void gaussianfit(const string file_na,short chan)
     h->GetYaxis()->SetTitleOffset(1.5);
     gStyle->SetOptStat(0000);
 
-    /* -- Set canvas info and draw uncalibrated histogram-- */    
+    /* -- Set canvas info and draw uncalibrated histogram -- */    
     TCanvas* c1 = new TCanvas("c1","Plot of not calibrated spectra",1080,1020);
     h->Draw();
     fit1->Draw("SAME");

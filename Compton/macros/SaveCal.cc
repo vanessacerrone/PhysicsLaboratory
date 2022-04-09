@@ -1,9 +1,16 @@
+/*-- Save calibrated histograms *--/
+
 /*
-/	Get data from SaveHisto.cc output file 
-/ and save calibrated histograms 
-/  
-/   11/20/2021  
+ * Author      : Vanessa
+ * Description : Get data from SaveHisto.cc output file and save calibrated histograms
+
+ * Usage       : first save histograms in root file with SaveHisto.cc
+ *               $ cd /path/to/root/file
+ *               $ root
+ *               # .L SaveCal.cc
+ *               # save_cal("infile.root", channel, "outfile.root")
 */
+
 
 
 #include <iostream>
@@ -23,9 +30,9 @@ void save_cal(string filename, int chan, string outfilename)
 
   Int_t nbins;
 
-
+  // calibration parameters 
   Double_t a[4] = {-9.6562,-21.7267,-22.9221,-0.0201002};
-  Double_t b[4] = { 0.0640172 ,0.114383,0.110317,0.0116122};
+  Double_t b[4] = {0.0640172 ,0.114383,0.110317,0.0116122};
 
   if(chan == 0)
   {
@@ -41,7 +48,7 @@ void save_cal(string filename, int chan, string outfilename)
   {
 
     cal_spectrum = (TH1F*) infile->Get("ch1");
-    Int_t max_bin = cal_spectrum->GetNbinsX(); // This method returns the number of bins in x of the histogram
+    Int_t max_bin = cal_spectrum->GetNbinsX(); 
 	  Double_t max_kev = cal_spectrum->GetBinCenter(max_bin) * b[chan] + a[chan];
 	  cal_spectrum->GetXaxis()->SetLimits(a[chan],max_kev);
 
@@ -52,7 +59,7 @@ void save_cal(string filename, int chan, string outfilename)
   {
 
     cal_spectrum = (TH1F*) infile->Get("ch2");
-    Int_t max_bin = cal_spectrum->GetNbinsX(); // This method returns the number of bins in x of the histogram
+    Int_t max_bin = cal_spectrum->GetNbinsX(); 
 	  Double_t max_kev = cal_spectrum->GetBinCenter(max_bin) * b[chan] + a[chan];
 	  cal_spectrum->GetXaxis()->SetLimits(a[chan],max_kev);
 
@@ -63,7 +70,7 @@ void save_cal(string filename, int chan, string outfilename)
   {
 
     cal_spectrum = (TH1F*) infile->Get("ch3");
-    Int_t max_bin = cal_spectrum->GetNbinsX(); // This method returns the number of bins in x of the histogram
+    Int_t max_bin = cal_spectrum->GetNbinsX(); 
 	  Double_t max_kev = cal_spectrum->GetBinCenter(max_bin) * b[chan] + a[chan];
 	  cal_spectrum->GetXaxis()->SetLimits(a[chan],max_kev);
 
