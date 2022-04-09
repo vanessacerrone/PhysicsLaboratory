@@ -2,8 +2,25 @@
 #include <vector>
 
 
+/*-- Filter the spectra for the 3 photons decay *--/
+
+/*
+ * Author  : Vanessa
+ * Example : Raw data in input root file is processed and stored
+             histograms, then a filtering procedure is performed:
+             - sum of D1, D2 and D3 events has to be (1022 ± 10 %) keV
+             - D1 D2 and D3 energy must be in [0,450] keV
+             
+
+ * Usage   : $ cd /path/to/root/file
+ *           $ root
+ *           # .L filter3gamma.C
+ *           # filter("file.root", 1000, 0,2000) // histograms with 1000 bins for x in [0,2000] 
+ */
+
 void filter(const string name_file, int numBins, double minX, double maxX) {
-	// variables
+
+	// process raw data
 	slimport_data_t indata1,indata2,indata3,indata4;
 	TFile *infile = new TFile(name_file.c_str());
 	TTree *intree = (TTree*)infile->Get("acq_tree_0");
@@ -48,11 +65,8 @@ void filter(const string name_file, int numBins, double minX, double maxX) {
 
         h_sum->Fill(sum);
         
-
-        // conditions: TAC rileva roba >0
-        // somma di 123 deve essere 1022 +- 10%
-        // 123 compreso tra 0 e 450 
-
+        // conditions
+        
 		if ((entry1 + entry2 + entry3) < 1124.2 && (entry1 + entry2 + entry3) > 919.8 ) {
             if ( (entry1 < 450 && entry1 > 0) && (entry2 < 450 && entry2 > 0) && (entry3 < 450 && entry3 > 0)){
 

@@ -95,7 +95,6 @@ void gaussianfit(const string file_na,short chan)
 
     cout << "Resolution peak @ 340keV = " << res340 * 100 << "%" << endl;
 
-  
 
     gPad->SetLeftMargin(0.12);
     gStyle->SetTitleY(0.975);

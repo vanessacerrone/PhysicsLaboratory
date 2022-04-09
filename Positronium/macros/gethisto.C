@@ -1,6 +1,10 @@
+/* --- Example macro given in LAB --- */
+
+
 // Digitizer data from the LAB
 // Get data from ROOT files
-//#include "../../Compton/macros/RootStyle.cc"
+
+
 struct slimport_data_t {
 	ULong64_t	timetag; //time stamp
 	UInt_t		baseline;

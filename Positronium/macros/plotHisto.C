@@ -2,29 +2,25 @@
 #include <string>
 #include "gethisto.C"
 
-#include "TChain.h"
 #include "TCanvas.h"
 #include "TFile.h"
 #include "TStyle.h"
 #include "TLegend.h"
 
-using namespace std;
+/*-- Draw histograms for all 4 detectors in one canvas  *--/
 
-double myfit(double* x, double* par){
-    Double_t b = par[0];
-    Double_t a = par[1];
+/*
+ * Author  : Vanessa
+            
+ * Usage   : $ cd /path/to/root/file
+ *           $ root
+ *           # .L plotHisto.C
+ *           # plotHisto("file.root") // input raw data root file 
+ */
 
-    Double_t fitval = 0;
-
-    fitval = (b * x[0] + a);
-
-    return fitval;
-}
 
 
 void plotHisto(const string name_file) {
-
-    Int_t palette[8] = {632,800,400,416,840,432,600,880};
 
     TCanvas* c = new TCanvas("c", "canvas", 800, 800);
     c->Divide(2, 2, 0.0005, 0.0005);
@@ -33,19 +29,17 @@ void plotHisto(const string name_file) {
     TFile *infile = new TFile(name_file.c_str());
     TTree *intree = (TTree*)infile->Get("acq_tree_0");
 
+    // array of histograms and branches 
     TH1F** h = new TH1F*[4]; 
-    
-    
     TBranch* branches[4];
 
-    
+    // array to store calibration parameters 
     Double_t a[4] = {-17.7045,-21.7267,-22.9221,-0.0201002};
     Double_t b[4] = {0.115652 ,0.114383,0.110317,0.0116122};
 
-
+    // array to store timestamps
     ULong64_t* timetag[4] = { &indata0.timetag, &indata1.timetag,&indata2.timetag,&indata3.timetag};
-    //UShort_t* qlong[4] = {indata0.qlong, indata1.qlong, indata2.qlong,indata3.qlong };
-    //UShort_t* q[4] = {&indata0.qlong, &indata1.qlong, &indata2.qlong,&indata3.qlong };
+ 
 
     vector<double> entry(4);
 
@@ -70,11 +64,10 @@ void plotHisto(const string name_file) {
 
         branches[i]->GetEntry(j);
 
-        if (i == 0) entry[i] = a[i] + indata0.qlong*b[i];
-        if (i == 1) entry[i] = a[i] + indata1.qlong*b[i];
-        if (i == 2) entry[i] = a[i] + indata2.qlong*b[i];
-        if (i == 3) entry[i] = a[i] + indata3.qlong*b[i];
-
+        if (i == 0) entry[i] = a[i] + indata0.qlong*b[i]; // D1
+        if (i == 1) entry[i] = a[i] + indata1.qlong*b[i]; // D2
+        if (i == 2) entry[i] = a[i] + indata2.qlong*b[i]; // D3
+        if (i == 3) entry[i] = a[i] + indata3.qlong*b[i]; // D4
 
         h[i]->Fill(entry[i]);
         

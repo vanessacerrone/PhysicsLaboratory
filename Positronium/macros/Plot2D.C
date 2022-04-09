@@ -1,13 +1,23 @@
-#include "gethisto.C"
 #include <vector>
 #include <fstream>
 #include "../../Compton/macros/RootStyle.cc"
 
+/*-- 3 photons decay 2D spectra  *--/
 
-void plot(const string name_file) {
-	// variables
+/*
+ * Author  : Vanessa
+ * Example : produce 2d histogram with energy sum (D1+D2+D3) vs
+ *           energy D1 (D2) (D3)
+             
 
-    
+ * Usage   : $ cd /path/to/root/file
+ *           $ root
+ *           # .L Plot2D.C
+ *           # plot_2d("file.root") // input raw data root file 
+ */
+
+void plot_2d(const string name_file) {
+
 	slimport_data_t indata1,indata2,indata3,indata4;
 	TFile *infile = new TFile(name_file.c_str());
 	TTree *intree = (TTree*)infile->Get("acq_tree_0");
@@ -29,9 +39,6 @@ void plot(const string name_file) {
     TH2* h_fil = new TH2F("h3", "Filtered spectrum",300,0,4000,400,0,1400);
 
 
-        
-
-	// histogram filling
     double entry1,entry2,entry3,entry4;
     
 	for (int i=0; i<inbranch1->GetEntries(); i++) {
@@ -62,15 +69,13 @@ void plot(const string name_file) {
 
 
 
-   //gStyle->SetPalette(58);
-    //gStyle->SetPalette(kColorPrintableOnGrey);
     //gStyle->SetNumberContours(70);
     gStyle->SetPalette(kBird);
-        //TColor::InvertPalette();
-    //TCanvas* c = new TCanvas("c", "canvas", 800, 800);
-    //c->Divide(2, 2, 0.0005, 0.0005);
-    //c->cd(1);
+    //TColor::InvertPalette();
+
+
     TCanvas* c1 = new TCanvas("c1","D1",1080,1020);
+
     gPad->SetLeftMargin(0.12);
     gStyle->SetOptStat(0000);
     gStyle->SetTitleY(0.975);
@@ -94,10 +99,10 @@ void plot(const string name_file) {
     TLine *l2 = new TLine(0,304,3000,304);
     l1->Draw("same");
     l2->Draw("same");
-   c1->Update();
+    c1->Update();
+
 
     TCanvas* c2 = new TCanvas("c2","D2",1080,1020);
-    //c->cd(2);
 
     gPad->SetLeftMargin(0.12);
     h2->SetMinimum(0);
@@ -120,10 +125,8 @@ void plot(const string name_file) {
     l2->Draw("same");
 
 
-   
-
     TCanvas* c3 = new TCanvas("c3","D3",1080,1020);
-    //c->cd(3);
+
     gPad->SetLeftMargin(0.12);
     h3->SetMinimum(0);
     h3->SetMaximum(30);
@@ -144,8 +147,9 @@ void plot(const string name_file) {
     l1->Draw("same");
     l2->Draw("same");
     
+
     TCanvas* c4 = new TCanvas("c4","fil",1080,1020);
-    //c->cd(4);
+
     gPad->SetLeftMargin(0.12);
     //h_fil->SetMinimum(0);
     h_fil->SetMaximum(25);
@@ -163,7 +167,7 @@ void plot(const string name_file) {
     h_fil->GetYaxis()->SetRangeUser(100, 520);
     h_fil->SetLineWidth(1);
     h_fil->Draw("COLZ2");
-
+    
    
 }
 

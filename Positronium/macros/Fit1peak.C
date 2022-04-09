@@ -1,6 +1,17 @@
 #include "gethisto.C"
 #include <vector>
 
+
+/*
+ * Author  : Aurora 
+ * Example : Fit spectrum with one gaussian peak
+ * Usage   : $ cd /path/to/root/file
+ *           $ root
+ *           # .L Fit1peak.C
+ *           # gaussianfit("file.root", channel) 
+ */
+
+
 /*  Function for linear fit */
 double_t LinearFit(double_t *x, double_t *par) 
 {
@@ -11,25 +22,23 @@ double_t LinearFit(double_t *x, double_t *par)
 
 void gaussianfit(const string file_na,short chan)
 {
-    /* -- Reading histogram file from the Tree -- */
+    /* -- Read histogram file from the Tree -- */
     TH1F* h = getHistoForChannelFromTree(file_na.c_str(),chan,1026,0,16384);
     TH1F* h1 = (TH1F*)h->Clone("h1");
 
-    /* -- Fitting the two gaussians  -- */
+    /* -- Fit gaussian + linear bkg  -- */
     TF1 *fit1 = new TF1("g1","gaus(0)+pol1(3)", 4000, 5300);
-    
+
     fit1->SetLineStyle(1);
 	fit1->SetLineWidth(2);
     fit1->SetParameters(4780,4761,150, 450.217,-9.31430e-02);
-
     h->Fit(fit1,"R");
    
     /* -- Get parameters  -- */
     double mean_1 = fit1->GetParameter(1);
     double sigma_1 = fit1->GetParameter(2);
  
-
-    /* -- Setting histogram info  -- */    
+    /* -- Histogram settings  -- */    
     h->SetMinimum(1);
     h->GetXaxis()->SetTitle("ADC counts");
     h->GetXaxis()->SetLabelOffset(0.01);
@@ -43,24 +52,21 @@ void gaussianfit(const string file_na,short chan)
     h->GetYaxis()->SetTitleOffset(1.5);
     gStyle->SetOptStat(0000);
 
-
-    /* -- Setting canvas info  and drawing histogram-- */    
+    /* -- Set canvas info and draw uncalibrated histogram-- */    
     TCanvas* c1 = new TCanvas("c1","Plot of not calibrated spectra",1080,1020);
-    
     h->Draw();
     fit1->Draw("SAME");
    
-
-     /* -- using a and b previously obtained from calibraion: YOU NEED TO CHANGE THIS VALUES  -- */
-
+    /* -- Use a and b previously obtained from calibraion: YOU NEED TO CHANGE THIS VALUES  -- */
     double_t a = -17.8202;
     double_t b = 0.115666;
 
+    /* -- Calibrated spectrum -- */
     TCanvas* c3 = new TCanvas("c3","Plot of calibrated spectra",1080,1020);
     gPad->SetLeftMargin(0.12);
-    /*Re-fitting*/
+
+    /* -- Re-fit -- */
     TF1 *fit3 = new TF1("fit3","gaus(0)+pol1(3)",470,600);
-    
 
     h1->GetXaxis()->Set(16384,0,a+b*16384*h->GetXaxis()->GetBinWidth(0));
     

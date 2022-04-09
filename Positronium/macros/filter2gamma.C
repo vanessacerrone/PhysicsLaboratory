@@ -1,29 +1,37 @@
 #include "gethisto.C"
 #include <vector>
 
+/*-- Filter and build the sum spectra for the 2 photons decay *--/
+
 /*
-/ -- Build the sum spectra for energy for the 2 photons decay --
-/
-/ Raw data (already calibrated in energy) is stored in two 
-/ histograms, then a filtering procedure is performed:
-/ the events whose sum of the energies measured by detectors 1 
-/ and 2 differs from 1022keV for more than 10% are discarded.
-/ Both filtered and unfiltered histograms are saved in a .root file. 
-*/ 
+ * Author  : Vanessa
+ * Example : Raw data in input root files is stored in two 
+             histograms, then a filtering procedure is performed:
+             the events whose sum of the energies measured by detectors 1 
+             and 2 differs from 1022 keV for more than 10% are discarded.
+             Both filtered and unfiltered histograms are saved in a .root file. 
+             The TAC spectrum is saved as well.
 
+ * Usage   : $ cd /path/to/root/file
+ *           $ root
+ *           # .L filter2gamma.C
+ *           # filter("file_det1.root","file_det2.root", 1000, 0,2000) // histograms with 1000 bins for x in [0,2000] 
+ */
 
-
-void filter(const string name_file,const string name_file2, int numBins, double minX, double maxX) {
+void filter(const string name_file, const string name_file2, int numBins, double minX, double maxX) {
 	
-    // retrieve variables
+    // process raw data
     slimport_data_t indata1,indata2,indata3;
     TFile *infile = new TFile(name_file.c_str());
     TTree *intree = (TTree*)infile->Get("acq_tree_0");
     TFile *infile2 = new TFile(name_file2.c_str());
     TTree *intree2 = (TTree*)infile2->Get("acq_tree_0");
 
-    TBranch *inbranch1 = intree->GetBranch("acq_ch0");
-    TBranch *inbranch2 = intree2->GetBranch("acq_ch1");
+    // detector 1 spectrum
+    TBranch *inbranch1 = intree->GetBranch("acq_ch0"); 
+    // detector 2 spectrum
+    TBranch *inbranch2 = intree2->GetBranch("acq_ch1"); 
+    // TAC spectrum in channel 3 
     TBranch *inbranch3 = intree->GetBranch("acq_ch3");
 
     inbranch1->SetAddress(&indata1.timetag);
@@ -36,6 +44,7 @@ void filter(const string name_file,const string name_file2, int numBins, double 
     TH1F *h_fil2 = new TH1F("h2f","Detector 2 filtered",numBins,minX,maxX);
     TH1F *h_sum = new TH1F("hsum","2 photons decay - Sum spectrum",numBins,minX,maxX);
     TH1F *h_tac = new TH1F("htac","2 photons decay - TAC spectrum",numBins,minX,maxX);
+
     // histogram filling
     double entry1,entry2,entry3;
     
@@ -86,11 +95,9 @@ void filter(const string name_file,const string name_file2, int numBins, double 
     h_fil1->Draw("same");
     
     auto legend = new TLegend(0.67,0.75,0.85,0.87);
-    //TLegend *legend = new TLegend(0.16, 0.63, 0.45, 0.91);
     legend->AddEntry(h_spectrum1,"Raw data","l");
     legend->AddEntry(h_fil1,"Filtered data","l");
     legend->Draw();
-
 
 
     TCanvas* c2 = new TCanvas("c2","D2",1080,1020);
@@ -113,7 +120,6 @@ void filter(const string name_file,const string name_file2, int numBins, double 
     h_spectrum2->SetLineWidth(1);
     h_spectrum2->Draw();
     
-
     h_fil2->SetLineColor(kRed);
     h_fil2->SetLineWidth(1);
     h_fil2->Draw("same");
@@ -141,29 +147,23 @@ void filter(const string name_file,const string name_file2, int numBins, double 
     h_sum->GetYaxis()->SetTitleOffset(1.3);
     h_sum->GetXaxis()->SetRangeUser(900, 1150);
     h_sum->GetYaxis()->SetRangeUser(0, 3200);
-    //h_sum->SetFillColor(kAzure-9);
     h_sum->SetFillColorAlpha(kAzure-9,0.5);
     h_sum->SetLineWidth(1);
     h_sum->Draw();
     
-    auto legend3 = new TLegend(0.67,0.75,0.85,0.87);
-    legend3->AddEntry(h_sum,"Raw sum data","l");
-    
-    //legend3->Draw();
 
     //c1->SaveAs("D1_filtered.pdf");
     //c2->SaveAs("D2_filtered.pdf");
     //c3->SaveAs("2gamma_sum.pdf");
    
-    //TFile *outfile = new TFile("2Photons_filter.root","RECREATE");
-    //outfile -> cd();
-    //h_spectrum1->Write();
-    //h_spectrum2->Write();
-    //h_fil1->Write();
-    //h_fil2->Write();
+    TFile *outfile = new TFile("2Photons_filter.root","RECREATE");
+    outfile -> cd();
+    h_spectrum1->Write();
+    h_spectrum2->Write();
+    h_fil1->Write();
+    h_fil2->Write();
     h_tac->SaveAs("TACfil.root");
-    //delete outfile;
-
+    delete outfile;
 
 
 }
